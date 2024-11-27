@@ -11,6 +11,8 @@ function CustomerHome() {
     const [email, setEmail] = useState('');
     const [stores, setStores] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [stores, setStores] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
     const [sortOption, setSortOption] = useState('distance');
     const mapContainer = useRef(null);
     
@@ -125,9 +127,15 @@ function CustomerHome() {
 
             <main className="content">
                 <section className="map-section">
-                    <input type="text" placeholder="현재 주소를 입력하세요." className="address-input" />
-                    <button className="find-address-button">주소 찾기</button>
-                    <div className="map-container" id='map' ref={mapContainer}></div> {/* 지도 표시 */}
+                    <div className="input-container">
+                        <input
+                            type="text"
+                            placeholder="현재 주소를 입력하세요."
+                            className="address-input"
+                        />
+                        <button className="find-address-button">주소 찾기</button>
+                    </div>
+                    <div className="map-container" id="map" ref={mapContainer}></div> {/* 지도 표시 */}
                 </section>
 
                 <section className="store-list">
