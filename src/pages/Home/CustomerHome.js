@@ -11,8 +11,6 @@ function CustomerHome() {
     const [email, setEmail] = useState('');
     const [stores, setStores] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [stores, setStores] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
     const [sortOption, setSortOption] = useState('distance');
     const mapContainer = useRef(null);
     
