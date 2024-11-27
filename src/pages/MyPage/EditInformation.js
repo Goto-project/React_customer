@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import '../../css/EditInfo.css';
 
 const EditInformation = () => {
     const [customerInfo, setCustomerInfo] = useState({
@@ -11,11 +12,15 @@ const EditInformation = () => {
     const [message, setMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [isLoading, setIsLoading] = useState(true);
-
+    const navigate = useNavigate();
     const location = useLocation();
     const { customerEmail, token } = location.state || {};
 
     useEffect(() => {
+
+        const token = localStorage.getItem('token');
+        const customerEmail = localStorage.getItem('email');
+            
         console.log("Location state:", location.state); // location.state 확인
 
         if (!customerEmail || !token) {
@@ -66,6 +71,14 @@ const EditInformation = () => {
         e.preventDefault();
         console.log("customerInfo:", JSON.stringify(customerInfo, null, 2));
 
+
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('로그인 상태가 아닙니다. 다시 로그인해주세요.');
+            navigate('/pages/Member/LoginHome'); // 로그인 페이지로 리디렉션
+            return;
+        }
+
         try {
             const response = await axios.put('/ROOT/api/customer/update.do', customerInfo, {
                 headers: {
@@ -73,6 +86,8 @@ const EditInformation = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
+            
+            console.log("Response from update:", response); // 응답 내용 확인
 
             if (response.data.status === 200) {
                 alert('회원 정보가 성공적으로 수정되었습니다.');
