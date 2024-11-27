@@ -1,0 +1,14 @@
+.mypage {
+    font-size: 15px;
+    width: 300px;
+    background-color: #dddddd;
+    color: #6BAF92;
+    text-align: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+    border-top-left-radius: 20px; 
+    border-top-right-radius: 20px;
+}

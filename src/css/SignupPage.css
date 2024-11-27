@@ -1,0 +1,79 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+.signup-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #FDF9ED;
+    overflow: auto;
+}
+
+.signup-logo-container {
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 40px;
+}
+
+.signup-logo {
+    font-size: 50px;
+    color: #6BAF92;
+    font-weight: bold;
+}
+
+.signup-container {
+    width: 50%;
+    padding: 40px;
+    margin: 20px;
+    margin-bottom: 40px;
+    background-color: white;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.signup-title {
+    font-size: 33px;
+    color: #333;
+    margin-bottom: 30px;
+    margin-top: 20px;
+}
+
+.signup-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.customerEmail,
+.customerPassword,
+.customerNickname,
+.customerPhone {
+    width: 100%;
+    max-width: 700px;
+    padding: 15px;
+    margin: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 18px;
+    box-sizing: border-box;
+}
+
+.signup-button {
+    width: 100%;
+    max-width: 700px;
+    padding: 15px;
+    margin: 20px 0;
+    background-color: #6BAF92;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    box-sizing: border-box;
+}

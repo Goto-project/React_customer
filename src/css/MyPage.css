@@ -1,0 +1,189 @@
+/* ===== 기본 스타일 ===== */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #FDF9ED;
+}
+
+.container {
+    display: flex;
+    flex-direction: row; /* 기본 데스크톱에서의 레이아웃 */
+    min-height: 100vh;
+}
+
+/* ===== 헤더 ===== */
+.header {
+    background-color: #6BAF92;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* ===== 사이드바 ===== */
+.sidebar {
+    background-color: #6BAF92;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar .profile-box {
+    background-color: white;
+    color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.sidebar .profile-box h2 {
+    color: #6BAF92;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.sidebar .profile-box p {
+    font-size: 14px;
+}
+
+.sidebar .header-buttons {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sidebar .logoutbutton {
+    padding: 10px;
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.sidebar .logoutbutton:hover {
+    background-color: white;
+    color: #6BAF92;
+}
+
+/* ===== 메인 컨텐츠 영역 ===== */
+.main-area {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.menu-bar {
+    display: grid; /* Grid 레이아웃 사용 */
+    grid-template-columns: repeat(5, 1fr); /* 5개 고정 */
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.menu-bar li {
+    list-style: none;
+    background-color: #dddddd;
+    color: #6BAF92;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    font-size: 16px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.menu-bar li.active,
+.menu-bar li:hover {
+    background-color: #6BAF92;
+    color: white;
+}
+
+.main-content {
+    flex-grow: 1;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== 반응형 디자인 ===== */
+
+/* 태블릿 및 작은 화면 */
+@media screen and (max-width: 768px) {
+    .container {
+        flex-direction: column; /* 전체 레이아웃을 세로로 */
+    }
+
+    .header {
+        position: static; /* 상단 고정 */
+        font-size: 20px;
+    }
+
+    .sidebar {
+        flex-direction: row; /* 프로필 박스와 버튼을 가로 정렬 */
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 10px;
+    }
+
+    .sidebar .profile-box {
+        flex: 1;
+        margin: 0 10px;
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .menu-bar {
+        grid-template-columns: repeat(5, 1fr); /* 여전히 5개 고정 */
+        gap: 5px; /* 간격 조정 */
+    }
+
+    .menu-bar li {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .main-content {
+        padding: 15px;
+    }
+}
+
+/* 스마트폰 화면 */
+@media screen and (max-width: 480px) {
+    .sidebar {
+        flex-wrap: wrap; /* 여러 줄로 나뉨 */
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .sidebar .profile-box {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .menu-bar li {
+        font-size: 12px;
+        padding: 5px;
+    }
+
+    .main-content {
+        padding: 10px;
+        font-size: 12px;
+    }
+}

@@ -1,0 +1,143 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+.login-home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #FDF9ED;
+    overflow: auto;
+}
+
+.logo-container {
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 40px;
+}
+
+.login-container {
+    width: 50%;
+    padding: 40px;
+    margin: 20px;
+    margin-bottom: 40px;
+    background-color: white;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.logo {
+    font-size: 50px;
+    color: #6BAF92;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+
+.login-title {
+    font-size: 33px;
+    color: #333;
+    margin-bottom: 25px;
+    margin-top: 25px;
+}
+
+.login-input {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.login-id {
+    width: 70%;
+    padding: 20px;
+    margin: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 18px;
+}
+
+.login-pw {
+    width: 70%;
+    padding: 20px;
+    margin: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 18px;
+}
+
+.login-button {
+    width: 70%;
+    padding: 15px;
+    margin: 30px;
+    background-color: #6BAF92;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+}
+
+.sns-login {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.sns-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.sns-button.naver {
+    background-color: #03c75a;
+}
+
+.sns-button.kakao {
+    background-color: #fee500;
+    color: #3c1e1e;
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.link {
+    color: #696969;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    margin-bottom: 10px;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.customersignup,
+.customerforgotpassword {
+    width: 70%;
+    background-color: #ddd;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    color: rgb(88, 88, 88);
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
