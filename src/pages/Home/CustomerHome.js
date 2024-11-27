@@ -149,9 +149,9 @@ function CustomerHome() {
                                 <h3>{store.storeName}</h3>
                                 <p>주소 : {store.address}</p>
                                 <p>☎ {store.phone}</p>
-                                <p>{store.category}</p>
-                                <p>⭐ {store.rating}</p>
-                                <p>픽업 시간 : {store.startpickup} ~ {store.endpickup}</p>
+                                <p>카테고리 : {store.category}</p>
+                                <p>픽업 시간 : {store.startPickup} ~ {store.endPickup}</p>
+                                <p>⭐ {store.avgrating}</p>
                                 <p>북마크 : {store.bookmarkcount}</p>
                                 <p>리뷰수 : {store.reviewcount}</p>
                             </div>
