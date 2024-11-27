@@ -13,7 +13,7 @@ function CustomerHome() {
     const [currentPage, setCurrentPage] = useState(1);
     const [sortOption, setSortOption] = useState('distance');
     const mapContainer = useRef(null);
-    
+
 
     // 전체 가게 리스트 API 호출
     const fetchStores = async (page = 1) => {
@@ -98,6 +98,10 @@ function CustomerHome() {
         setCurrentPage(page);
     };
 
+    const handleStoreClick = (storeId) => {
+        navigate(`/store/detail/${storeId}`);
+    };
+    
     const storesPerPage = 6;
     const displayedStores = stores.slice(
         (currentPage - 1) * storesPerPage,
@@ -138,7 +142,8 @@ function CustomerHome() {
                     </div>
                     <div className="stores">
                         {displayedStores.map((store) => (
-                            <div key={store.storeid} className="store-card">
+                            <div key={store.storeid} className="store-card"
+                                onClick={() => handleStoreClick(store.storeid)}>
                                 <img src={`http://127.0.0.1:8080${store.imageurl}`} alt={store.storeName} />
                                 <h3>{store.storeName}</h3>
                                 <p>주소 : {store.address}</p>
