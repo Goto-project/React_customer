@@ -1,18 +1,33 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import '../../css/CustomerHome.css';
 
 const { kakao } = window;
 
 function CustomerHome() {
-    console.log(window)
     const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [email, setEmail] = useState('');
-    const [stores, setStores] = useState([]); 
-    const [currentPage, setCurrentPage] = useState(1); 
+    const [stores, setStores] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
     const [sortOption, setSortOption] = useState('distance');
-    const mapContainer = useRef(null); 
+    const mapContainer = useRef(null);
+    
+
+    // 전체 가게 리스트 API 호출
+    const fetchStores = async (page = 1) => {
+        try {
+            const response = await axios.get(`/ROOT/api/store/list`, { params: { page } });
+            if (response.data.status === 200) {
+                setStores(response.data.result); // 데이터 저장
+            } else {
+                console.error('Failed to fetch store list:', response.data.message);
+            }
+        } catch (error) {
+            console.error('Error fetching store list:', error);
+        }
+    };
 
     useEffect(() => {
 
@@ -45,18 +60,10 @@ function CustomerHome() {
             setEmail(savedEmail);
         }
 
-        // 가게 데이터 초기화 (더미 데이터)
-        const dummyStores = Array.from({ length: 30 }, (_, i) => ({
-            id: i + 1,
-            name: `가게 ${i + 1}`,
-            address: `주소 ${i + 1}`,
-            phone: `051-${i + 1}`,
-            rating: (Math.random() * 5).toFixed(2),
-            distance: Math.floor(Math.random() * 10), // 거리 임의 생성
-            orders: Math.floor(Math.random() * 100), // 주문 수 임의 생성
-        }));
-        setStores(dummyStores);
-    }, []);
+
+        // 가게 리스트 초기화
+        fetchStores(currentPage);
+    }, [currentPage]);
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -131,12 +138,16 @@ function CustomerHome() {
                     </div>
                     <div className="stores">
                         {displayedStores.map((store) => (
-                            <div key={store.id} className="store-card">
-                                <h3>{store.name}</h3>
-                                <p>{store.address}</p>
+                            <div key={store.storeid} className="store-card">
+                                <img src={`http://127.0.0.1:8080${store.imageurl}`} alt={store.storeName} />
+                                <h3>{store.storeName}</h3>
+                                <p>주소 : {store.address}</p>
                                 <p>☎ {store.phone}</p>
+                                <p>{store.category}</p>
                                 <p>⭐ {store.rating}</p>
-                                <p>📍 {store.distance} km</p>
+                                <p>픽업 시간 : {store.startpickup} ~ {store.endpickup}</p>
+                                <p>북마크 : {store.bookmarkcount}</p>
+                                <p>리뷰수 : {store.reviewcount}</p>
                             </div>
                         ))}
                     </div>
@@ -153,10 +164,6 @@ function CustomerHome() {
                     </div>
                 </section>
 
-                <section className="favorites-section">
-                    <h2>즐겨찾기 한 식당</h2>
-                    <ul className="favorites-list"></ul>
-                </section>
             </main>
         </div>
     );
