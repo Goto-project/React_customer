@@ -15,7 +15,6 @@ const MyPage = () => {
     const [nickname, setNickname] = useState('');
     const [phone, setPhone] = useState('');
 
-    // Fetch user data on component mount
     useEffect(() => {
         const fetchData = async () => {
             const token = localStorage.getItem('token');
@@ -89,9 +88,6 @@ const MyPage = () => {
     return (
         <div className="mypage-container">
             <header className="topbar">
-                <div className="profile-info">
-                    <h2>{nickname || "User Name"} 님의 마이페이지</h2>
-                </div>
                 <nav className="menu-bar">
                     <ul>
                         <li
