@@ -1,0 +1,79 @@
+.my-favorite-container {
+    padding: 20px;
+    border-radius: 8px;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #4E9A6F;
+    margin-bottom: 20px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+    border-color: #4E9A6F;
+}
+
+.favorite-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.favorite-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background-color: #fff;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 1.1em;
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+.favorite-list li:hover {
+    background-color: #F0F8F0;
+}
+
+.favorite-list li span {
+    font-weight: bold;
+}
+
+.delete-btn {
+    background-color: transparent;
+    border: none;
+    color: #E74C3C;
+    font-size: 1em;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.delete-btn:hover {
+    color: #C0392B;
+}
+
+.favorite-list li .delete-btn {
+    padding: 8px;
+    border-radius: 5px;
+}
+
+.my-favorite-container p {
+    text-align: center;
+    font-size: 1.2em;
+    color: #666;
+}

@@ -87,47 +87,25 @@ const MyPage = () => {
 
     return (
         <div className="mypage-container">
-            <header className="topbar">
+            <aside className="sidebar">
+                <div className="mypage-logo">
+                    <h1 onClick={handleHomeClick}>ECOEATS</h1>
+                </div>
                 <nav className="menu-bar">
                     <ul>
-                        <li
-                            className={activePage === 'MY_FAVORITE' ? 'active' : ''}
-                            onClick={() => setActivePage('MY_FAVORITE')}
-                        >
-                            MY FAVORITE
-                        </li>
-                        <li
-                            className={activePage === 'MY_ORDER' ? 'active' : ''}
-                            onClick={() => setActivePage('MY_ORDER')}
-                        >
-                            MY ORDER
-                        </li>
-                        <li
-                            className={activePage === 'MY_REVIEW' ? 'active' : ''}
-                            onClick={() => setActivePage('MY_REVIEW')}
-                        >
-                            MY REVIEW
-                        </li>
-                        <li
-                            className={activePage === 'EDIT_INFORMATION' ? 'active' : ''}
-                            onClick={() => setActivePage('EDIT_INFORMATION')}
-                        >
-                            EDIT INFORMATION
-                        </li>
-                        <li
-                            className={activePage === 'CHANGE_PASSWORD' ? 'active' : ''}
-                            onClick={() => setActivePage('CHANGE_PASSWORD')}
-                        >
-                            CHANGE PASSWORD
-                        </li>
+                        <li onClick={handleHomeClick}>홈으로</li>
+                        <li className={activePage === 'MY_FAVORITE' ? 'active' : ''} onClick={() => setActivePage('MY_FAVORITE')}>즐겨찾기</li>
+                        <li className={activePage === 'MY_ORDER' ? 'active' : ''} onClick={() => setActivePage('MY_ORDER')}>내 주문목록</li>
+                        <li className={activePage === 'MY_REVIEW' ? 'active' : ''} onClick={() => setActivePage('MY_REVIEW')}>내 리뷰목록</li>
+                        <li className={activePage === 'EDIT_INFORMATION' ? 'active' : ''} onClick={() => setActivePage('EDIT_INFORMATION')}>정보 수정</li>
+                        <li className={activePage === 'CHANGE_PASSWORD' ? 'active' : ''} onClick={() => setActivePage('CHANGE_PASSWORD')}>비밀번호 변경</li>
+                        <li onClick={handleLogout}>회원 탈퇴</li>
                     </ul>
                 </nav>
-
-                <nav className='btnbar'>
-                    <button onClick={handleHomeClick}>HOME</button>
-                    <button onClick={handleLogout}>LOGOUT</button>
-                </nav>
-            </header>
+                <div className="btnbar">
+                    {/* <button onClick={handleHomeClick}>홈으로 돌아가기</button> */}
+                </div>
+            </aside>
 
             <main className="main-content">
                 {renderContent()}

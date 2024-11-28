@@ -1,35 +1,35 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import '../../css/EditInfo.css';
+import axios from 'axios';
+import '../../css/CustomerEditInfo.css';
+import '../../css/ChangePassword.css';
 
 const EditInformation = () => {
+    const [activeTab, setActiveTab] = useState('editInfo'); // 현재 탭 상태
     const [customerInfo, setCustomerInfo] = useState({
         customerEmail: '',
         phone: '',
         nickname: '',
     });
+    const [passwords, setPasswords] = useState({
+        currentPwd: '',
+        newPwd: '',
+        confirmNewPwd: '',
+    });
     const [message, setMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [isLoading, setIsLoading] = useState(true);
-    const navigate = useNavigate();
-    const location = useLocation();
-    const { customerEmail, token } = location.state || {};
 
+    // 회원 정보 가져오기
     useEffect(() => {
-
         const token = localStorage.getItem('token');
         const customerEmail = localStorage.getItem('email');
-            
-        console.log("Location state:", location.state); // location.state 확인
 
         if (!customerEmail || !token) {
-            setErrorMessage('유효한 customerEmail과 token이 전달되지 않았습니다.');
+            setErrorMessage('유효한 customerEmail과 token이 없습니다.');
             setIsLoading(false);
             return;
         }
 
-        // 고객 정보 가져오는 함수
         const fetchCustomerDetails = async () => {
             try {
                 const url = `/ROOT/api/customer/mypage.do`;
@@ -38,18 +38,15 @@ const EditInformation = () => {
                 });
 
                 if (response.data.status === 200) {
-                    console.log("Fetched customerInfo:", response.data); // 응답 데이터 확인
-                    const customerDetails = {
+                    setCustomerInfo({
                         customerEmail: response.data.customerEmail,
                         phone: response.data.phone,
                         nickname: response.data.nickname,
-                    };
-                    setCustomerInfo(customerDetails); // 고객 정보 상태 업데이트
+                    });
                 } else {
                     setErrorMessage('회원 정보를 불러오는 데 실패했습니다.');
                 }
             } catch (error) {
-                console.error("Error fetching customer info:", error);
                 setErrorMessage('회원 정보를 불러오는 중 오류가 발생했습니다.');
             } finally {
                 setIsLoading(false);
@@ -57,9 +54,10 @@ const EditInformation = () => {
         };
 
         fetchCustomerDetails();
-    }, [customerEmail, token]);
+    }, []);
 
-    const handleChange = (e) => {
+    // 회원 정보 수정 핸들러
+    const handleInfoChange = (e) => {
         const { name, value } = e.target;
         setCustomerInfo((prevInfo) => ({
             ...prevInfo,
@@ -67,15 +65,11 @@ const EditInformation = () => {
         }));
     };
 
-    const handleSubmit = async (e) => {
+    const handleInfoSubmit = async (e) => {
         e.preventDefault();
-        console.log("customerInfo:", JSON.stringify(customerInfo, null, 2));
-
-
         const token = localStorage.getItem('token');
         if (!token) {
             alert('로그인 상태가 아닙니다. 다시 로그인해주세요.');
-            navigate('/pages/Member/LoginHome'); // 로그인 페이지로 리디렉션
             return;
         }
 
@@ -86,8 +80,6 @@ const EditInformation = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            
-            console.log("Response from update:", response); // 응답 내용 확인
 
             if (response.data.status === 200) {
                 alert('회원 정보가 성공적으로 수정되었습니다.');
@@ -96,8 +88,53 @@ const EditInformation = () => {
                 setMessage(response.data.message || '회원 정보 수정에 실패했습니다.');
             }
         } catch (error) {
-            console.error('Error updating customer info:', error);
             setMessage('회원 정보 수정 중 오류가 발생했습니다.');
+        }
+    };
+
+    // 비밀번호 변경 핸들러
+    const handlePasswordChange = (e) => {
+        const { name, value } = e.target;
+        setPasswords((prevPasswords) => ({
+            ...prevPasswords,
+            [name]: value,
+        }));
+    };
+
+    const handlePasswordSubmit = async () => {
+        if (passwords.newPwd !== passwords.confirmNewPwd) {
+            setMessage('새 비밀번호와 확인 비밀번호가 일치하지 않습니다.');
+            return;
+        }
+
+        const token = localStorage.getItem('token');
+        if (!token) {
+            setMessage('로그인이 필요합니다.');
+            return;
+        }
+
+        try {
+            const response = await fetch(
+                `/ROOT/api/customer/updatepassword.do?currentPwd=${passwords.currentPwd}&newPwd=${passwords.newPwd}`,
+                {
+                    method: 'PUT',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+
+            const data = await response.json();
+            if (data.status === 200) {
+                alert('비밀번호가 성공적으로 변경되었습니다.');
+                window.location.reload();
+            } else {
+                setMessage(data.message || '비밀번호 변경에 실패했습니다.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setMessage('서버 오류가 발생했습니다. 다시 시도해주세요.');
         }
     };
 
@@ -106,47 +143,95 @@ const EditInformation = () => {
     }
 
     return (
-        <div className="customer-editcontainer">
-            <h1 className="customer-edit-title">EDIT CUSTOMER INFORMATION</h1>
+        <div className="settings-container">
+            <div className="tabs">
+                <button
+                    className={`tab ${activeTab === 'editInfo' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('editInfo')}
+                >
+                    회원 정보 수정
+                </button>
+                <button
+                    className={`tab ${activeTab === 'changePassword' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('changePassword')}
+                >
+                    비밀번호 변경
+                </button>
+            </div>
 
-            {errorMessage && <p className="error-message">{errorMessage}</p>} {/* 오류 메시지 표시 */}
-
-            <form onSubmit={handleSubmit}>
-                <div className="input-group">
-                    <label>이메일:</label>
-                    <input
-                        type="email"
-                        value={customerInfo.customerEmail}
-                        disabled // 변경 불가능
-                        className="editcustomerEmail"
-                    />
+            {activeTab === 'editInfo' && (
+                <div className="tab-content">
+                    <h1 className="edit-title">회원 정보 수정</h1>
+                    {errorMessage && <p className="error-message">{errorMessage}</p>}
+                    <form onSubmit={handleInfoSubmit} className="edit-form">
+                        <div className="customer-edit-input-group">
+                            <label>이메일</label>
+                            <input type="email" value={customerInfo.customerEmail} disabled className="input-field" />
+                        </div>
+                        <div className="customer-edit-input-group">
+                            <label>닉네임</label>
+                            <input
+                                type="text"
+                                name="nickname"
+                                value={customerInfo.nickname}
+                                onChange={handleInfoChange}
+                                className="input-field"
+                            />
+                        </div>
+                        <div className="customer-edit-input-group">
+                            <label>전화번호</label>
+                            <input
+                                type="text"
+                                name="phone"
+                                value={customerInfo.phone}
+                                onChange={handleInfoChange}
+                                className="input-field"
+                            />
+                        </div>
+                        {message && <p className="message">{message}</p>}
+                        <button type="submit" className="submit-btn">
+                            저장
+                        </button>
+                    </form>
                 </div>
+            )}
 
-                <div className="customereditinput">
-                    <div className="input-group">
-                        <label>닉네임:</label>
+            {activeTab === 'changePassword' && (
+                <div className="tab-content">
+                    <h2 className="password-edit-title">비밀번호 변경</h2>
+                    <div className="password-input-group">
+                        <label>현재 비밀번호</label>
                         <input
-                            type="text"
-                            name="nickname"
-                            value={customerInfo.nickname}
-                            onChange={handleChange}
-                            className="editcustomerNickname"
+                            type="password"
+                            name="currentPwd"
+                            value={passwords.currentPwd}
+                            onChange={handlePasswordChange}
                         />
                     </div>
-                    <div className="input-group">
-                        <label>전화번호:</label>
+                    <div className="password-input-group">
+                        <label>새 비밀번호</label>
                         <input
-                            type="text"
-                            name="phone"
-                            value={customerInfo.phone}
-                            onChange={handleChange}
-                            className="editcustomerPhone"
+                            type="password"
+                            name="newPwd"
+                            value={passwords.newPwd}
+                            onChange={handlePasswordChange}
                         />
                     </div>
+                    <div className="password-input-group">
+                        <label>새 비밀번호 확인</label>
+                        <input
+                            type="password"
+                            name="confirmNewPwd"
+                            value={passwords.confirmNewPwd}
+                            onChange={handlePasswordChange}
+                        />
+                    </div>
+                    {message && <p className="message">{message}</p>}
+                    <button className="editpasswordbtn" onClick={handlePasswordSubmit}>
+                        비밀번호 변경
+                    </button>
                 </div>
-
-                <button type="submit" className='editinfobtn'>저장</button>
-            </form>
+            )}
         </div>
     );
 };

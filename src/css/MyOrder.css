@@ -1,0 +1,84 @@
+.order-page {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+.order-header {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.order-container {
+    margin-top: 20px;
+}
+
+.order-receipt {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    width: 300px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.order-date-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.order-item {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #f1f1f1;
+    padding-bottom: 10px;
+}
+
+.order-menu-items {
+    margin-left: 20px;
+}
+
+.menu-item {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #f1f1f1;
+    padding-bottom: 10px;
+}
+
+.order-item p {
+    margin: 5px 0;
+}
+
+.total-revenue {
+    font-weight: bold;
+    text-align: right;
+    font-size: 18px;
+    color: #333;
+}
+
+.error-message {
+    color: red;
+    font-size: 16px;
+    text-align: center;
+}
+
+/* 레이아웃 스타일 */
+.order-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.order-receipt {
+    width: 300px;
+    margin-bottom: 30px;
+}
+
+/* 추가적인 스타일 조정 */
+hr {
+    border: 0.5px solid #f1f1f1;
+}

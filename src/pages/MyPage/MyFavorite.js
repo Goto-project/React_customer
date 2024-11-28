@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import '../../css/MyFavorite.css';
 
 const MyFavorite = () => {
     const [favorites, setFavorites] = useState([]); // 즐겨찾기 목록
@@ -39,19 +40,6 @@ const MyFavorite = () => {
         console.log("삭제 요청 storeId:", storeId); // 삭제 요청 번호 확인
         const token = localStorage.getItem("token");
 
-        // storeId로 해당 북마크를 찾아 bookmarkNo 가져오기
-    const store = favorites.find(store => store.storeId === storeId);
-    console.log("찾은 store:", store); // store 객체 확인
-
-    if (!store) {
-        alert("해당 storeId의 북마크를 찾을 수 없습니다.");
-        return;
-    }
-
-    const bookmarkNo = store.bookmarkNo;
-    console.log("삭제할 bookmarkNo:", bookmarkNo);
-
-
         try {
             const response = await axios({
                 method: "delete",
@@ -60,7 +48,7 @@ const MyFavorite = () => {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
                 },
-                data: JSON.stringify({ bookmarkNo }),  // bookmarkNo를 사용
+                data: JSON.stringify({ storeId }),  // storeId만 보내기
             });
 
             if (response.data.status === 200) {
@@ -71,6 +59,7 @@ const MyFavorite = () => {
             }
         } catch (error) {
             console.error("즐겨찾기 삭제 중 오류 발생:", error);
+            alert("즐겨찾기 삭제 중 오류가 발생했습니다.");
         }
     };
 
@@ -96,46 +85,26 @@ const MyFavorite = () => {
     }, []);
 
     return (
-        <div style={{ padding: "20px" }}>
+        <div className="my-favorite-container">
             <h2>내 즐겨찾기</h2>
             <input
                 type="text"
                 placeholder="가게 이름 검색"
                 value={searchQuery}
                 onChange={handleSearch}
-                style={{
-                    width: "100%",
-                    padding: "10px",
-                    marginBottom: "20px",
-                    fontSize: "16px",
-                }}
+                className="search-input"
             />
 
             {filteredFavorites.length === 0 ? (
                 <p>검색된 즐겨찾기가 없습니다.</p>
             ) : (
-                <ul>
+                <ul className="favorite-list">
                     {filteredFavorites.map((store) => (
-                        <li
-                            key={store.storeId}
-                            style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                padding: "10px",
-                                borderBottom: "1px solid #ddd",
-                            }}
-                        >
+                        <li key={store.storeId}>
                             <span>{store.storeName}</span>
                             <button
                                 onClick={() => deleteFavorite(store.storeId)}
-                                style={{
-                                    padding: "5px 10px",
-                                    backgroundColor: "red",
-                                    color: "white",
-                                    border: "none",
-                                    cursor: "pointer",
-                                }}
+                                className="delete-btn"
                             >
                                 삭제
                             </button>
