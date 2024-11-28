@@ -1,0 +1,130 @@
+.store-detail-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    background-color: #FDF9ED;
+    min-height: 100vh;
+    overflow: auto;
+    align-items: center;
+}
+
+.store-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #6BAF92;
+    color: white;
+    padding: 20px 20px;
+    width: 100%;
+}
+
+.store-info-container {
+    display: flex;
+    gap: 20px;
+    margin-top: 40px;
+    padding: 20px;
+    background-color: white;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    width: 1000px;
+    height: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.store-image-wrapper {
+    width: 100%;
+    max-width: 400px;
+}
+
+.store-image {
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+    object-fit: cover;
+}
+
+.store-info {
+    display: flex;
+    text-align: left;
+    font-size: 1rem;
+    color: #333;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.store-info h2 {
+    margin: 0 0 10px;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.store-info p {
+    margin: 4px 0;
+    line-height: 1.6;
+}
+
+.store-info p:first-child {
+    font-weight: bold;
+}
+
+.store-info p span {
+    font-weight: normal;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.tabs-container {
+    display: flex;
+    border-bottom: 2px solid #ddd;
+    width: 1000px;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 12px 0;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: #6BAF92;
+}
+
+.tab-button.active {
+    color: #fff;
+    background-color: #6BAF92;
+    border-bottom: 3px solid #6BAF92;
+}
+
+.tab-content {
+    padding: 20px 0;
+    width: 1000px;
+    background-color: white;
+}
+
+.menu-list,
+.review-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.menu-item,
+.review-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+.menu-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    object-fit: cover;
+}
