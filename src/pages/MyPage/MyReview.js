@@ -19,7 +19,7 @@ const MyReview = () => {
             }
 
             try {
-                const response = await axios.get(`/ROOT/api/review/selectall.json`, {
+                const response = await axios.get(`/ROOT/api/review/myreviews.json`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
