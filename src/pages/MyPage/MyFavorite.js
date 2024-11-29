@@ -17,7 +17,7 @@ const MyFavorite = () => {
                 return;
             }
             const response = await axios.get(
-                "/ROOT/api/bookmark/mybookmarks.json",
+                "/ROOT/api/bookmark/list",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -26,9 +26,11 @@ const MyFavorite = () => {
             );
             console.log("서버 응답 데이터:", response.data); // 서버 응답 확인
 
-            if (response.data.status === 200) {
-                setFavorites(response.data.stores); // 가게 목록 저장
-                setFilteredFavorites(response.data.stores); // 초기 필터 목록 설정
+            if (response.data.status === 200 && Array.isArray(response.data.data)) {
+                setFavorites(response.data.data);
+                setFilteredFavorites(response.data.data);
+            } else {
+                console.error("오류 발생:", response.data.message || "알 수 없는 오류");
             }
         } catch (error) {
             console.error("즐겨찾기 목록을 불러오는 중 오류 발생:", error);
@@ -100,8 +102,16 @@ const MyFavorite = () => {
             ) : (
                 <ul className="favorite-list">
                     {filteredFavorites.map((store) => (
-                        <li key={store.storeId}>
+                        <li key={store.storeId} onClick={() => window.location.href = `/store/detail/${store.storeId}`}>
+                            <img
+                                src={`http://localhost:8080${store.imageurl}`}
+                                alt={store.storeName}
+                                style={{ width: "50px", height: "50px" }}
+                            />
                             <span>{store.storeName}</span>
+                            <span>{store.address}</span>
+                            <span>{store.phone}</span>
+                            <span>{store.category}</span>
                             <button
                                 onClick={() => deleteFavorite(store.storeId)}
                                 className="delete-btn"
