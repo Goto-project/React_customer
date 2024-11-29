@@ -167,7 +167,7 @@ function CustomerHome() {
                             <button
                                 key={i + 1}
                                 onClick={() => handlePageChange(i + 1)}
-                                className={currentPage === i + 1 ? 'active' : ''}
+                                className={`${currentPage === i + 1 ? 'active' : ''} customerhomepage`}
                             >
                                 {i + 1}
                             </button>
