@@ -69,7 +69,7 @@ const KakaoLogin = () => {
     // 사용자 정보를 백엔드로 전송하는 함수
     const loginUser = async (userInfo) => {
         try {
-            const url = `127.0.0.1:8080/api/kakaologin/login.do`; // 백엔드 API
+            const url = `127.0.0.1:8080/api/kakaologin/login.json`; // 백엔드 API
             const response = await axios.post(url, userInfo, {
                 headers: {
                     "Content-Type": "application/json",
