@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import '../../css/LoginHome.css';
 
 const LoginHome = () => {
     const navigate = useNavigate();
-    
+    console.log(window)
+    const {Kakao} = window;
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false); // 로딩 상태 관리
+
+
+    useEffect(() => {
+        if (window.Kakao && !Kakao.isInitialized()) {
+            Kakao.init('6793d8b5dccd9a62416a111cbb9f46b8'); // 초기화
+        }
+    }, []);
 
     // 로그인 클릭 핸들러
     const handleLogin = async () => {
@@ -56,6 +64,12 @@ const LoginHome = () => {
         navigate('/pages/Member/ForgotPassword');
     };
 
+    const loginKakao = () => {
+        Kakao.Auth.authorize({
+            redirectUri : 'http://localhost:3000/kakaologin'
+        })
+    }
+
     return (
         <div className="login-home">
             <div className="logo-container">
@@ -93,7 +107,7 @@ const LoginHome = () => {
 
                 <div className="sns-login">
                     <button className="sns-button naver">N</button>
-                    <button className="sns-button kakao">K</button>
+                    <button className="sns-button kakao"id="kakao-login-btn" onClick={loginKakao}>K</button>
                 </div>
 
                 <div className="links">
