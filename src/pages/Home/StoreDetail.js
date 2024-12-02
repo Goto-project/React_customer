@@ -22,6 +22,12 @@ function StoreDetail() {
         fetchDailyMenu(); // 첫 렌더링 시 데일리 메뉴도 불러옴
     }, [storeid]);
 
+    useEffect(() => {
+        // 세션 스토리지에서 장바구니를 불러오기
+        const storedCart = JSON.parse(sessionStorage.getItem("cart")) || [];
+        setCart(storedCart);
+    }, []);
+
     const fetchStoreDetail = async () => {
         try {
             const response = await axios.get(`/ROOT/api/store/detail/${storeid}`);
@@ -103,10 +109,101 @@ function StoreDetail() {
         }
     };
 
-    const handleAddToCart = (menuId, menuName, price, qty, selectedQty) => {
-        // 선택된 수량만큼 장바구니에 추가
-        const newItem = { menuId, menuName, price, selectedQty };
-        setCart([...cart, newItem]);
+    // 장바구니 항목 추가
+    const handleAddToCart = (menuId, menuName, price, selectedQty, menuQty) => {
+        // 새로운 아이템
+        const newItem = { menuId, menuName, price, selectedQty, menuQty };
+
+        // 기존 장바구니에서 같은 메뉴가 있는지 확인
+        const existingItem = cart.find(item => item.menuId === menuId);
+
+        if (existingItem) {
+            // 같은 메뉴가 있으면 수량만 업데이트
+            const updatedCart = cart.map(item =>
+                item.menuId === menuId
+                    ? { ...item, selectedQty: selectedQty }  // 수량만 변경
+                    : item
+            );
+
+            // 업데이트된 장바구니 배열을 세션에 저장
+            sessionStorage.setItem("cart", JSON.stringify(updatedCart));
+            setCart(updatedCart);
+        } else {
+            // 같은 메뉴가 없으면 새로운 항목을 추가
+            const updatedCart = [...cart, newItem];
+
+            // 업데이트된 장바구니 배열을 세션에 저장
+            sessionStorage.setItem("cart", JSON.stringify(updatedCart));
+            setCart(updatedCart);
+        }
+    };
+
+    // 장바구니 수량 변경
+    const handleQuantityChange = (menuId, newQty) => {
+        // 최대 수량 제한
+        const item = cart.find(item => item.menuId === menuId);
+        if (!item) return;
+
+        if (newQty < 1) return; // 수량이 1 미만이면 변경하지 않음
+        if (newQty > item.menuQty) {
+            alert(`최대 주문 가능 수량은 ${item.menuQty}개입니다.`);
+            return;
+        }
+
+        const updatedCart = cart.map((item) => {
+            if (item.menuId === menuId) {
+                return { ...item, selectedQty: newQty };
+            }
+            return item;
+        });
+
+        setCart(updatedCart);
+        // 세션에 저장
+        sessionStorage.setItem("cart", JSON.stringify(updatedCart));
+    };
+
+    const handleInputChange = (menuId, value) => {
+        const newQty = parseInt(value, 10);
+
+        if (isNaN(newQty) || newQty < 1) {
+            alert("수량은 1 이상이어야 합니다.");
+            return;
+        }
+
+        const updatedCart = cart.map((item) => {
+            if (item.menuId === menuId) {
+                if (newQty > item.menuQty) {
+                    alert(`최대 주문 가능 수량은 ${item.menuQty}개입니다.`);
+                    return item; // 변경 없이 그대로 반환
+                }
+                return { ...item, selectedQty: newQty };
+            }
+            return item;
+        });
+
+        setCart(updatedCart);
+        // 세션에 저장
+        sessionStorage.setItem("cart", JSON.stringify(updatedCart));
+    };
+
+    // 장바구니 항목 삭제
+    const handleRemoveFromCart = (menuId) => {
+        const updatedCart = cart.filter(item => item.menuId !== menuId);
+
+        // 세션에 저장할 때 동일한 키 사용
+        sessionStorage.setItem("cart", JSON.stringify(updatedCart));
+        setCart(updatedCart);  // 상태 업데이트
+    };
+
+    const handleCheckout = () => {
+        if (cart.length === 0) {
+            alert("장바구니가 비어 있습니다. 상품을 추가해주세요!");
+            return;
+        }
+        // 결제 로직 추가
+        alert("결제 페이지로 이동합니다.");
+        // 여기서 카카오페이 페이지로 연결
+        // 예: window.location.href = "카카오페이 URL";
     };
 
     if (!store) {
@@ -234,10 +331,16 @@ function StoreDetail() {
                                                 <button
                                                     className="add-to-cart-btn"
                                                     onClick={() => {
-                                                        const selectedQty = parseInt(
-                                                            document.getElementById(`quantity-${menu.dailymenuNo}`).value
-                                                        );
-                                                        handleAddToCart(menu.dailymenuNo, menu.menuName, menu.menuDiscountedPrice, menu.menuQty, selectedQty);
+                                                        // 입력된 수량 값 가져오기
+                                                        const inputField = document.getElementById(`quantity-${menu.dailymenuNo}`);
+                                                        const selectedQty = parseInt(inputField.value, 10);
+
+                                                        // 입력값이 유효한지 확인 (0보다 커야 하고, 최대 메뉴 수량을 초과하지 않아야 함)
+                                                        if (selectedQty > 0 && selectedQty <= menu.menuQty) {
+                                                            handleAddToCart(menu.dailymenuNo, menu.menuName, menu.menuDiscountedPrice, selectedQty, menu.menuQty);
+                                                        } else {
+                                                            alert(`수량은 1에서 ${menu.menuQty} 사이의 값이어야 합니다.`);
+                                                        }
                                                     }}
                                                 >
                                                     장바구니에 추가
@@ -312,12 +415,44 @@ function StoreDetail() {
                         <div className="cartinfo">
                             <h3>장바구니</h3>
                             <ul>
-                                {cart.map((item, index) => (
-                                    <li key={index}>
-                                        {item.menuName} - {item.selectedQty}개
+                                {cart.map((item) => (
+                                    <li key={item.menuId}>
+                                        <div className="cart-item">
+                                            <span>{item.menuName}</span>
+                                            <div className="quantity-controls">
+                                                <button
+                                                    onClick={() => handleQuantityChange(item.menuId, item.selectedQty - 1)}
+                                                    disabled={item.selectedQty <= 1}
+                                                >
+                                                    -
+                                                </button>
+                                                <input
+                                                    type="number"
+                                                    min="1"
+                                                    value={item.selectedQty}
+                                                    onChange={(e) => handleInputChange(item.menuId, e.target.value)}
+                                                />
+                                                <button
+                                                    onClick={() => handleQuantityChange(item.menuId, item.selectedQty + 1)}
+                                                    disabled={item.selectedQty >= item.menuQty} // 최대 수량 제한
+                                                >
+                                                    +
+                                                </button>
+                                            </div>
+                                            <button onClick={() => handleRemoveFromCart(item.menuId)}>삭제</button>
+                                        </div>
                                     </li>
                                 ))}
                             </ul>
+                        </div>
+                        <div className="checkout-container">
+                            {/* 결제하기 버튼 */}
+                            <button
+                                className="checkout-button"
+                                onClick={handleCheckout}
+                            >
+                                결제하기
+                            </button>
                         </div>
 
                     </div>
