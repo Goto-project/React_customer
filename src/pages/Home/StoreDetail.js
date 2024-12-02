@@ -14,12 +14,13 @@ function StoreDetail() {
     const [currentMenuPage, setCurrentMenuPage] = useState(1); // 메뉴 페이지 상태
     const [currentReviewPage, setCurrentReviewPage] = useState(1); // 리뷰 페이지 상태
     const [cart, setCart] = useState([]); // 장바구니 상태
-    const [email, setEmail] = useState(""); // 로그인된 이메일 상태
+    const [isBookmarked, setIsBookmarked] = useState(false); // 즐겨찾기 상태 추가
+    // const [email, setEmail] = useState(""); // 로그인된 이메일 상태
 
-    
     useEffect(() => {
         fetchStoreDetail();
         fetchDailyMenu(); // 첫 렌더링 시 데일리 메뉴도 불러옴
+        checkBookmarkStatus(); // 즐겨찾기 여부 확인
     }, [storeid]);
 
     useEffect(() => {
@@ -27,6 +28,24 @@ function StoreDetail() {
         const storedCart = JSON.parse(sessionStorage.getItem("cart")) || [];
         setCart(storedCart);
     }, []);
+    
+    const checkBookmarkStatus = async () => {
+        try {
+            const token = localStorage.getItem("token");
+            if (!token) return;
+
+            const response = await axios.get(
+                `/ROOT/api/bookmark/searchbookmark.json?storeId=${storeid}`,
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                }
+            );
+
+            setIsBookmarked(response.data.status === 200);
+        } catch (error) {
+            console.error("즐겨찾기 상태 확인 중 오류:", error);
+        }
+    };
 
     const fetchStoreDetail = async () => {
         try {
@@ -213,33 +232,44 @@ function StoreDetail() {
     const handleAddBookmark = async () => {
         try {
             const token = localStorage.getItem("token"); // 사용자의 인증 토큰을 로컬 스토리지에서 가져옵니다.
-
+            const email = localStorage.getItem("email");
             if (!token) {
                 setErrorMessage("로그인이 필요합니다.");
                 return;
             }
 
-            const response = await axios.post(
-                "/ROOT/api/bookmark/insert.json",
-                {
-                    store: {
-                        storeId: storeid, // 가게 ID를 store 객체 안에 넣어 전달
-                    },
-                    customer: {
-                        customerEmail: store.customerEmail, // 고객 이메일도 customer 객체로 묶어서 전달
-                    }
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`, // 인증 헤더에 토큰 포함
-                    },
-                }
-            );
+            if (isBookmarked) {
+                // 즐겨찾기 취소
+                const response = await axios.delete("/ROOT/api/bookmark/delete.json", {
+                    headers: { Authorization: `Bearer ${token}` },
+                    data: { storeId: storeid },
+                });
 
-            if (response.data.status === 200) {
-                setErrorMessage("즐겨찾기에 추가되었습니다.");
+                if (response.data.status === 200) {
+                    alert("즐겨찾기에서 삭제되었습니다.");
+                    setIsBookmarked(false);
+                } else {
+                    setErrorMessage(response.data.result || "즐겨찾기 취소 실패.");
+                }
             } else {
-                setErrorMessage(response.data.result || "즐겨찾기 추가 실패.");
+                // 즐겨찾기 추가
+                const response = await axios.post(
+                    "/ROOT/api/bookmark/insert.json",
+                    {
+                        customerEmail: { customerEmail: email },
+                        storeId: { storeId: storeid },
+                    },
+                    {
+                        headers: { Authorization: `Bearer ${token}` },
+                    }
+                );
+
+                if (response.data.status === 200) {
+                    alert("즐겨찾기에 추가되었습니다.");
+                    setIsBookmarked(true);
+                } else {
+                    setErrorMessage(response.data.result || "즐겨찾기 추가 실패.");
+                }
             }
         } catch (error) {
             console.error(error);
@@ -270,8 +300,11 @@ function StoreDetail() {
                             <p>⏰ {store.startPickup} ~ {store.endPickup}</p>
                             <p>⭐ {store.rating}</p>
 
-                            <button onClick={handleAddBookmark} className="add-bookmark-btn">
-                                즐겨찾기 추가
+                            <button
+                                onClick={handleAddBookmark}
+                                className="add-bookmark-btn"
+                            >
+                                {isBookmarked ? "즐겨찾기 취소" : "즐겨찾기 추가"}
                             </button>
                         </div>
                     </div>
