@@ -23,45 +23,6 @@ function CustomerHome() {
     const API_KEY = '5b0886d4afea2f236cbff25dabce17ab'; // 환경 변수 또는 설정 파일에서 가져오는 방식으로 변경해야 함.
 
     // 가게 리스트 API 호출
-    // const fetchStores = async (page = 1) => {
-    //     try {
-    //         const response = await axios.get(`/ROOT/api/store/list`, { params: { page } });
-    //         if (response.data.status === 200) {
-    //             setStores(response.data.result);
-    //         } else {
-    //             console.error('Failed to fetch store list:', response.data.message);
-    //         }
-    //     } catch (error) {
-    //         console.error('Error fetching store list:', error);
-    //     }
-    // };
-
-    // const fetchStores = async (page = 1) => {
-    //     const { lat, lon } = location; // 현재 위치(또는 선택된 주소)의 위도, 경도
-    //     if (!lat || !lon) {
-    //         alert('위치 정보를 가져오지 못했습니다.');
-    //         return;
-    //     }
-    
-    //     try {
-    //         const response = await axios.get(`/ROOT/api/store/list1`, {
-    //             params: {
-    //                 customerLatitude: lat,
-    //                 customerLongitude: lon,
-    //                 sortBy: sortOption, // 예: 거리 기준으로 정렬
-    //             }
-    //         });
-    
-    //         if (response.data.status === 200) {
-    //             setStores(response.data.result);
-    //         } else {
-    //             console.error('Failed to fetch store list:', response.data.message);
-    //         }
-    //     } catch (error) {
-    //         console.error('Error fetching store list:', error);
-    //     }
-    // };
-
     const fetchStores = async (page = 1) => {
         const { lat, lon } = location; // 현재 위치(또는 선택된 주소)의 위도, 경도
         if (!lat || !lon) {
@@ -601,7 +562,7 @@ function CustomerHome() {
                             <button
                                 key={i + 1}
                                 onClick={() => handlePageChange(i + 1)}
-                                className={`${currentPage === i + 1 ? 'active' : ''} customerhomepage`}
+                                className={currentPage === i + 1 ? 'active' : ''}
                             >
                                 {i + 1}
                             </button>
