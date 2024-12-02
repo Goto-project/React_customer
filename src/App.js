@@ -9,6 +9,7 @@ import ForgotPassword from './pages/Member/ForgotPassword';
 import MyPage from './pages/MyPage/MyPage';
 import StoreDetail from './pages/Home/StoreDetail';
 import KakaoLogin from './pages/Member/KakaoLogin';
+import NaverLogin from './pages/Member/NaverLogin';
 
 function FirstScreen() {
   return (
