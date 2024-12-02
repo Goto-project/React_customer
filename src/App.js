@@ -78,6 +78,7 @@ function App() {
           <Route path="/pages/Member/ForgotPassword" element={<ForgotPassword />} />
           <Route path="/pages/Member/MyPage/:email" element={<MyPage />} />
           <Route path="/store/detail/:storeid" element={<StoreDetail />} />
+          <Route path="/naverlogin" element={<NaverLogin />} />
           <Route path="/kakaologin" element={<KakaoLogin />} />
         </Routes>
       </div>
