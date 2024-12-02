@@ -552,10 +552,6 @@ function CustomerHome() {
                             </div>
                         </div>
                     </div>
-
-
-
-
                     <div className="map-container" id="map" ref={mapRef}></div>
                 </section>
 
@@ -576,14 +572,12 @@ function CustomerHome() {
                                     src={`http://127.0.0.1:8080${store.imageurl}`}
                                     alt={store.storeName}
                                 />
-                                <h3>{store.storeName}</h3>
-                                <p>주소: {store.address}</p>
-                                <p>☎ {store.phone}</p>
-                                <p>카테고리: {store.category}</p>
-                                <p>픽업 시간: {store.startPickup} ~ {store.endPickup}</p>
-                                <p>⭐ {store.avgrating}</p>
-                                <p>북마크: {store.bookmarkcount}</p>
-                                <p>리뷰 수: {store.reviewcount}</p>
+                                <div className="store-info">
+                                    <h3>{store.storeName}</h3>
+                                    <p>⭐ {store.avgrating}</p>
+                                    <p>북마크: {store.bookmarkcount}</p>
+                                    <p>카테고리: {store.category}</p>
+                                </div>
                             </div>
                         ))}
                     </div>

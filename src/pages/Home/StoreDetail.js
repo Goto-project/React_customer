@@ -28,7 +28,7 @@ function StoreDetail() {
         const storedCart = JSON.parse(sessionStorage.getItem("cart")) || [];
         setCart(storedCart);
     }, []);
-    
+
     const checkBookmarkStatus = async () => {
         try {
             const token = localStorage.getItem("token");
@@ -302,9 +302,9 @@ function StoreDetail() {
 
                             <button
                                 onClick={handleAddBookmark}
-                                className="add-bookmark-btn"
+                                className={`add-bookmark-btn ${isBookmarked ? "bookmarked" : ""}`}
                             >
-                                {isBookmarked ? "즐겨찾기 취소" : "즐겨찾기 추가"}
+                                {isBookmarked ? "★" : "☆"}
                             </button>
                         </div>
                     </div>
