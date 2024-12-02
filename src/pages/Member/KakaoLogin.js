@@ -33,8 +33,8 @@ const KakaoLogin = () => {
             const access_token = data.access_token;
             getInfo(access_token); // 카카오 사용자 정보 요청
         } catch (error) {
-            console.error("Error fetching token:", error.response?.data || error.message);
-            alert("토큰 요청 중 오류가 발생했습니다. 에러: " + error.response?.data?.error_description);
+            console.error("Error fetching token:", error.response ? error.response.data : error.message);
+            alert("토큰 요청 중 오류가 발생했습니다. 에러: " + (error.response ? error.response.data.error_description : error.message));
         }
     };
 
@@ -75,6 +75,9 @@ const KakaoLogin = () => {
             
 
             if (response.data.status === 200) {
+                // 로그인 성공 시 로컬 스토리지에 토큰과 email 저장
+                localStorage.setItem('token', response.data.token); // 토큰 저장
+                localStorage.setItem('email', userInfo.customerEmail); // 카카오 ID를 email로 저장
                 
                 navigate(`/`); // 로그인 성공 시 메인 페이지로 이동
             } else {
