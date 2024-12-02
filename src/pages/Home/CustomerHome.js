@@ -573,10 +573,9 @@ function CustomerHome() {
                                     alt={store.storeName}
                                 />
                                 <div className="store-info">
-                                    <h3>{store.storeName}</h3>
+                                    <h3>{store.storeName} [{store.category}]</h3>
+                                    <p>주소: {store.address}</p>
                                     <p>⭐ {store.avgrating}</p>
-                                    <p>북마크: {store.bookmarkcount}</p>
-                                    <p>카테고리: {store.category}</p>
                                 </div>
                             </div>
                         ))}
