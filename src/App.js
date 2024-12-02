@@ -9,6 +9,7 @@ import ForgotPassword from './pages/Member/ForgotPassword';
 import MyPage from './pages/MyPage/MyPage';
 import StoreDetail from './pages/Home/StoreDetail';
 import KakaoLogin from './pages/Member/KakaoLogin';
+import Receipt from './pages/MyPage/Receipt';
 
 function FirstScreen() {
   return (
@@ -79,6 +80,7 @@ function App() {
           <Route path="/pages/Member/MyPage/:email" element={<MyPage />} />
           <Route path="/store/detail/:storeid" element={<StoreDetail />} />
           <Route path="/kakaologin" element={<KakaoLogin />} />
+          <Route path="/pages/Mypage/Receipt" element={<Receipt />} />
         </Routes>
       </div>
     </Router>

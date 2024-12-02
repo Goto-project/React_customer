@@ -221,6 +221,7 @@ function StoreDetail() {
         }
         // 결제 로직 추가
         alert("결제 페이지로 이동합니다.");
+        navigate(`/pages/Mypage/Receipt`)
         // 여기서 카카오페이 페이지로 연결
         // 예: window.location.href = "카카오페이 URL";
     };
