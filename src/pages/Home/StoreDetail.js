@@ -14,7 +14,9 @@ function StoreDetail() {
     const [currentMenuPage, setCurrentMenuPage] = useState(1); // 메뉴 페이지 상태
     const [currentReviewPage, setCurrentReviewPage] = useState(1); // 리뷰 페이지 상태
     const [cart, setCart] = useState([]); // 장바구니 상태
+    const [email, setEmail] = useState(""); // 로그인된 이메일 상태
 
+    
     useEffect(() => {
         fetchStoreDetail();
         fetchDailyMenu(); // 첫 렌더링 시 데일리 메뉴도 불러옴
@@ -111,6 +113,44 @@ function StoreDetail() {
         return <div>가게 정보를 불러오는 중...</div>;
     }
 
+    const handleAddBookmark = async () => {
+        try {
+            const token = localStorage.getItem("token"); // 사용자의 인증 토큰을 로컬 스토리지에서 가져옵니다.
+
+            if (!token) {
+                setErrorMessage("로그인이 필요합니다.");
+                return;
+            }
+
+            const response = await axios.post(
+                "/ROOT/api/bookmark/insert.json",
+                {
+                    store: {
+                        storeId: storeid, // 가게 ID를 store 객체 안에 넣어 전달
+                    },
+                    customer: {
+                        customerEmail: store.customerEmail, // 고객 이메일도 customer 객체로 묶어서 전달
+                    }
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`, // 인증 헤더에 토큰 포함
+                    },
+                }
+            );
+
+            if (response.data.status === 200) {
+                setErrorMessage("즐겨찾기에 추가되었습니다.");
+            } else {
+                setErrorMessage(response.data.result || "즐겨찾기 추가 실패.");
+            }
+        } catch (error) {
+            console.error(error);
+            setErrorMessage("즐겨찾기 추가 중 오류가 발생했습니다.");
+        }
+    };
+
+
     return (
         <div>
             <header className="store-header">
@@ -132,6 +172,10 @@ function StoreDetail() {
                             <p>📞 {store.phone}</p>
                             <p>⏰ {store.startPickup} ~ {store.endPickup}</p>
                             <p>⭐ {store.rating}</p>
+
+                            <button onClick={handleAddBookmark} className="add-bookmark-btn">
+                                즐겨찾기 추가
+                            </button>
                         </div>
                     </div>
 

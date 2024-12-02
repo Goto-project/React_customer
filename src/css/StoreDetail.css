@@ -139,14 +139,6 @@
     border-radius: 10px;
 }
 
-.menu-info {
-    display: flex;
-    flex: 1 1;
-    align-items: center;
-    justify-content: space-between;
-    gap: 25px;
-}
-
 .no-menu-message {
     display: flex;
     justify-content: center;
