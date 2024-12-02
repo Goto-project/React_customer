@@ -293,7 +293,7 @@ function StoreDetail() {
                         <div className="store-image-wrapper">
                             <img className="store-image" src={`http://127.0.0.1:8080${store.imageurl}`} alt={store.storeName} />
                         </div>
-                        <div className="store-info">
+                        <div className="detail-store-info">
                             <h2>{store.storeName}</h2>
                             <p>{store.address}</p>
                             <p>📞 {store.phone}</p>

@@ -8,26 +8,21 @@ const MyOrder = () => {
     const [dateRange, setDateRange] = useState({ startDate: "", endDate: "" }); // 날짜 범위
     const [orderStatus, setOrderStatus] = useState(""); // 주문 상태
 
-
     // API 호출 함수
     const fetchOrders = async (endpoint, params = {}) => {
         try {
             const token = localStorage.getItem("token");
             setError(null); // 에러 초기화
             let url = `/ROOT/api/orderview/${endpoint}`;
-            console.log("API 요청 URL:", url);
-            console.log("요청 파라미터:", params);
             const response = await axios.get(url, {
                 headers: { Authorization: `Bearer ${token}` },
                 params,
             });
-            console.log("응답 데이터:", response.data);
             const data = response.data;
             if (data.length && data[0].status === 404) {
                 setOrders([]);
                 setError(data[0].message);
             } else {
-                // 최신순으로 정렬
                 const sortedData = data.sort(
                     (a, b) => new Date(b.ordertime) - new Date(a.ordertime)
                 );
@@ -75,20 +70,62 @@ const MyOrder = () => {
 
     // UI 렌더링
     return (
-        <div>
-            <h1>내 주문 내역</h1>
+        <div style={{ fontFamily: "'Courier New', monospace", padding: "20px", backgroundColor: "#f4f4f4" }}>
+            <h1 style={{ textAlign: "center", marginBottom: "20px", fontSize: "24px" }}>내 주문 내역</h1>
 
             {/* 필터 선택 */}
-            <div>
-                <button onClick={() => setFilter("all")}>전체 조회</button>
-                <button onClick={() => setFilter("date")}>날짜별 조회</button>
-                <button onClick={() => setFilter("status")}>상태별 조회</button>
+            <div style={{ textAlign: "center", marginBottom: "30px" }}>
+                <button
+                    onClick={() => setFilter("all")}
+                    style={{
+                        margin: "0 10px",
+                        padding: "10px 20px",
+                        backgroundColor: "#007bff",
+                        color: "#fff",
+                        border: "none",
+                        borderRadius: "5px",
+                        fontSize: "16px",
+                        cursor: "pointer",
+                    }}
+                >
+                    전체 조회
+                </button>
+                <button
+                    onClick={() => setFilter("date")}
+                    style={{
+                        margin: "0 10px",
+                        padding: "10px 20px",
+                        backgroundColor: "#28a745",
+                        color: "#fff",
+                        border: "none",
+                        borderRadius: "5px",
+                        fontSize: "16px",
+                        cursor: "pointer",
+                    }}
+                >
+                    날짜별 조회
+                </button>
+                <button
+                    onClick={() => setFilter("status")}
+                    style={{
+                        margin: "0 10px",
+                        padding: "10px 20px",
+                        backgroundColor: "#ffc107",
+                        color: "#fff",
+                        border: "none",
+                        borderRadius: "5px",
+                        fontSize: "16px",
+                        cursor: "pointer",
+                    }}
+                >
+                    상태별 조회
+                </button>
             </div>
 
             {/* 날짜별 필터 */}
             {filter === "date" && (
-                <div>
-                    <label>
+                <div style={{ textAlign: "center", marginBottom: "20px" }}>
+                    <label style={{ marginRight: "10px" }}>
                         시작 날짜:
                         <input
                             type="date"
@@ -96,9 +133,14 @@ const MyOrder = () => {
                             onChange={(e) =>
                                 setDateRange((prev) => ({ ...prev, startDate: e.target.value }))
                             }
+                            style={{
+                                padding: "5px",
+                                fontSize: "14px",
+                                marginRight: "10px",
+                            }}
                         />
                     </label>
-                    <label>
+                    <label style={{ marginRight: "10px" }}>
                         종료 날짜:
                         <input
                             type="date"
@@ -106,62 +148,112 @@ const MyOrder = () => {
                             onChange={(e) =>
                                 setDateRange((prev) => ({ ...prev, endDate: e.target.value }))
                             }
+                            style={{
+                                padding: "5px",
+                                fontSize: "14px",
+                                marginRight: "10px",
+                            }}
                         />
                     </label>
-                    <button onClick={fetchOrdersByDate}>조회</button>
+                    <button
+                        onClick={fetchOrdersByDate}
+                        style={{
+                            padding: "5px 15px",
+                            backgroundColor: "#007bff",
+                            color: "#fff",
+                            border: "none",
+                            borderRadius: "5px",
+                            cursor: "pointer",
+                        }}
+                    >
+                        조회
+                    </button>
                 </div>
             )}
 
             {/* 상태별 필터 */}
             {filter === "status" && (
-                <div>
-                    <label>
+                <div style={{ textAlign: "center", marginBottom: "20px" }}>
+                    <label style={{ marginRight: "10px" }}>
                         주문 상태:
                         <select
                             value={orderStatus}
                             onChange={(e) => setOrderStatus(e.target.value)}
+                            style={{
+                                padding: "5px",
+                                fontSize: "14px",
+                                marginRight: "10px",
+                            }}
                         >
                             <option value="">상태 선택</option>
                             <option value="주문 완료">주문완료</option>
                             <option value="주문 취소">주문취소</option>
                         </select>
                     </label>
-                    <button onClick={fetchOrdersByStatus}>조회</button>
+                    <button
+                        onClick={fetchOrdersByStatus}
+                        style={{
+                            padding: "5px 15px",
+                            backgroundColor: "#28a745",
+                            color: "#fff",
+                            border: "none",
+                            borderRadius: "5px",
+                            cursor: "pointer",
+                        }}
+                    >
+                        조회
+                    </button>
                 </div>
             )}
 
             {/* 에러 메시지 */}
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {error && <p style={{ color: "red", textAlign: "center", marginBottom: "20px" }}>{error}</p>}
 
             {/* 주문 목록 */}
-            <div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                 {orders.length > 0 ? (
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>주문 번호</th>
-                                <th>상태</th>
-                                <th>가격</th>
-                                <th>가게명</th>
-                                <th>메뉴명</th>
-                                <th>주문 시간</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {orders.map((order, index) => (
-                                <tr key={index}>
-                                    <td>{order.ordernumber}</td>
-                                    <td>{order.orderstatus}</td>
-                                    <td>{order.totalprice}</td>
-                                    <td>{order.storename}</td>
-                                    <td>{order.menuname}</td>
-                                    <td>{new Date(order.ordertime).toLocaleString()}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                    orders.map((order, index) => (
+                        <div
+                            key={index}
+                            style={{
+                                width: "300px",
+                                height: "auto",
+                                margin: "20px 0",
+                                border: "2px dashed #333",
+                                borderRadius: "10px",
+                                padding: "20px",
+                                backgroundColor: "#fff",
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "flex-start",
+                                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                                fontSize: "14px",
+                            }}
+                        >
+                            <p style={{ margin: "5px 0", fontSize: "16px", fontWeight: "bold" }}>
+                                주문 번호: {order.ordernumber}
+                            </p>
+                            <p style={{ margin: "5px 0" }}>
+                                <strong>상태:</strong> {order.orderstatus}
+                            </p>
+                            <p style={{ margin: "5px 0" }}>
+                                <strong>가게명:</strong> {order.storename}
+                            </p>
+                            <p style={{ margin: "5px 0" }}>
+                                <strong>메뉴명:</strong> {order.menuname}
+                            </p>
+                            <p style={{ margin: "5px 0" }}>
+                                <strong>주문 시간:</strong>{" "}
+                                {new Date(order.ordertime).toLocaleString()}
+                            </p>
+                            <hr style={{ width: "100%", margin: "10px 0", borderTop: "1px solid #ccc" }} />
+                            <p style={{ margin: "5px 0", fontSize: "18px", fontWeight: "bold" }}>
+                                총 가격: <span style={{ color: "#e74c3c" }}>{order.totalprice} 원</span>
+                            </p>
+                        </div>
+                    ))
                 ) : (
-                    !error && <p>주문 내역이 없습니다.</p>
+                    !error && <p style={{ color: "#333", fontSize: "16px" }}>주문 내역이 없습니다.</p>
                 )}
             </div>
         </div>

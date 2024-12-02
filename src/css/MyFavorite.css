@@ -1,29 +1,33 @@
+/* 기본 스타일 */
 .my-favorite-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
     padding: 20px;
+    background-color: #f9f9f9;
     border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
+.my-favorite-container h2 {
+    text-align: center;
     font-size: 24px;
-    font-weight: bold;
-    color: #4E9A6F;
+    color: #333;
     margin-bottom: 20px;
 }
 
 .search-input {
     width: 100%;
-    padding: 12px;
+    padding: 10px;
     margin-bottom: 20px;
-    border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 1em;
+    border: 1px solid #ccc;
+    font-size: 16px;
     outline: none;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease;
 }
 
 .search-input:focus {
-    border-color: #4E9A6F;
+    border-color: #009688;
 }
 
 .favorite-list {
@@ -32,48 +36,101 @@ h2 {
     margin: 0;
 }
 
-.favorite-list li {
+.favorite-item {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px;
+    align-items: center; /* 세로 중앙 정렬 */
+    justify-content: flex-start; /* 왼쪽 정렬 */
     background-color: #fff;
-    border-radius: 5px;
-    margin-bottom: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-size: 1.1em;
-    color: #333;
-    transition: background-color 0.3s ease;
+    position: relative; /* 삭제 버튼을 오른쪽 위로 위치시키기 위함 */
+    cursor: pointer;
 }
 
-.favorite-list li:hover {
-    background-color: #F0F8F0;
+.favorite-item:hover {
+    background-color: #f1f1f1;
 }
 
-.favorite-list li span {
+.favorite-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 8px;
+    margin-right: 20px;
+    object-fit: cover;
+}
+
+.store-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 세로 중앙 정렬 */
+    align-items: flex-start; /* 가로 왼쪽 정렬 */
+    flex-grow: 1;
+}
+
+.store-name {
+    font-size: 18px;
     font-weight: bold;
+    color: #333;
+}
+
+.store-address,
+.store-phone,
+.store-category {
+    font-size: 14px;
+    color: #555;
+    margin-top: 5px;
 }
 
 .delete-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #fffb00;
     background-color: transparent;
     border: none;
-    color: #E74C3C;
-    font-size: 1em;
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
-
-.delete-btn:hover {
-    color: #C0392B;
-}
-
-.favorite-list li .delete-btn {
-    padding: 8px;
+    padding: 8px 12px;
     border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    transition: background-color 0.3s;
+}
+
+/* .delete-btn:hover {
+    background-color: #e60000;
+} */
+
+
+.favorite-item:not(:last-child) {
+    border-bottom: 1px solid #ddd;
 }
 
 .my-favorite-container p {
     text-align: center;
-    font-size: 1.2em;
-    color: #666;
+    color: #888;
 }
+
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.pagination button.active {
+    background-color: #6BAF92;
+    color: white;
+}
+
+.pagination button:hover {
+    background-color: #ddd;
+}
+

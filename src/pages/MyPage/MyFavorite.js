@@ -6,6 +6,8 @@ const MyFavorite = () => {
     const [favorites, setFavorites] = useState([]); // 즐겨찾기 목록
     const [searchQuery, setSearchQuery] = useState(""); // 검색어
     const [filteredFavorites, setFilteredFavorites] = useState([]); // 필터링된 목록
+    const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
+    const [itemsPerPage] = useState(5); // 한 페이지당 보여줄 아이템 수
 
     // 즐겨찾기 목록 불러오기
     const fetchFavorites = async () => {
@@ -39,6 +41,10 @@ const MyFavorite = () => {
 
     // 즐겨찾기 삭제
     const deleteFavorite = async (storeId) => {
+        const isConfirmed = window.confirm("즐겨찾기에서 삭제하시겠습니까?");
+        
+        if (!isConfirmed) return;
+
         console.log("삭제 요청 storeId:", storeId); // 삭제 요청 번호 확인
         const token = localStorage.getItem("token");
 
@@ -76,10 +82,27 @@ const MyFavorite = () => {
                 store.storeName.toLowerCase().includes(query)
             );
             setFilteredFavorites(filtered);
+            setCurrentPage(1); // 검색 시 첫 페이지로 이동
         } else {
             setFilteredFavorites(favorites); // 검색어가 없으면 전체 목록
         }
     };
+
+    // 페이지 변경
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    // 현재 페이지에 맞는 즐겨찾기 항목 가져오기
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentFavorites = filteredFavorites.slice(indexOfFirstItem, indexOfLastItem);
+
+    // 페이지 번호 생성
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(filteredFavorites.length / itemsPerPage); i++) {
+        pageNumbers.push(i);
+    }
 
     // 컴포넌트 마운트 시 즐겨찾기 불러오기
     useEffect(() => {
@@ -101,27 +124,42 @@ const MyFavorite = () => {
                 <p>검색된 즐겨찾기가 없습니다.</p>
             ) : (
                 <ul className="favorite-list">
-                    {filteredFavorites.map((store) => (
-                        <li key={store.storeId} onClick={() => window.location.href = `/store/detail/${store.storeId}`}>
+                    {currentFavorites.map((store) => (
+                        <li key={store.storeId} className="favorite-item" onClick={() => window.location.href = `/store/detail/${store.storeId}`}>
                             <img
                                 src={`http://localhost:8080${store.imageurl}`}
                                 alt={store.storeName}
-                                style={{ width: "50px", height: "50px" }}
+                                className="favorite-image"
                             />
-                            <span>{store.storeName}</span>
-                            <span>{store.address}</span>
-                            <span>{store.phone}</span>
-                            <span>{store.category}</span>
+                            <div className="store-info">
+                                <span className="store-name">{store.storeName}</span>
+                                <span className="store-address">{store.address}</span>
+                                <span className="store-phone">{store.phone}</span>
+                                <span className="store-category">{store.category}</span>
+                            </div>
                             <button
                                 onClick={() => deleteFavorite(store.storeId)}
                                 className="delete-btn"
                             >
-                                삭제
+                                ★ {/* 별모양 */}
                             </button>
                         </li>
                     ))}
                 </ul>
             )}
+
+            {/* 페이지 버튼 */}
+            <div className="pagination">
+                {pageNumbers.map((number) => (
+                    <button
+                        key={number}
+                        onClick={() => handlePageChange(number)}
+                        className={number === currentPage ? "active" : ""}
+                    >
+                        {number}
+                    </button>
+                ))}
+            </div>
         </div>
     );
 };
