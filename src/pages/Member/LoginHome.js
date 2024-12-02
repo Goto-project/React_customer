@@ -38,7 +38,7 @@ const LoginHome = () => {
 
             if (data.status === 200) {
                 // 로그인 성공 시 로컬 스토리지에 토큰 저장
-                localStorage.setItem('token', data.token);
+                localStorage.setItem('token', data.token); //sessionstroage
                 localStorage.setItem('email', email);
 
                 // 로그인 후 홈 페이지로 이동
