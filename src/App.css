@@ -16,7 +16,7 @@ body, html {
 .hero-section {
   position: relative;
   height: 100vh;
-  background: url('C:\mini_project\ECOEATS\React_customer\public\img\food.jpg') no-repeat center center/cover;
+  background: url('/public/img/food.jpg') no-repeat center center/cover;
   width: 100%;
 }
 

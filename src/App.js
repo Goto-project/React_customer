@@ -112,7 +112,6 @@ function HomeScreen() {
 
 function App() {
   return (
-    <Router>
       <div className="App">
         <Routes>
           <Route path="/" element={<HomeScreen />} />
@@ -126,7 +125,6 @@ function App() {
           <Route path="/Thankyou" element={<ThankYouPage />} />
         </Routes>
       </div>
-    </Router>
   );
 }
 
