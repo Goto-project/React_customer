@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import '../../css/MyReview.css';  // CSS 파일을 별도로 추가
 
 const MyReview = () => {
     const [reviews, setReviews] = useState([]); // 리뷰 목록 상태
@@ -48,28 +49,30 @@ const MyReview = () => {
         const day = String(date.getDate()).padStart(2, '0');
         const hours = String(date.getHours()).padStart(2, '0');
         const minutes = String(date.getMinutes()).padStart(2, '0');
-        
+
         return `${year}-${month}-${day} ${hours}:${minutes}`;
     };
 
     if (isLoading) {
-        return <p>로딩 중...</p>;
+        return <p className="loading">로딩 중...</p>;
     }
 
     return (
-        <div>
-            <h1>내 리뷰</h1>
-            {errorMessage && <p className="error-message">{errorMessage}</p>} {/* 오류 메시지 표시 */}
+        <div className="review-container">
+            <h1 className="review-title">내 리뷰</h1>
+            {errorMessage && <p className="review-error-message">{errorMessage}</p>} {/* 오류 메시지 표시 */}
 
             {reviews.length === 0 ? (
-                <p>작성한 리뷰가 없습니다.</p>
+                <p className="no-reviews">작성한 리뷰가 없습니다.</p>
             ) : (
-                <ul>
+                <ul className="review-list">
                     {reviews.map((review) => (
-                        <li key={review.id}>
-                            <p>내용:{review.content}</p>
-                            <p>평점:{review.rating}</p>
-                            <p>작성일: {formatDate(review.regdate)}</p>
+                        <li key={review.id} className="review-item">
+                            <div className="review-content">
+                                <p><strong>내용:</strong> {review.content}</p>
+                                <p><strong>평점:</strong> {review.rating}</p>
+                                <p><strong>작성일:</strong> {formatDate(review.regdate)}</p>
+                            </div>
                         </li>
                     ))}
                 </ul>

@@ -42,7 +42,7 @@ const MyFavorite = () => {
     // 즐겨찾기 삭제
     const deleteFavorite = async (storeId) => {
         const isConfirmed = window.confirm("즐겨찾기에서 삭제하시겠습니까?");
-        
+
         if (!isConfirmed) return;
 
         console.log("삭제 요청 storeId:", storeId); // 삭제 요청 번호 확인
@@ -93,16 +93,35 @@ const MyFavorite = () => {
         setCurrentPage(pageNumber);
     };
 
+    // 페이지 네비게이션 버튼을 클릭했을 때
+    const handlePrev = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const handleNext = () => {
+        if (currentPage < Math.ceil(filteredFavorites.length / itemsPerPage)) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
     // 현재 페이지에 맞는 즐겨찾기 항목 가져오기
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentFavorites = filteredFavorites.slice(indexOfFirstItem, indexOfLastItem);
 
-    // 페이지 번호 생성
+    // 페이지 번호 생성 (최대 5개만 표시)
     const pageNumbers = [];
     for (let i = 1; i <= Math.ceil(filteredFavorites.length / itemsPerPage); i++) {
         pageNumbers.push(i);
     }
+
+    // 페이지 번호 중 현재 페이지를 기준으로 5개씩만 보여주는 범위 설정
+    const maxPageToShow = 5;
+    const startPage = Math.max(1, currentPage - Math.floor(maxPageToShow / 2));
+    const endPage = Math.min(startPage + maxPageToShow - 1, pageNumbers.length);
+    const visiblePages = pageNumbers.slice(startPage - 1, endPage);
 
     // 컴포넌트 마운트 시 즐겨찾기 불러오기
     useEffect(() => {
@@ -138,10 +157,13 @@ const MyFavorite = () => {
                                 <span className="store-category">{store.category}</span>
                             </div>
                             <button
-                                onClick={() => deleteFavorite(store.storeId)}
+                                onClick={(e) => {
+                                    e.stopPropagation(); // 클릭 이벤트 전파 차단
+                                    deleteFavorite(store.storeId);
+                                }}
                                 className="delete-btn"
                             >
-                                ★ {/* 별모양 */}
+                                ★
                             </button>
                         </li>
                     ))}
@@ -150,7 +172,10 @@ const MyFavorite = () => {
 
             {/* 페이지 버튼 */}
             <div className="pagination">
-                {pageNumbers.map((number) => (
+                <button onClick={handlePrev} disabled={currentPage === 1}>
+                    &lt;&lt; {/* 이전 버튼 */}
+                </button>
+                {visiblePages.map((number) => (
                     <button
                         key={number}
                         onClick={() => handlePageChange(number)}
@@ -159,6 +184,9 @@ const MyFavorite = () => {
                         {number}
                     </button>
                 ))}
+                <button onClick={handleNext} disabled={currentPage === pageNumbers.length}>
+                    &gt;&gt; {/* 다음 버튼 */}
+                </button>
             </div>
         </div>
     );

@@ -118,6 +118,28 @@ function CustomerHome() {
         fetchStores(currentPage);
     }, []);
 
+    // 토큰 만료 확인 함수
+    const checkTokenValidity = () => {
+        const token = localStorage.getItem('token'); // 토큰 가져오기
+        if (!token) {
+            setIsLoggedIn(false); // 토큰이 없으면 로그아웃 상태로 변경
+            return;
+        }
+
+        try {
+            const payload = JSON.parse(atob(token.split('.')[1])); // JWT 디코딩
+            const isExpired = payload.exp * 1000 < Date.now(); // 만료 시간 확인
+            if (isExpired) {
+                handleLogout(); // 만료 시 로그아웃
+            } else {
+                setIsLoggedIn(true); // 유효하면 로그인 상태 유지
+            }
+        } catch (err) {
+            console.error('토큰 파싱 에러:', err);
+            handleLogout();
+        }
+    };
+
     const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('email');
@@ -125,6 +147,12 @@ function CustomerHome() {
         setEmail('');
         navigate('/pages/Home/Customerhome');
     };
+
+    useEffect(() => {
+        checkTokenValidity();
+        const interval = setInterval(checkTokenValidity, 60000); // 1분마다 토큰 유효성 확인
+        return () => clearInterval(interval); // 컴포넌트 언마운트 시 정리
+    }, []);
 
     const handleMyPage = () => {
         if (email) {

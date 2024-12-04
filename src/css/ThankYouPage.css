@@ -1,0 +1,79 @@
+.thank-you-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #FDF9ED;
+    text-align: center;
+    padding: 20px;
+}
+
+.logo-text {
+    font-size: 48px;
+    font-weight: bold;
+    color: #6BAF92;
+    margin-bottom: 10px;
+}
+
+.thank-you-message {
+    font-size: 18px;
+    color: #252525;
+    margin-bottom: 20px;
+}
+
+.underline {
+    width: 60%;
+    height: 2px;
+    background-color: #6BAF92;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.thank-you-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 600px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.thank-you-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.thank-you-image {
+    max-width: 150px;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.thank-you-box p {
+    font-size: 16px;
+    color: #252525;
+    margin-top: 0px;
+}
+
+.redirect-button {
+    width: 250px;
+    margin-top: 30px;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #6BAF92;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.redirect-button:hover {
+    background-color: #519972;
+}

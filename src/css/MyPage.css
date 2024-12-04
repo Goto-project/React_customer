@@ -86,15 +86,139 @@
     margin-bottom: 20px;
 }
 
+.hamburger-btn {
+    display: none;
+    font-size: 30px;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.mypage-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.mypage-modal-content {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    padding: 20px 30px;
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.mypage-modal-content h3 {
+    margin-bottom: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333333;
+}
+
+.mypage-modal-content p {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #555555;
+}
+
+.mypage-modal button {
+    margin: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.mypage-modal button:first-child {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.mypage-modal button:last-child {
+    background-color: #bdc3c7;
+}
+
+.confirm-button {
+    background-color: #6BAF92;
+    color: white;
+}
+
+.confirm-button:hover {
+    background-color: #519972;
+}
+
+.cancel-button {
+    background-color: #e0e0e0;
+    color: #333333;
+}
+
+.cancel-button:hover {
+    background-color: #d6d6d6;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
     .mypage-container {
         flex-direction: column;
     }
 
     .sidebar {
         width: 100%;
-        padding: 15px;
+        padding: 0;
+    }
+
+    .menu-bar {
+        display: none;
+    }
+
+    .hamburger-btn {
+        display: block;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1000;
+    }
+
+    .menu-bar.open {
+        display: block;
+    }
+
+    .overlay.open {
+        display: block;
     }
 
     .main-content {
@@ -105,4 +229,5 @@
     .btnbar button {
         width: 100%;
     }
-}
+} 
+
