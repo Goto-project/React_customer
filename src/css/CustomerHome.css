@@ -2,25 +2,23 @@
     color: #333;
     margin: 0;
     padding: 0;
-    background-color: #FDF9ED;
-    min-height: 100vh;
-    overflow: auto;
+    box-sizing: border-box;
 }
 
 .customer-header {
+    background-color: #4d826a;
+    ;
+    padding: 20px 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #6BAF92;
     color: white;
-    padding: 20px 20px;
 }
 
 .customer-logo {
-    font-size: 30px;
-    color: #FDF9ED;
+    font-size: 24px;
     font-weight: bold;
-    margin-left: 25px;
+    margin: 0;
 }
 
 .header-buttons button {
@@ -40,42 +38,43 @@
     background-color: #f0f0f0;
 }
 
+.content {
+    padding: 30px;
+}
+
 .map-section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 30px auto;
-    padding: 30px;
-    width: 70%;
-    background-color: #fff;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+}
+
+.input-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
 .address-input {
-    width: calc(100% - 130px);
-    padding: 15px;
-    margin-right: 10px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
+    padding: 10px;
     font-size: 16px;
-    box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 300px;
 }
 
 .find-address-button {
-    padding: 14px 20px;
-    background-color: #6BAF92;
+    padding: 10px 20px;
+    background-color: #4CAF50;
     color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    transition: background-color 0.3s;
 }
 
 .find-address-button:hover {
-    background-color: #5AA081;
+    background-color: #45a049;
 }
 
 .input-container {
@@ -119,7 +118,7 @@
 .store-list {
     display: flex;
     flex-direction: column;
-    padding: 20px;
+    padding: 30px;
     margin: 30px auto;
     width: 70%;
     background-color: #fff;
@@ -129,9 +128,9 @@
 
 .stores {
     display: flex;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
     gap: 20px;
-    justify-content: space-between; 
+    justify-content: space-between;
 }
 
 .store-card {
@@ -146,7 +145,8 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
     cursor: pointer;
-    overflow: hidden; /* 내용이 칸을 넘으면 숨기기 */
+    overflow: hidden;
+    /* 내용이 칸을 넘으면 숨기기 */
 }
 
 .store-card:hover {
@@ -157,7 +157,7 @@
     width: 120px;
     height: 120px;
     object-fit: cover;
-    aspect-ratio: 1; 
+    aspect-ratio: 1;
     border-radius: 10px;
     margin-right: 15px;
 }
@@ -167,9 +167,12 @@
     flex-direction: column;
     justify-content: center;
     gap: 5px;
-    overflow: hidden; /* 내용이 칸을 넘으면 숨기기 */
-    text-overflow: ellipsis; /* 긴 텍스트 줄임표(...) */
-    white-space: nowrap; /* 텍스트를 한 줄로 제한 */
+    overflow: hidden;
+    /* 내용이 칸을 넘으면 숨기기 */
+    text-overflow: ellipsis;
+    /* 긴 텍스트 줄임표(...) */
+    white-space: nowrap;
+    /* 텍스트를 한 줄로 제한 */
 }
 
 .store-info h3 {
@@ -191,9 +194,9 @@
         width: 100px;
         height: 100px;
     }
-    
+
     .store-card {
-        flex: 1 1 calc(100% - 20px); 
+        flex: 1 1 calc(100% - 20px);
         max-width: calc(100%);
     }
 
@@ -242,13 +245,13 @@
 }
 
 .pagination button {
-        padding: 10px 15px;
-        background-color: #E3E3E3;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        transition: background-color 0.3s;
-        cursor: pointer;
-    }
+    padding: 10px 15px;
+    background-color: #E3E3E3;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
 
 .pagination .active {
     background-color: #6BAF92;
@@ -256,7 +259,7 @@
     font-weight: bold;
 }
 
-@media (max-width: 1300px) {
+/* @media (max-width: 1300px) {
     .store-list, .favorites-section {
         width: 70%;
     }
@@ -270,4 +273,4 @@
     .stores, .favorites-list {
         grid-template-columns: 1fr; 
     }
-}
+} */

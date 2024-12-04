@@ -2,17 +2,22 @@ body, html {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  width: 100%; 
+  overflow-x: hidden;
 }
 
 .home-screen {
+  margin: 0;
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .hero-section {
   position: relative;
-  height: 90vh;
+  height: 100vh;
   background: url('C:\mini_project\ECOEATS\React_customer\public\img\food.jpg') no-repeat center center/cover;
+  width: 100%;
 }
 
 .hero-overlay {
@@ -34,7 +39,7 @@ body, html {
 }
 
 .hero-title {
-  font-size: 3rem;
+  font-size: 70px;
   font-weight: bold;
   margin-bottom: 10px;
 }
@@ -51,20 +56,22 @@ body, html {
 
 .button-container {
   display: flex;
-  flex-direction: column; /* 세로로 정렬 */
-  align-items: center; /* 세로 정렬 후 중앙 정렬 */
-  gap: 15px; /* 버튼 사이 간격 */
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: 100%; /* 버튼 컨테이너가 부모의 너비를 꽉 채우도록 설정 */
 }
 
 .start-button,
 .secondary-button {
-  padding: 12px 20px;
+  padding: 18px 20px;
   font-size: 1rem;
   border: none;
   border-radius: 30px;
   cursor: pointer;
   transition: transform 0.3s, box-shadow 0.3s;
-  width: 300px;
+  width: 100%; /* 버튼 너비를 100%로 설정 */
+  max-width: 300px; /* 최대 너비 설정 */
 }
 
 .start-button {
@@ -88,26 +95,36 @@ body, html {
 }
 
 .description-section {
-  padding: 65px 30px;
+  margin: 0;
+  padding-top: 40px;
+  padding-right: 30px;
+  padding-left: 30px;
   text-align: center;
   background-color: #FDF9ED;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
 }
 
-.description-section img {
-  width: 100%;
-  max-width: 500px;
-  margin-top: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.description-section h2 {
+  font-size: 40px;
 }
 
 .features-section {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #4d826a; /* 새 배경색 추가 (밝은 회색으로 설정) */
   padding: 50px 20px;
-  position: relative;
-  background-color: #FDF9ED;
+}
+
+.features-section h2 {
+  font-size: 40px;
+  color: #FDF9ED;
+  text-align: center;
 }
 
 .features-container {
@@ -116,6 +133,11 @@ body, html {
   gap: 20px;
   max-width: 800px;
   margin-bottom: 30px;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 10px; 
 }
 
 .feature-item {
@@ -134,27 +156,27 @@ body, html {
 
 .feature-item h3 {
   font-size: 1.5rem;
-  color: #6BAF92;
+  color: #FDF9ED;
   margin-bottom: 10px;
 }
 
 .feature-item p {
   font-size: 1rem;
-  color: #555;
+  color: white;
 }
 
 .features-image {
   width: 100%;
-  max-width: 800px;
+  max-width: 1000px;
   overflow: hidden;
   text-align: center;
+  margin-top: 20px;
+  margin: 0; /* 여백 제거 */
+  padding: 0; /* 여백 제거 */
 }
 
 .features-image img {
-  width: 300px;
+  width: 100%;
   border-radius: 10px;
+  display: block; 
 }
-
-
-
-
