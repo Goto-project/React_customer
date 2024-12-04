@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const MyOrder = () => {
+    const navigate = useNavigate(); // useNavigate 훅 사용
     const [orders, setOrders] = useState([]); // 주문 목록
     const [error, setError] = useState(null); // 에러 메시지
     const [filter, setFilter] = useState("all"); // 필터 상태 ('all', 'date', 'status')
@@ -67,6 +69,21 @@ const MyOrder = () => {
             fetchOrdersByStatus();
         }
     }, [filter]);
+
+    // 리뷰 작성 가능 여부를 판단하는 함수
+    const isReviewable = (orderTime) => {
+        const orderDate = new Date(orderTime);
+        const currentDate = new Date();
+        const diffInTime = currentDate - orderDate; // 밀리초 차이
+        const diffInDays = diffInTime / (1000 * 3600 * 24); // 날짜 차이로 변환
+        return diffInDays <= 3; // 3일 이내면 true, 아니면 false
+    };
+
+    // 리뷰 작성 페이지로 이동하는 함수
+    const handleWriteReview = (orderNumber, storeid) => {
+        console.log("Navigating to WriteReview with:", orderNumber, storeid);
+        navigate(`/pages/Mypage/WriteReview/${orderNumber}/${storeid}`); // 리뷰 작성 페이지로 이동
+    };
 
     // UI 렌더링
     return (
@@ -212,48 +229,45 @@ const MyOrder = () => {
             {/* 주문 목록 */}
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                 {orders.length > 0 ? (
-                    orders.map((order, index) => (
-                        <div
-                            key={index}
-                            style={{
-                                width: "300px",
-                                height: "auto",
-                                margin: "20px 0",
-                                border: "2px dashed #333",
-                                borderRadius: "10px",
-                                padding: "20px",
-                                backgroundColor: "#fff",
-                                display: "flex",
-                                flexDirection: "column",
-                                alignItems: "flex-start",
-                                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                                fontSize: "14px",
-                            }}
-                        >
-                            <p style={{ margin: "5px 0", fontSize: "16px", fontWeight: "bold" }}>
-                                주문 번호: {order.ordernumber}
-                            </p>
-                            <p style={{ margin: "5px 0" }}>
-                                <strong>상태:</strong> {order.orderstatus}
-                            </p>
-                            <p style={{ margin: "5px 0" }}>
-                                <strong>가게명:</strong> {order.storename}
-                            </p>
-                            <p style={{ margin: "5px 0" }}>
-                                <strong>메뉴명:</strong> {order.menuname}
-                            </p>
-                            <p style={{ margin: "5px 0" }}>
-                                <strong>주문 시간:</strong>{" "}
-                                {new Date(order.ordertime).toLocaleString()}
-                            </p>
-                            <hr style={{ width: "100%", margin: "10px 0", borderTop: "1px solid #ccc" }} />
-                            <p style={{ margin: "5px 0", fontSize: "18px", fontWeight: "bold" }}>
-                                총 가격: <span style={{ color: "#e74c3c" }}>{order.totalprice} 원</span>
-                            </p>
-                        </div>
-                    ))
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>주문 번호</th>
+                                <th>상태</th>
+                                <th>가격</th>
+                                <th>가게명</th>
+                                <th>메뉴명</th>
+                                <th>주문 시간</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+    {orders.map((order, index) => {
+        console.log(order); // order 객체 출력
+        return (
+            <tr key={index}>
+                <td>{order.ordernumber}</td>
+                <td>{order.orderstatus}</td>
+                <td>{order.totalprice}</td>
+                <td>{order.storename}</td>
+                <td>{order.menuname}</td>
+                <td>{new Date(order.ordertime).toLocaleString()}</td>
+                <td>
+                    {order.orderstatus === "주문 완료" &&
+                        isReviewable(order.ordertime) && (
+                            <button
+                                onClick={() => handleWriteReview(order.ordernumber, order.storeid)}
+                            >
+                                리뷰작성
+                            </button>
+                        )}
+                </td>
+            </tr>
+        );
+    })}
+</tbody>
+                    </table>
                 ) : (
-                    !error && <p style={{ color: "#333", fontSize: "16px" }}>주문 내역이 없습니다.</p>
+                    !error && <p>주문 내역이 없습니다.</p>
                 )}
             </div>
         </div>

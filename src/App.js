@@ -9,6 +9,9 @@ import ForgotPassword from './pages/Member/ForgotPassword';
 import MyPage from './pages/MyPage/MyPage';
 import StoreDetail from './pages/Home/StoreDetail';
 import KakaoLogin from './pages/Member/KakaoLogin';
+import Receipt from './pages/MyPage/Receipt';
+import MyOrder from './pages/MyPage/MyOrder';
+import WriteReview from './pages/MyPage/WriteReview';
 
 function FirstScreen() {
   return (
@@ -79,6 +82,10 @@ function App() {
           <Route path="/pages/Member/MyPage/:email" element={<MyPage />} />
           <Route path="/store/detail/:storeid" element={<StoreDetail />} />
           <Route path="/kakaologin" element={<KakaoLogin />} />
+          <Route path="/pages/Mypage/Receipt" element={<Receipt />} />
+          <Route path="/pages/Mypage/MyOrder" element={<MyOrder />} />
+          <Route path="/pages/Mypage/WriteReview/:orderNumber/:storeid" element={<WriteReview />} />
+
         </Routes>
       </div>
     </Router>
