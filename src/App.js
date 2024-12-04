@@ -9,9 +9,26 @@ import ForgotPassword from './pages/Member/ForgotPassword';
 import MyPage from './pages/MyPage/MyPage';
 import StoreDetail from './pages/Home/StoreDetail';
 import KakaoLogin from './pages/Member/KakaoLogin';
-import ThankYouPage from './pages/MyPage/ThankYouPage';
+import Receipt from './pages/MyPage/Receipt';
+import MyOrder from './pages/MyPage/MyOrder';
+import WriteReview from './pages/MyPage/WriteReview';
 
-function HomeScreen() {
+function FirstScreen() {
+  return (
+    <div className="first-screen">
+      <div className="text-container">
+        <h1 className="title">ECOEATS</h1>
+        <p className="subtitle">SAVE YOUR FOOD, LOVE YOUR PLANET</p>
+        <p className="subtitle-small">음식을 아끼고 지구를 아끼자</p>
+      </div>
+      <div className="image-container">
+        <img src="img/ecoeatsmainhome.jpg" alt="eco-eats" className="main-image" />
+      </div>
+    </div>
+  );
+}
+
+function SecondScreen() {
   const navigate = useNavigate();
 
   const handleStartClick = () => {
@@ -121,7 +138,10 @@ function App() {
           <Route path="/pages/Member/MyPage/:email" element={<MyPage />} />
           <Route path="/store/detail/:storeid" element={<StoreDetail />} />
           <Route path="/kakaologin" element={<KakaoLogin />} />
-          <Route path="/Thankyou" element={<ThankYouPage />} />
+          <Route path="/pages/Mypage/Receipt" element={<Receipt />} />
+          <Route path="/pages/Mypage/MyOrder" element={<MyOrder />} />
+          <Route path="/pages/Mypage/WriteReview/:orderNumber/:storeid" element={<WriteReview />} />
+
         </Routes>
       </div>
     </Router>
