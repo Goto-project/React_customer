@@ -8,6 +8,7 @@ import SignupPage from './pages/Member/SignupPage';
 import ForgotPassword from './pages/Member/ForgotPassword';
 import MyPage from './pages/MyPage/MyPage';
 import StoreDetail from './pages/Home/StoreDetail';
+import ShowReceipt from './pages/Home/ShowReceipt';
 import KakaoLogin from './pages/Member/KakaoLogin';
 import ThankYouPage from './pages/MyPage/ThankYouPage';
 
@@ -122,6 +123,7 @@ function App() {
           <Route path="/pages/Member/ForgotPassword" element={<ForgotPassword />} />
           <Route path="/pages/Member/MyPage/:email" element={<MyPage />} />
           <Route path="/store/detail/:storeid" element={<StoreDetail />} />
+          <Route path="/store/show-receipt" element={<ShowReceipt />} />
           <Route path="/kakaologin" element={<KakaoLogin />} />
           <Route path="/Thankyou" element={<ThankYouPage />} />
         </Routes>
