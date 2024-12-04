@@ -533,16 +533,17 @@ function CustomerHome() {
 
             <main className="content">
                 <section className="map-section">
+                    <h2>FIND YOUR RESTAURANT</h2>
                     <div className="input-container">
                         <input
                             type="text"
-                            placeholder="현재 주소를 입력하세요."
+                            placeholder="지번, 도로명, 건물명으로 검색하세요."
                             className="address-input"
                             onChange={handleAddressInputChange} // 실시간 입력 처리
                         />
-                        <button className="find-address-button" onClick={handleAddressSearch}>
+                        {/* <button className="find-address-button" onClick={handleAddressSearch}>
                             주소 찾기
-                        </button>
+                        </button> */}
                     </div>
 
                     {/* 검색어 추천 리스트 */}
