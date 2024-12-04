@@ -7,9 +7,12 @@ import MyOrder from "./MyOrder";
 import MyReview from "./MyReview";
 import EditInformation from './EditInformation';
 import ChangePassword from './ChangePassword';
+import CustomerSetting from './CustomerSetting';
 
 const MyPage = () => {
-    const [activePage, setActivePage] = useState('MY_FAVORITE');
+    const [activePage, setActivePage] = useState(localStorage.getItem('activePage') || 'MY_FAVORITE');
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
     const { email } = useParams();
     const [nickname, setNickname] = useState('');
@@ -45,6 +48,13 @@ const MyPage = () => {
         fetchData();
     }, [email, navigate]);
 
+    // activePage 상태를 변경할 때마다 localStorage에 저장
+    const handlePageChange = (page) => {
+        setActivePage(page);
+        localStorage.setItem('activePage', page); // activePage를 localStorage에 저장
+        setIsMenuOpen(false);
+    };
+
     const handleLogout = async () => {
         const token = localStorage.getItem('token');
         try {
@@ -64,6 +74,26 @@ const MyPage = () => {
         }
     };
 
+    const handleDeleteAccount = async () => {
+        const token = localStorage.getItem('token');
+        try {
+            const response = await axios.delete(`/ROOT/api/customer/delete.do`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+
+            if (response.data.status == 200) {
+                localStorage.clear();
+                navigate("/Thankyou");
+            } else {
+                alert('회원 탈퇴 실패: ' + response.data.message);
+            }
+        } catch (error) {
+            console.error('회원 탈퇴 실패:', error);
+            alert('오류가 발생했습니다.');
+        }
+        setShowModal(false);
+    };
+
     const renderContent = () => {
         switch (activePage) {
             case 'MY_FAVORITE':
@@ -76,6 +106,8 @@ const MyPage = () => {
                 return <EditInformation />;
             case 'CHANGE_PASSWORD':
                 return <ChangePassword />;
+            case 'CUSTOMER_SETTING':
+                return <CustomerSetting />;
             default:
                 return null;
         }
@@ -85,31 +117,62 @@ const MyPage = () => {
         navigate('/pages/Home/CustomerHome');
     };
 
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+
     return (
         <div className="mypage-container">
             <aside className="sidebar">
                 <div className="mypage-logo">
                     <h1 onClick={handleHomeClick}>ECOEATS</h1>
                 </div>
-                <nav className="menu-bar">
+                <nav className={`menu-bar ${isMenuOpen ? 'open' : ''}`}>
                     <ul>
                         <li onClick={handleHomeClick}>홈으로</li>
-                        <li className={activePage === 'MY_FAVORITE' ? 'active' : ''} onClick={() => setActivePage('MY_FAVORITE')}>즐겨찾기</li>
-                        <li className={activePage === 'MY_ORDER' ? 'active' : ''} onClick={() => setActivePage('MY_ORDER')}>내 주문목록</li>
-                        <li className={activePage === 'MY_REVIEW' ? 'active' : ''} onClick={() => setActivePage('MY_REVIEW')}>내 리뷰목록</li>
-                        <li className={activePage === 'EDIT_INFORMATION' ? 'active' : ''} onClick={() => setActivePage('EDIT_INFORMATION')}>정보 수정</li>
-                        <li className={activePage === 'CHANGE_PASSWORD' ? 'active' : ''} onClick={() => setActivePage('CHANGE_PASSWORD')}>비밀번호 변경</li>
-                        <li onClick={handleLogout}>회원 탈퇴</li>
+                        <li className={activePage === 'MY_FAVORITE' ? 'active' : ''} onClick={() => handlePageChange('MY_FAVORITE')}>즐겨찾기</li>
+                        <li className={activePage === 'MY_ORDER' ? 'active' : ''} onClick={() => handlePageChange('MY_ORDER')}>내 주문목록</li>
+                        <li className={activePage === 'MY_REVIEW' ? 'active' : ''} onClick={() => handlePageChange('MY_REVIEW')}>내 리뷰목록</li>
+                        <li className={activePage === 'EDIT_INFORMATION' ? 'active' : ''} onClick={() => handlePageChange('EDIT_INFORMATION')}>정보 수정</li>
+                        <li className={activePage === 'CHANGE_PASSWORD' ? 'active' : ''} onClick={() => handlePageChange('CHANGE_PASSWORD')}>비밀번호 변경</li>
+                        <li className={activePage === 'CUSTOMER_SETTING' ? 'active' : ''} onClick={() => handlePageChange('CUSTOMER_SETTING')}>계정 설정</li>
+                        <li onClick={() => {
+                            setShowModal(true);
+                            console.log("showModal 상태:", showModal);
+                        }}>회원 탈퇴</li>
+
                     </ul>
                 </nav>
+
                 <div className="btnbar">
                     {/* <button onClick={handleHomeClick}>홈으로 돌아가기</button> */}
                 </div>
             </aside>
 
+            {showModal && (
+                <div className="mypage-modal">
+                    <div className="mypage-modal-content">
+                        <h3>정말 탈퇴하시겠습니까?</h3>
+                        <p>탈퇴 후 정보는 복구할 수 없습니다.</p>
+                        <button onClick={handleDeleteAccount} className="confirm-button">
+                            확인
+                        </button>
+                        <button onClick={() => setShowModal(false)} className="cancel-button">
+                            취소
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            <button className="hamburger-btn" onClick={toggleMenu}>
+                {isMenuOpen ? 'X' : '☰'}
+            </button>
+
             <main className="main-content">
                 {renderContent()}
             </main>
+
+            {isMenuOpen && <div className="overlay" onClick={toggleMenu}></div>}
         </div>
     );
 };

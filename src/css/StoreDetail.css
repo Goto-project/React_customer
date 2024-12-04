@@ -20,7 +20,55 @@
     width: 100%;
 }
 
+.store-image-wrapper {
+    flex: 0 0 250px;
+    width: 250px;
+    height: 250px;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.store-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지 크기를 고정된 컨테이너에 맞게 조정 */
+}
+
+.detail-store-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+    font-size: 1rem;
+    color: #333;
+    flex: 1; /* 남은 공간을 사용 */
+    max-width: 600px; /* 최대 너비 설정 */
+    min-width: 400px; /* 최소 너비 설정 */
+}
+
+.detail-store-info h2 {
+    margin: 0 0 10px;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.detail-store-info p {
+    margin: 4px 0;
+    line-height: 1.6;
+}
+
+.detail-store-info p:first-child {
+    font-weight: bold;
+}
+
+.detail-store-info p span {
+    font-weight: normal;
+    font-size: 0.9rem;
+    color: #666;
+}
+
 .store-info-container {
+    position: relative; /* 즐겨찾기 버튼의 절대 위치를 기준으로 설정 */
     display: flex;
     gap: 20px;
     margin-top: 40px;
@@ -32,49 +80,28 @@
     max-width: 1000px;
     height: auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    align-items: center;
 }
 
-.store-image-wrapper {
-    width: 100%;
-    max-width: 400px;
+.add-bookmark-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 2rem; /* 별 크기 */
+    color: gray; /* 기본 색상 */
+    cursor: pointer;
+    transition: color 0.3s ease;
+    outline: none;
 }
 
-.store-image {
-    width: 100%;
-    max-width: 400px;
-    height: auto;
-    border-radius: 15px;
-    object-fit: cover;
+.add-bookmark-btn.bookmarked {
+    color: rgb(255, 247, 0);
 }
 
-.store-info {
-    display: flex;
-    text-align: left;
-    font-size: 1rem;
-    color: #333;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.store-info h2 {
-    margin: 0 0 10px;
-    font-size: 1.8rem;
-    font-weight: bold;
-}
-
-.store-info p {
-    margin: 4px 0;
-    line-height: 1.6;
-}
-
-.store-info p:first-child {
-    font-weight: bold;
-}
-
-.store-info p span {
-    font-weight: normal;
-    font-size: 0.9rem;
-    color: #666;
+.add-bookmark-btn:hover {
+    color: rgb(206, 199, 0);
 }
 
 .tabs-container {

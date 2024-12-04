@@ -2,6 +2,25 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import "../../css/StoreDetail.css";
+import ShowReceipt from './ShowReceipt';
+
+// 모달 컴포넌트
+const PaymentModal = ({ isOpen, onClose, handlePayment }) => {
+    if (!isOpen) return null; // 모달이 닫혀있으면 아무것도 렌더링하지 않음
+
+    return (
+        <div className="modal-overlay">
+            <div className="modal-content">
+                <h3>결제 방법 선택</h3>
+                <button onClick={() => handlePayment(1)}>카카오페이</button>
+                <button onClick={() => handlePayment(0)}>현장결제</button>
+                <button className="close-button" onClick={onClose}>
+                    닫기
+                </button>
+            </div>
+        </div>
+    );
+};
 
 function StoreDetail() {
     const { storeid } = useParams();
@@ -16,6 +35,9 @@ function StoreDetail() {
     const [cart, setCart] = useState([]); // 장바구니 상태
     const [isBookmarked, setIsBookmarked] = useState(false); // 즐겨찾기 상태 추가
     // const [email, setEmail] = useState(""); // 로그인된 이메일 상태
+    const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태
+    const [paymentMethod, setPaymentMethod] = useState(null);
+    const [paymentInfo, setPaymentInfo] = useState(null); // 영수증 정보 상태
 
     useEffect(() => {
         fetchStoreDetail();
@@ -27,8 +49,8 @@ function StoreDetail() {
         // 세션 스토리지에서 장바구니를 불러오기
         const storedCart = JSON.parse(sessionStorage.getItem("cart")) || [];
         setCart(storedCart);
-    }, []);
-    
+    }, [storeid]);
+
     const checkBookmarkStatus = async () => {
         try {
             const token = localStorage.getItem("token");
@@ -46,7 +68,6 @@ function StoreDetail() {
             console.error("즐겨찾기 상태 확인 중 오류:", error);
         }
     };
-
     const fetchStoreDetail = async () => {
         try {
             const response = await axios.get(`/ROOT/api/store/detail/${storeid}`);
@@ -54,7 +75,6 @@ function StoreDetail() {
                 setStore(response.data.result);
             }
         } catch (error) {
-            console.error(error);
             setErrorMessage("가게 정보를 불러오는 데 실패했습니다.");
         }
     };
@@ -219,12 +239,126 @@ function StoreDetail() {
             alert("장바구니가 비어 있습니다. 상품을 추가해주세요!");
             return;
         }
-        // 결제 로직 추가
-        alert("결제 페이지로 이동합니다.");
-        // 여기서 카카오페이 페이지로 연결
-        // 예: window.location.href = "카카오페이 URL";
+        setIsModalOpen(true); // 모달 열기
     };
 
+    const closeModal = () => {
+        setIsModalOpen(false); // 모달 닫기
+    };
+
+    // 결제하기
+    const handlePayment = async (method) => {
+        setPaymentMethod(method); // 결제 방법을 상태에 저장
+        const token = localStorage.getItem("token"); // 토큰 가져오기
+
+        // 로그인되지 않았으면 로그인 페이지로 이동
+        if (!token) {
+            alert("로그인 후 결제 가능합니다. 로그인 페이지로 이동합니다.");
+            navigate("/pages/Member/LoginHome"); // 로그인 페이지로 이동 (React Router 사용)
+            return;
+        }
+
+        const orderRequest = {
+            pay: method, // 전달받은 결제 방식
+            cartRequests: cart.map(item => ({
+                dailymenuNo: item.menuId,
+                qty: item.selectedQty,
+            })), // 장바구니에서 카트 항목을 가져와서 전달
+        };
+
+        // orderRequest를 sessionStorage에 저장
+        sessionStorage.setItem("orderRequest", JSON.stringify(orderRequest));
+
+        try {
+            const response = await axios.post(
+                `/ROOT/api/order/create`,
+                orderRequest,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            if (response.data.status === 200) {
+                if (response.data.paymentUrl) {
+                    window.location.href = response.data.paymentUrl; // 카카오페이 결제 페이지로 이동
+                }
+            } else {
+                alert(response.data.message);
+            }
+        } catch (error) {
+            console.error(error);
+            alert("서버 오류가 발생했습니다.");
+        }
+    };
+
+    // const handlePaymentSuccess = async (orderNo, pgToken, orderRequest) => {
+    //     try {
+    //         const response = await axios.post(
+    //             "http://localhost:8080/api/payments/kakaoPaySuccess",
+    //             orderRequest,
+    //             {
+    //                 params: {
+    //                     orderno: orderNo,
+    //                     pgToken: pgToken,
+    //                 },
+    //             }
+    //         );
+
+    //         // 응답 내용 로그 출력
+    //         console.log("카카오페이 결제 승인 응답:", response.data);
+
+    //         if (response.data.status === 200) {
+    //             alert("결제가 성공적으로 완료되었습니다.");
+    //             const paymentDetails = response.data.paymentDetails;
+
+    //             // 영수증 화면으로 이동
+    //             navigate("/show-receipt", { state: { paymentDetails, orderNo, pgToken, } });
+    //         } else {
+    //             alert("결제 승인에 실패했습니다.");
+    //         }
+    //     } catch (error) {
+    //         console.error(error);
+    //         alert("서버 오류가 발생했습니다.");
+    //     }
+    // };
+
+    // const handlePaymentCancel = async (orderNo) => {
+    //     try {
+    //         const response = await axios.post(
+    //             "http://localhost:8080/api/payments/kakaoPayCancel",
+    //             null, // URL 파라미터로 전달
+    //             { params: { orderno: orderNo } }
+    //         );
+
+    //         if (response.data.status === 400) {
+    //             // 결제 취소 처리: 사용자에게 알림
+    //             alert("결제가 취소되었습니다.");
+    //         }
+    //     } catch (error) {
+    //         console.error(error);
+    //         alert("서버 오류가 발생했습니다.");
+    //     }
+    // };
+
+    // const handlePaymentFail = async (orderNo) => {
+    //     try {
+    //         const response = await axios.post(
+    //             "http://localhost:8080/api/payments/kakaoPayFail",
+    //             null, // URL 파라미터로 전달
+    //             { params: { orderno: orderNo } }
+    //         );
+
+    //         if (response.data.status === 400) {
+    //             // 결제 실패 처리: 사용자에게 알림
+    //             alert("결제에 실패했습니다.");
+    //         }
+    //     } catch (error) {
+    //         console.error(error);
+    //         alert("서버 오류가 발생했습니다.");
+    //     }
+    // };
     if (!store) {
         return <div>가게 정보를 불러오는 중...</div>;
     }
@@ -293,7 +427,7 @@ function StoreDetail() {
                         <div className="store-image-wrapper">
                             <img className="store-image" src={`http://127.0.0.1:8080${store.imageurl}`} alt={store.storeName} />
                         </div>
-                        <div className="store-info">
+                        <div className="detail-store-info">
                             <h2>{store.storeName}</h2>
                             <p>{store.address}</p>
                             <p>📞 {store.phone}</p>
@@ -302,9 +436,9 @@ function StoreDetail() {
 
                             <button
                                 onClick={handleAddBookmark}
-                                className="add-bookmark-btn"
+                                className={`add-bookmark-btn ${isBookmarked ? "bookmarked" : ""}`}
                             >
-                                {isBookmarked ? "즐겨찾기 취소" : "즐겨찾기 추가"}
+                                {isBookmarked ? "★" : "☆"}
                             </button>
                         </div>
                     </div>
@@ -489,6 +623,9 @@ function StoreDetail() {
                         </div>
 
                     </div>
+
+                    {/* 모달 컴포넌트 */}
+                    <PaymentModal isOpen={isModalOpen} onClose={closeModal} handlePayment={handlePayment} />
                 </div>
             </div>
         </div>

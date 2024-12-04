@@ -1,79 +1,117 @@
 .my-favorite-container {
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
     padding: 20px;
-    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center;
+    position: relative;
 }
 
-h2 {
-    font-size: 24px;
-    font-weight: bold;
-    color: #4E9A6F;
+.my-favorite-container h2 {
+    font-size: 30px;
     margin-bottom: 20px;
+    color: #6baf92;
 }
 
 .search-input {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
+    width: 90%;
+    max-width: 400px;
+    padding: 10px;
+    margin: 0 auto 20px;
+    font-size: 1rem;
     border-radius: 5px;
-    font-size: 1em;
-    outline: none;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease;
-}
-
-.search-input:focus {
-    border-color: #4E9A6F;
+    border: 1px solid #ddd;
 }
 
 .favorite-list {
     list-style: none;
     padding: 0;
     margin: 0;
+    text-align: left;
 }
 
-.favorite-list li {
+.favorite-item {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 12px;
-    background-color: #fff;
+    justify-content: space-between;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    transition: all 0.3s;
     border-radius: 5px;
-    margin-bottom: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-size: 1.1em;
-    color: #333;
-    transition: background-color 0.3s ease;
+    position: relative;
 }
 
-.favorite-list li:hover {
-    background-color: #F0F8F0;
+.favorite-item:hover {
+    background-color: #f5f5f5;
 }
 
-.favorite-list li span {
+.favorite-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 15px;
+}
+
+.store-info {
+    flex: 1;
+}
+
+.store-name {
     font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.store-address,
+.store-phone,
+.store-category {
+    font-size: 1rem;
+    color: #666;
 }
 
 .delete-btn {
-    background-color: transparent;
+    position: absolute;
+    top: 10px; 
+    right: 10px;
+    background: transparent;
     border: none;
-    color: #E74C3C;
-    font-size: 1em;
+    font-size: 1.5rem;
+    color: #fffb00;
     cursor: pointer;
-    transition: color 0.3s ease;
+    transition: color 0.3s;
 }
 
 .delete-btn:hover {
-    color: #C0392B;
+    color: #ddda00;
 }
 
-.favorite-list li .delete-btn {
-    padding: 8px;
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    padding: 10px;
+    margin: 0 5px;
+    border: 1px solid #ddd;
     border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
 }
 
-.my-favorite-container p {
-    text-align: center;
-    font-size: 1.2em;
-    color: #666;
+.pagination button.active {
+    background-color: #ff4d4f;
+    color: white;
+}
+
+.pagination button:disabled {
+    background-color: #f1f1f1;
+    cursor: not-allowed;
 }

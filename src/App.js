@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
 
@@ -8,82 +8,125 @@ import SignupPage from './pages/Member/SignupPage';
 import ForgotPassword from './pages/Member/ForgotPassword';
 import MyPage from './pages/MyPage/MyPage';
 import StoreDetail from './pages/Home/StoreDetail';
+import ShowReceipt from './pages/Home/ShowReceipt';
 import KakaoLogin from './pages/Member/KakaoLogin';
-import NaverLogin from './pages/Member/NaverLogin';
+import ThankYouPage from './pages/MyPage/ThankYouPage';
 
-function FirstScreen() {
-  return (
-    <div className="first-screen">
-      <div className="text-container">
-        <h1 className="title">ECOEATS</h1>
-        <p className="subtitle">SAVE YOUR FOOD, LOVE YOUR PLANET</p>
-        <p className="subtitle-small">음식을 아끼고 지구를 아끼자</p>
-      </div>
-      <div className="image-container">
-        <img src="img/ecoeatsmainhome.jpg" alt="eco-eats" className="main-image" />
-      </div>
-    </div>
-  );
-}
-
-function SecondScreen() {
+function HomeScreen() {
   const navigate = useNavigate();
 
-  const handleClick1 = () => {
+  const handleStartClick = () => {
     navigate('/pages/Home/Customerhome');
   };
 
-  const handleClick2 = () => {
+  const handleSellerClick = () => {
     window.location.href = 'http://localhost:3001/';
   };
 
+  function FeaturesAnimation() {
+    useEffect(() => {
+      const items = document.querySelectorAll('.feature-item');
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      items.forEach((item) => observer.observe(item));
+
+      return () => observer.disconnect();
+    }, []);
+
+    return null;
+  }
+
   return (
-    <div className="second-screen">
-      <div className="info-container">
-        <div className="info-item">
-          <img src="img/food.jpg" alt="Half Price" />
-          <p>Enjoy delicious food at half price or less!<br /><span>맛있는 음식을 절반 가격이나 그 이하로 즐기세요!</span></p>
-        </div>
-        <div className="info-item">
-          <img src="img/sale.jpg" alt="Closing Time" />
-          <p>Get affordable food near closing time.<br /><span>마감 시간에 저렴하게 구매할 수 있는 음식을 제공합니다.</span></p>
-        </div>
-        <div className="info-item">
-          <img src="img/environment.jpg" alt="Reduce Waste" />
-          <p>Reduce food waste and protect the environment.<br /><span>음식 낭비를 줄여 환경을 보호하세요.</span></p>
-        </div>
-        <div className="info-item">
-          <img src="img/winwin.jpg" alt="Win-Win" />
-          <p>A win-win for consumers and businesses!<br /><span>소비자와 가게 모두에게 이득이 되는 소비!</span></p>
+    <div className="home-screen">
+      <div className="hero-section">
+        <div className="hero-overlay">
+          <div className="hero-content">
+            <h1 className="hero-title">ECOEATS</h1>
+            <p className="hero-subtitle">SAVE YOUR FOOD, LOVE YOUR PLANET</p>
+            <p className="hero-subtitle-small">음식을 아끼고 지구를 아끼자</p>
+            <div className="button-container">
+              <button className="start-button" onClick={handleStartClick}>
+                START
+              </button>
+              <button className="secondary-button" onClick={handleSellerClick}>
+                SELLER SITE
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="button-container">
-        <p className="startp">START TO ECOEATS!</p>
-        <button className="start-button" onClick={handleClick1}>START</button>
-        <button className="secondary-button" onClick={handleClick2}>GO TO SELLER SITE</button>
-      </div>
+      <FeaturesAnimation />
+
+      <section className="description-section">
+        <h2>WHTA IS ECOEATS?</h2>
+        <p>
+          ECOEATS는 음식 낭비를 줄이고 저렴한 가격으로
+          음식을 구매할 수 있도록 설계된 친환경 플랫폼입니다.
+        </p>
+
+        <p>
+          고객과 가게 모두에게 이득이 되고 지속 가능한
+          솔루션을 제공합니다.
+        </p>
+        {/* <img src="img/eco-friendly.jpg" alt="Eco Friendly" /> */}
+
+        <div className="features-image">
+          <img src="img/paperbag4.png" alt="Eco-Friendly Background" />
+        </div>
+      </section>
+
+      <section className="features-section">
+        <h2>THE GOOD THING ABOUT ECOEATS</h2>
+        <div className="features-container">
+          <div className="feature-item">
+            <h3>Affordable</h3>
+            <p>절반 가격 혹은 그 이하로 음식을 구매하세요.</p>
+          </div>
+          <div className="feature-item">
+            <h3>Eco-Friendly</h3>
+            <p>음식 낭비를 줄이고 환경을 보호합니다.</p>
+          </div>
+          <div className="feature-item">
+            <h3>Win-Win</h3>
+            <p>소비자와 사업자 모두에게 이익을 제공합니다.</p>
+          </div>
+          <div className="feature-item">
+            <h3>Convenient</h3>
+            <p>언제 어디서든 간편하게 사용할 수 있습니다.</p>
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 }
 
 function App() {
   return (
-    <Router>
       <div className="App">
         <Routes>
-          <Route path="/" element={<><FirstScreen /><SecondScreen /></>} />
+          <Route path="/" element={<HomeScreen />} />
           <Route path="/pages/Home/Customerhome" element={<CustomerHome />} />
           <Route path="/pages/Member/LoginHome" element={<LoginHome />} />
           <Route path="/pages/Member/SignupPage" element={<SignupPage />} />
           <Route path="/pages/Member/ForgotPassword" element={<ForgotPassword />} />
           <Route path="/pages/Member/MyPage/:email" element={<MyPage />} />
           <Route path="/store/detail/:storeid" element={<StoreDetail />} />
-          <Route path="/naverlogin" element={<NaverLogin />} />
+          <Route path="/store/show-receipt" element={<ShowReceipt />} />
           <Route path="/kakaologin" element={<KakaoLogin />} />
+          <Route path="/Thankyou" element={<ThankYouPage />} />
         </Routes>
       </div>
-    </Router>
   );
 }
 
