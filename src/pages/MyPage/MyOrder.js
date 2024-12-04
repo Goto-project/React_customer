@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const MyOrder = () => {
+    const navigate = useNavigate(); // useNavigate 훅 사용
     const [orders, setOrders] = useState([]); // 주문 목록
     const [error, setError] = useState(null); // 에러 메시지
     const [filter, setFilter] = useState("all"); // 필터 상태 ('all', 'date', 'status')
@@ -72,6 +74,21 @@ const MyOrder = () => {
             fetchOrdersByStatus();
         }
     }, [filter]);
+
+    // 리뷰 작성 가능 여부를 판단하는 함수
+    const isReviewable = (orderTime) => {
+        const orderDate = new Date(orderTime);
+        const currentDate = new Date();
+        const diffInTime = currentDate - orderDate; // 밀리초 차이
+        const diffInDays = diffInTime / (1000 * 3600 * 24); // 날짜 차이로 변환
+        return diffInDays <= 3; // 3일 이내면 true, 아니면 false
+    };
+
+    // 리뷰 작성 페이지로 이동하는 함수
+    const handleWriteReview = (orderNumber, storeid) => {
+        console.log("Navigating to WriteReview with:", orderNumber, storeid);
+        navigate(`/pages/Mypage/WriteReview/${orderNumber}/${storeid}`); // 리뷰 작성 페이지로 이동
+    };
 
     // UI 렌더링
     return (
@@ -148,17 +165,30 @@ const MyOrder = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {orders.map((order, index) => (
-                                <tr key={index}>
-                                    <td>{order.ordernumber}</td>
-                                    <td>{order.orderstatus}</td>
-                                    <td>{order.totalprice}</td>
-                                    <td>{order.storename}</td>
-                                    <td>{order.menuname}</td>
-                                    <td>{new Date(order.ordertime).toLocaleString()}</td>
-                                </tr>
-                            ))}
-                        </tbody>
+    {orders.map((order, index) => {
+        console.log(order); // order 객체 출력
+        return (
+            <tr key={index}>
+                <td>{order.ordernumber}</td>
+                <td>{order.orderstatus}</td>
+                <td>{order.totalprice}</td>
+                <td>{order.storename}</td>
+                <td>{order.menuname}</td>
+                <td>{new Date(order.ordertime).toLocaleString()}</td>
+                <td>
+                    {order.orderstatus === "주문 완료" &&
+                        isReviewable(order.ordertime) && (
+                            <button
+                                onClick={() => handleWriteReview(order.ordernumber, order.storeid)}
+                            >
+                                리뷰작성
+                            </button>
+                        )}
+                </td>
+            </tr>
+        );
+    })}
+</tbody>
                     </table>
                 ) : (
                     !error && <p>주문 내역이 없습니다.</p>
