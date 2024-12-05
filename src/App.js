@@ -11,6 +11,7 @@ import StoreDetail from './pages/Home/StoreDetail';
 import ShowReceipt from './pages/Home/ShowReceipt';
 import KakaoLogin from './pages/Member/KakaoLogin';
 import ThankYouPage from './pages/MyPage/ThankYouPage';
+import NaverLogin from './pages/Member/NaverLogin';
 
 function HomeScreen() {
   const navigate = useNavigate();
@@ -124,6 +125,7 @@ function App() {
           <Route path="/store/detail/:storeid" element={<StoreDetail />} />
           <Route path="/store/show-receipt" element={<ShowReceipt />} />
           <Route path="/kakaologin" element={<KakaoLogin />} />
+          <Route path="/naverlogin" element={<NaverLogin />} />
           <Route path="/Thankyou" element={<ThankYouPage />} />
         </Routes>
       </div>
