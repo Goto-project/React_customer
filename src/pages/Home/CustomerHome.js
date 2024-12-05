@@ -202,10 +202,6 @@ function CustomerHome() {
         }
     };
 
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
-    };
-
     const handleStoreClick = (storeId) => {
         navigate(`/store/detail/${storeId}`);
     };
@@ -512,6 +508,41 @@ function CustomerHome() {
         }
     };
 
+
+    //페이징 관련
+    const totalPages = Math.ceil(stores.length / storesPerPage);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const handleNextGroup = () => {
+        if (currentPage + 5 <= totalPages) {
+            setCurrentPage(currentPage + 5);
+        } else {
+            setCurrentPage(totalPages);
+        }
+    };
+
+    const handlePrevGroup = () => {
+        if (currentPage - 5 > 0) {
+            setCurrentPage(currentPage - 5);
+        } else {
+            setCurrentPage(1);
+        }
+    };
+
+    const generatePageNumbers = () => {
+        const pageNumbers = [];
+        const startPage = Math.floor((currentPage - 1) / 5) * 5 + 1; // Always start at 1, 6, 11, ...
+        const endPage = Math.min(startPage + 4, totalPages); // Show up to 5 pages
+
+        for (let i = startPage; i <= endPage; i++) {
+            pageNumbers.push(i);
+        }
+        return pageNumbers;
+    };
+
     return (
         <div className="customer-home">
             <header className="customer-header">
@@ -519,13 +550,13 @@ function CustomerHome() {
                 <div className="header-buttons">
                     {isLoggedIn ? (
                         <>
-                            <button onClick={handleMyPage}>My Page</button>
-                            <button onClick={handleLogout}>Logout</button>
+                            <button onClick={handleMyPage}>MY PAGE</button>
+                            <button onClick={handleLogout}>LOGOUT</button>
                         </>
                     ) : (
                         <>
-                            <button onClick={() => navigate('/pages/Member/LoginHome')}>Login</button>
-                            <button onClick={() => navigate('/pages/Member/SignupPage')}>Sign Up</button>
+                            <button onClick={() => navigate('/pages/Member/LoginHome')}>LOGIN</button>
+                            <button onClick={() => navigate('/pages/Member/SignupPage')}>SIGN UP</button>
                         </>
                     )}
                 </div>
@@ -533,17 +564,17 @@ function CustomerHome() {
 
             <main className="content">
                 <section className="map-section">
-                    <h2>FIND YOUR RESTAURANT</h2>
-                    <div className="input-container">
-                        <input
-                            type="text"
-                            placeholder="지번, 도로명, 건물명으로 검색하세요."
-                            className="address-input"
-                            onChange={handleAddressInputChange} // 실시간 입력 처리
-                        />
-                        {/* <button className="find-address-button" onClick={handleAddressSearch}>
-                            주소 찾기
-                        </button> */}
+                    <div className="overlay"></div>
+                    <div className="map-content">
+                        <h2>FIND YOUR RESTAURANT</h2>
+                        <div className="input-container">
+                            <input
+                                type="text"
+                                placeholder="지번, 도로명, 건물명으로 검색하세요."
+                                className="address-input"
+                                onChange={handleAddressInputChange}
+                            />
+                        </div>
                     </div>
 
                     {/* 검색어 추천 리스트 */}
@@ -612,17 +643,21 @@ function CustomerHome() {
                     </div>
 
 
-                    <div className="pagination">
-                        {Array.from({ length: Math.ceil(stores.length / storesPerPage) }, (_, i) => (
-                            <button
-                                key={i + 1}
-                                onClick={() => handlePageChange(i + 1)}
-                                className={currentPage === i + 1 ? 'active' : ''}
-                            >
-                                {i + 1}
-                            </button>
-                        ))}
-                    </div>
+                    {totalPages > 1 && (
+                        <div className="pagination">
+                            <button onClick={handlePrevGroup}>&lt;&lt;</button>
+                            {generatePageNumbers().map((pageNum) => (
+                                <button
+                                    key={pageNum}
+                                    onClick={() => handlePageChange(pageNum)}
+                                    className={currentPage === pageNum ? "active" : ""}
+                                >
+                                    {pageNum}
+                                </button>
+                            ))}
+                            <button onClick={handleNextGroup}>&gt;&gt;</button>
+                        </div>
+                    )}
                 </section>
             </main>
         </div>

@@ -21,8 +21,9 @@
 }
 
 .header-buttons button {
-    background-color: #16a085;
-    color: white;
+    background-color: #FDF9ED;
+    color: #4d826a;
+    font-weight: bold;
     border: none;
     padding: 10px 20px;
     margin-left: 15px;
@@ -32,25 +33,50 @@
 }
 
 .header-buttons button:hover {
-    background-color: #1abc9c;
+    background-color: #e7e2d9;
 }
 
 .content {
     display: flex;
     flex-direction: column;
-    padding: 50px;
     background-color: #FDF9ED;
 }
 
 .map-section {
+    position: relative;  /* 자식 요소의 배치를 위해 relative로 설정 */
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-bottom: 40px;
-    background-color: white;
     padding: 30px;
-    border-radius: 15px;
+    z-index: 1;  /* 기본 콘텐츠의 z-index 설정 */
 }
+
+.map-section::after {
+    content: "";  /* 가상 요소 */
+    position: absolute;  /* 부모 요소 내에서 절대 위치 */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('/public/img/food.jpg');  /* 배경 이미지 */
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    opacity: 0.5;  /* 불투명도 조정 */
+    z-index: -1;  /* 콘텐츠보다 뒤로 배치 */
+}
+
+.map-section .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);  /* 검정색 불투명 배경 */
+    z-index: 0;  /* 이미지 위에 오도록 설정 */
+}
+
 
 .map-section h2 {
     font-size: 30px;
@@ -64,11 +90,11 @@
 }
 
 .address-input {
-    padding: 10px;
+    padding: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
 }
 
 .find-address-button {
@@ -92,169 +118,112 @@
     margin-top: 20px;
 }
 
+/* 전체 섹션 스타일 */
 .store-list {
+    padding: 20px;
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
+/* 정렬 옵션 버튼들 */
 .sort-options {
+    margin-bottom: 20px;
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
+    gap: 10px;
 }
 
 .sort-options button {
-    background-color: #3498db;
+    padding: 10px 20px;
+    background-color: #4CAF50;
     color: white;
     border: none;
-    padding: 10px 20px;
-    margin: 0 10px;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
 .sort-options button:hover {
-    background-color: #2980b9;
+    background-color: #45a049;
 }
 
-/* Store Grid */
+/* 가게 리스트 (가로로 스크롤 가능한 영역) */
 .stores {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 20px;
     margin-top: 20px;
 }
 
+/* 가게 카드 스타일 */
 .store-card {
+    width: 250px;
     background-color: #fff;
-    border-radius: 8px;
+    border-radius: 10px;
+    overflow: hidden;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    transition: transform 0.3s, box-shadow 0.3s;
-    height: 200px;  /* Fixed height to maintain rectangular shape */
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.store-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-bottom: 2px solid #f0f0f0;
 }
 
 .store-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
-.store-card img {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-right: 20px;
-}
-
+/* 가게 정보 부분 스타일 */
 .store-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: calc(100% - 170px);  /* Account for image width and margin */
+    padding: 15px;
 }
 
 .store-info h3 {
-    margin: 10px 0;
-    font-size: 18px;
-    color: #2c3e50;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
 }
 
 .store-info p {
-    font-size: 14px;
-    color: #7f8c8d;
+    font-size: 0.9rem;
+    color: #666;
+    margin: 5px 0;
 }
 
-.pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
+.store-info p:first-child {
+    margin-top: 10px;
 }
 
-.pagination button {
-    background-color: #3498db;
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    margin: 0 5px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.pagination button:hover {
-    background-color: #2980b9;
-}
-
-.pagination .active {
-    background-color: #16a085;
-    font-weight: bold;
-}
-
-/* Responsive Styles */
+/* 반응형 디자인: 작은 화면에서 가게 카드 크기 조정 */
 @media (max-width: 768px) {
     .stores {
-        grid-template-columns: 1fr; /* 1 column on smaller screens */
+        justify-content: flex-start;
     }
 
     .store-card {
-        flex-direction: row;
-        padding: 15px;
-        height: auto;  /* Adjust height for smaller screens */
-    }
-
-    .store-card img {
-        width: 120px;
-        height: 120px;
-        margin-right: 15px;
-    }
-
-    .store-info h3 {
-        font-size: 16px;
-    }
-
-    .store-info p {
-        font-size: 12px;
-    }
-
-    .pagination button {
-        padding: 6px 12px;
+        width: 200px;
     }
 }
 
 @media (max-width: 480px) {
-    .customer-header {
-        padding: 10px 20px;
+    .store-card {
+        width: 160px;
     }
 
-    .customer-logo {
-        font-size: 24px;
-    }
-
-    .header-buttons button {
+    .sort-options button {
         padding: 8px 15px;
     }
-
-    .find-address-button {
-        padding: 8px 12px;
-    }
-
-    .address-input {
-        width: 250px;
-    }
-
-    .map-container {
-        height: 300px;
-    }
-
-    .store-info h3 {
-        font-size: 14px;
-    }
-
-    .store-info p {
-        font-size: 10px;
-    }
 }
+
+
+
+
+
