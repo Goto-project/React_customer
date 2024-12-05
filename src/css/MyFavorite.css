@@ -4,25 +4,24 @@
     margin: 0 auto;
     padding: 20px;
     background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
     text-align: center;
     position: relative;
 }
 
 .my-favorite-container h2 {
-    font-size: 30px;
+    font-size: 40px;
     margin-bottom: 20px;
-    color: #6baf92;
+    color: #3C7A58;
 }
 
 .search-input {
     width: 90%;
-    max-width: 400px;
-    padding: 10px;
+    max-width: 500px;
+    padding: 15px;
     margin: 0 auto 20px;
     font-size: 1rem;
-    border-radius: 5px;
+    border-radius: 10px;
     border: 1px solid #ddd;
 }
 
@@ -36,7 +35,6 @@
 .favorite-item {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     padding: 15px;
     border-bottom: 1px solid #ddd;
     cursor: pointer;
@@ -57,8 +55,13 @@
     margin-right: 15px;
 }
 
-.store-info {
-    flex: 1;
+.favorite-store-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.5;
+    white-space: nowrap; /* 한 줄로 표시 */
+    overflow: hidden; /* 넘친 내용 숨기기 */
+    text-overflow: ellipsis; /* ... 처리 */
 }
 
 .store-name {
@@ -114,4 +117,10 @@
 .pagination button:disabled {
     background-color: #f1f1f1;
     cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+    .my-favorite-container h2 {
+        font-size: 35px;
+    }
 }

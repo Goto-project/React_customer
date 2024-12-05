@@ -126,11 +126,10 @@ const MyFavorite = () => {
                                 alt={store.storeName}
                                 className="favorite-image"
                             />
-                            <div className="store-info">
+                            <div className="favorite-store-info">
                                 <span className="store-name">{store.storeName}</span>
                                 <span className="store-address">{store.address}</span>
                                 <span className="store-phone">{store.phone}</span>
-                                <span className="store-category">{store.category}</span>
                             </div>
                             <button
                                 onClick={(e) => {

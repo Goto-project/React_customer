@@ -626,7 +626,7 @@ function CustomerHome() {
                 <section className="map-section">
                     <div className="map-overlay"></div>
                     <div className="map-content">
-                        <h2>FIND YOUR STORE</h2>
+                        <h2>FIND YOUR STORE!</h2>
                         <div className="input-container">
                             <input
                                 type="text"
