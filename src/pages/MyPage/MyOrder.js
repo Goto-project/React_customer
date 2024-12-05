@@ -106,6 +106,21 @@ const MyOrder = () => {
         return pageNumbers;
     };
 
+    // const isToday = (orderTime) => {
+    //     const today = new Date();
+    //     const todayStr = today.toISOString().split('T')[0]; // 오늘 날짜를 'yyyy-MM-dd' 형식으로 변환
+    //     const orderDate = orderTime.split('T')[0]; // orderTime에서 'T' 기준으로 날짜만 추출
+    //     return orderDate === todayStr; // orderTime과 오늘 날짜를 비교
+    // };
+
+    // const isCancelable = (endpickup, pickupstatus) => {
+    //     const currentTime = new Date();
+    //     const [endHours, endMinutes] = endpickup.split(":").map(Number); // endpickup을 시간과 분으로 분리
+    //     const endPickupTime = new Date();
+    //     endPickupTime.setHours(endHours, endMinutes, 0, 0); // 현재 날짜에 시간을 설정
+    //     return pickupstatus === 0 && endPickupTime > currentTime; // pickupstatus가 0이고, endpickup 시간이 현재 시간보다 이후일 때
+    // };
+
     return (
         <div className="my-order-container">
             <h1>내 주문 내역</h1>
@@ -175,8 +190,15 @@ const MyOrder = () => {
                                 <p><strong>{order.totalprice} 원 </strong> </p>
                             </div>
                             <div className="order-status">
-                                {order.orderstatus === '주문 완료' ? '주문 완료' : '주문 취소'}
+                                {order.orderstatus === '주문 완료' && '주문 완료'}
+                                {order.orderstatus === '주문 취소' && '주문 취소'}
                             </div>
+                            {/* <div> */}
+                                {/* "주문 취소" 버튼 표시 */}
+                                {/* {order.orderstatus === '주문 완료' && isToday(order.ordertime) && isCancelable(order.endpickup, order.pickupstatus) && (
+                                    <button className="cancel-order-btn">주문 취소</button>
+                                )} */}
+                            {/* </div> */}
                         </div>
                     ))
                 ) : (
