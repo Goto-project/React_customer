@@ -8,9 +8,12 @@ import SignupPage from './pages/Member/SignupPage';
 import ForgotPassword from './pages/Member/ForgotPassword';
 import MyPage from './pages/MyPage/MyPage';
 import StoreDetail from './pages/Home/StoreDetail';
-import ShowReceipt from './pages/Home/ShowReceipt';
+import PaymentSuccess from './pages/payment/PaymentSuccess';
 import KakaoLogin from './pages/Member/KakaoLogin';
 import ThankYouPage from './pages/MyPage/ThankYouPage';
+import CompletedReceipt from './pages/payment/CompletedReceipt';
+import PaymentFail from './pages/payment/PaymentFail';
+import PaymentCancel from './pages/payment/PaymentCancel';
 import NaverLogin from './pages/Member/NaverLogin';
 
 function HomeScreen() {
@@ -123,7 +126,10 @@ function App() {
           <Route path="/pages/Member/ForgotPassword" element={<ForgotPassword />} />
           <Route path="/pages/Member/MyPage/:email" element={<MyPage />} />
           <Route path="/store/detail/:storeid" element={<StoreDetail />} />
-          <Route path="/store/show-receipt" element={<ShowReceipt />} />
+          <Route path="/payment/success" element={<PaymentSuccess />} />
+          <Route path="/payment/completed-receipt" element={<CompletedReceipt />} />
+          <Route path="/payment/fail" element={<PaymentFail />} />
+          <Route path="/payment/cancel" element={<PaymentCancel />} />
           <Route path="/kakaologin" element={<KakaoLogin />} />
           <Route path="/naverlogin" element={<NaverLogin />} />
           <Route path="/Thankyou" element={<ThankYouPage />} />

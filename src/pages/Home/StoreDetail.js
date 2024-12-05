@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import "../../css/StoreDetail.css";
-import ShowReceipt from './ShowReceipt';
 
 // 모달 컴포넌트
 const PaymentModal = ({ isOpen, onClose, handlePayment }) => {
@@ -47,7 +46,7 @@ function StoreDetail() {
 
     useEffect(() => {
         // 세션 스토리지에서 장바구니를 불러오기
-        const storedCart = JSON.parse(sessionStorage.getItem("cart")) || [];
+        const storedCart = JSON.parse(sessionStorage.getItem(`cart_${storeid}`)) || [];
         setCart(storedCart);
     }, [storeid]);
 
@@ -165,14 +164,14 @@ function StoreDetail() {
             );
 
             // 업데이트된 장바구니 배열을 세션에 저장
-            sessionStorage.setItem("cart", JSON.stringify(updatedCart));
+            sessionStorage.setItem(`cart_${storeid}`, JSON.stringify(updatedCart));
             setCart(updatedCart);
         } else {
             // 같은 메뉴가 없으면 새로운 항목을 추가
             const updatedCart = [...cart, newItem];
 
             // 업데이트된 장바구니 배열을 세션에 저장
-            sessionStorage.setItem("cart", JSON.stringify(updatedCart));
+            sessionStorage.setItem(`cart_${storeid}`, JSON.stringify(updatedCart));
             setCart(updatedCart);
         }
     };
@@ -198,7 +197,7 @@ function StoreDetail() {
 
         setCart(updatedCart);
         // 세션에 저장
-        sessionStorage.setItem("cart", JSON.stringify(updatedCart));
+        sessionStorage.setItem(`cart_${storeid}`, JSON.stringify(updatedCart));
     };
 
     const handleInputChange = (menuId, value) => {
@@ -222,7 +221,7 @@ function StoreDetail() {
 
         setCart(updatedCart);
         // 세션에 저장
-        sessionStorage.setItem("cart", JSON.stringify(updatedCart));
+        sessionStorage.setItem(`cart_${storeid}`, JSON.stringify(updatedCart));
     };
 
     // 장바구니 항목 삭제
@@ -230,7 +229,7 @@ function StoreDetail() {
         const updatedCart = cart.filter(item => item.menuId !== menuId);
 
         // 세션에 저장할 때 동일한 키 사용
-        sessionStorage.setItem("cart", JSON.stringify(updatedCart));
+        sessionStorage.setItem(`cart_${storeid}`, JSON.stringify(updatedCart));
         setCart(updatedCart);  // 상태 업데이트
     };
 
@@ -258,16 +257,20 @@ function StoreDetail() {
             return;
         }
 
+        // storeid를 세션 스토리지에 저장
+        sessionStorage.setItem('storeid', storeid);
+
         const orderRequest = {
             pay: method, // 전달받은 결제 방식
             cartRequests: cart.map(item => ({
                 dailymenuNo: item.menuId,
                 qty: item.selectedQty,
             })), // 장바구니에서 카트 항목을 가져와서 전달
+            storeid: storeid
         };
 
         // orderRequest를 sessionStorage에 저장
-        sessionStorage.setItem("orderRequest", JSON.stringify(orderRequest));
+        sessionStorage.setItem(`orderRequest_${storeid}`, JSON.stringify(orderRequest));
 
         try {
             const response = await axios.post(
@@ -279,10 +282,22 @@ function StoreDetail() {
                     },
                 }
             );
+            console.log(response.data);
 
             if (response.data.status === 200) {
-                if (response.data.paymentUrl) {
+                if (method === 1 && response.data.paymentUrl) {
+                    // 카카오페이 결제
                     window.location.href = response.data.paymentUrl; // 카카오페이 결제 페이지로 이동
+                } else if (method === 0) {
+                    // 현장 결제
+                    const confirmOrder = window.confirm("주문하시겠습니까?");
+                    if (confirmOrder) {
+                        const orderNo = response.data.orderId; // 서버에서 반환된 orderNo
+                        navigate(`/payment/completed-receipt?orderNo=${orderNo}`);
+
+                        // 결제 완료 후 장바구니 데이터 삭제
+                        sessionStorage.removeItem(`cart_${storeid}`);
+                    }
                 }
             } else {
                 alert(response.data.message);
@@ -420,6 +435,9 @@ function StoreDetail() {
                     홈으로 돌아가기
                 </button>
             </header>
+                        <div>
+                            <h3>결제시 주문취소 불가합니다.</h3>
+                        </div>
 
             <div className="store-detail-container">
                 <div className="store-left">
