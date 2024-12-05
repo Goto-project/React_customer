@@ -4,6 +4,21 @@ import axios from 'axios';
 import '../../css/LoginHome.css';
 
 const LoginHome = () => {
+
+
+    const naverInit = () =>{
+        var naver_id_login = new window.naver_id_login("ofyUDU2NTCyZHJ972RrY", "http://localhost:3000/naverlogin");
+        var state = naver_id_login.getUniqState();
+        naver_id_login.setButton("green", 1,40);
+        naver_id_login.setDomain("http://localhost:3000");
+        naver_id_login.setState(state);
+        //naver_id_login.setPopup();
+        naver_id_login.init_naver_id_login();
+    }
+
+
+
+
     const navigate = useNavigate();
     console.log(window)
     const {Kakao} = window;
@@ -13,9 +28,15 @@ const LoginHome = () => {
     const [isLoading, setIsLoading] = useState(false); // 로딩 상태 관리
 
 
+    
+    
+
+
+    //카카오 네이버 초기화
     useEffect(() => {
         if (window.Kakao && !Kakao.isInitialized()) {
             Kakao.init('6793d8b5dccd9a62416a111cbb9f46b8'); // 초기화
+            naverInit();
         }
     }, []);
 
@@ -106,7 +127,7 @@ const LoginHome = () => {
                 {errorMessage && <div className="error-message">{errorMessage}</div>}
 
                 <div className="sns-login">
-                    <button className="sns-button naver">N</button>
+                    <div id="naver_id_login"></div>
                     <button className="sns-button kakao"id="kakao-login-btn" onClick={loginKakao}>K</button>
                 </div>
 

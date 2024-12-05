@@ -8,8 +8,10 @@ import SignupPage from './pages/Member/SignupPage';
 import ForgotPassword from './pages/Member/ForgotPassword';
 import MyPage from './pages/MyPage/MyPage';
 import StoreDetail from './pages/Home/StoreDetail';
+import ShowReceipt from './pages/Home/ShowReceipt';
 import KakaoLogin from './pages/Member/KakaoLogin';
 import ThankYouPage from './pages/MyPage/ThankYouPage';
+import NaverLogin from './pages/Member/NaverLogin';
 
 function HomeScreen() {
   const navigate = useNavigate();
@@ -121,7 +123,9 @@ function App() {
           <Route path="/pages/Member/ForgotPassword" element={<ForgotPassword />} />
           <Route path="/pages/Member/MyPage/:email" element={<MyPage />} />
           <Route path="/store/detail/:storeid" element={<StoreDetail />} />
+          <Route path="/store/show-receipt" element={<ShowReceipt />} />
           <Route path="/kakaologin" element={<KakaoLogin />} />
+          <Route path="/naverlogin" element={<NaverLogin />} />
           <Route path="/Thankyou" element={<ThankYouPage />} />
         </Routes>
       </div>
