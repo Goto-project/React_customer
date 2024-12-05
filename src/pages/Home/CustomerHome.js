@@ -543,30 +543,90 @@ function CustomerHome() {
         return pageNumbers;
     };
 
+    //슬라이드쇼
+    const [currentSlide, setCurrentSlide] = useState(0);
+
+    // 슬라이드마다 제목과 설명을 객체로 추가
+    const slides = [
+        {
+            title: "STEP 1 : GET START",
+            description: "간단한 회원가입 후 근처의 ECOEATS 가게를 확인하세요!"
+        },
+        {
+            title: "STEP 2 : MAKE PAYMENT",
+            description: "원하는 음식을 선택 후 ECOEATS를 통해 결제하세요!"
+        },
+        {
+            title: "STEP 3 : GET FOOD",
+            description: "지정된 픽업 시간 안에 매장으로 가서 영수증 확인 후 음식을 즐기세요!"
+        }
+    ];
+
+    // 슬라이드 전환 함수
+    const slide = (direction) => {
+        if (direction === 1) {
+            setCurrentSlide((prev) => (prev + 1) % slides.length);  // Next slide
+        } else {
+            setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);  // Previous slide
+        }
+    };
+
+    // 동그라미 클릭 시 슬라이드로 이동
+    const goToSlide = (index) => {
+        setCurrentSlide(index);
+    };
+
+
     return (
         <div className="customer-home">
             <header className="customer-header">
-                <h1 className="customer-logo">ECOEATS</h1>
-                <div className="header-buttons">
-                    {isLoggedIn ? (
-                        <>
-                            <button onClick={handleMyPage}>MY PAGE</button>
-                            <button onClick={handleLogout}>LOGOUT</button>
-                        </>
-                    ) : (
-                        <>
-                            <button onClick={() => navigate('/pages/Member/LoginHome')}>LOGIN</button>
-                            <button onClick={() => navigate('/pages/Member/SignupPage')}>SIGN UP</button>
-                        </>
-                    )}
+                <div className='customer-header-1'>
+                    <h1 className="customer-logo">ECOEATS</h1>
+                    <div className="header-buttons">
+                        {isLoggedIn ? (
+                            <>
+                                <button onClick={handleMyPage}>MY PAGE</button>
+                                <button onClick={handleLogout}>LOGOUT</button>
+                            </>
+                        ) : (
+                            <>
+                                <button onClick={() => navigate('/pages/Member/LoginHome')}>LOGIN</button>
+                                <button onClick={() => navigate('/pages/Member/SignupPage')}>SIGN UP</button>
+                            </>
+                        )}
+                    </div>
                 </div>
+
+                <div className='customer-header-2'>
+                    <div className="slider-container">
+                        <div className="slider">
+                            <div className="slide">
+                                <h2>{slides[currentSlide].title}</h2> {/* 각 슬라이드의 제목 */}
+                                <p>{slides[currentSlide].description}</p> {/* 각 슬라이드의 설명 */}
+                            </div>
+                        </div>
+                        {/* <button className="arrow left" onClick={() => slide(-1)}>&lt;</button>
+                        <button className="arrow right" onClick={() => slide(1)}>&gt;</button> */}
+
+                        <div className="dots">
+                            {slides.map((_, index) => (
+                                <button
+                                    key={index}
+                                    className={`dot ${index === currentSlide ? 'active' : ''}`}
+                                    onClick={() => goToSlide(index)}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
             </header>
 
             <main className="content">
                 <section className="map-section">
-                    <div className="overlay"></div>
+                    <div className="map-overlay"></div>
                     <div className="map-content">
-                        <h2>FIND YOUR RESTAURANT</h2>
+                        <h2>FIND YOUR STORE</h2>
                         <div className="input-container">
                             <input
                                 type="text"

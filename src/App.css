@@ -117,7 +117,7 @@ body, html {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #4d826a; /* 새 배경색 추가 (밝은 회색으로 설정) */
+  background-color: #4d826a;
   padding: 50px 20px;
 }
 
