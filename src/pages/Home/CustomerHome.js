@@ -449,7 +449,7 @@ function CustomerHome() {
 
 
 
-    const storesPerPage = 6;
+    const storesPerPage = 8;
     const displayedStores = stores.slice(
         (currentPage - 1) * storesPerPage,
         currentPage * storesPerPage
@@ -675,12 +675,25 @@ function CustomerHome() {
                     <div className="map-container" id="map" ref={mapRef}></div>
                 </section>
 
-                <section className="store-list">
-                    <div className="sort-options">
-                        <button onClick={() => handleSortChange('distance')}>가까운순</button>
-                        <button onClick={() => handleSortChange('bookmark')}>즐겨찾기 순</button>
-                        <button onClick={() => handleSortChange('rating')}>리뷰 순</button>
+                <div className="sort-options">
+                    <h2>STORE LIST</h2>
+                    <div className='options-button'>
+                        <button onClick={() => handleSortChange('distance')}>
+                            <img src="/img/location2.png" alt="가까운 순 아이콘" /> 
+                            가까운 순
+                        </button>
+                        <button onClick={() => handleSortChange('bookmark')}>
+                            <img src="/img/star2.png" alt="북마크 순 아이콘" />
+                            북마크 순
+                        </button>
+                        <button onClick={() => handleSortChange('rating')}>
+                            <img src="/img/heart2.png" alt="리뷰 순 아이콘" />
+                            리뷰 순
+                        </button>
                     </div>
+                </div>
+
+                <section className="store-list">
                     <div className="stores">
                         {displayedStores.map((store) => (
                             <div

@@ -2,6 +2,7 @@
     width: 80%;
     max-width: 1200px;
     margin: 0 auto;
+    margin-top: 20px;
     padding: 20px;
     background-color: #fff;
     /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
@@ -35,7 +36,7 @@
 .favorite-item {
     display: flex;
     align-items: center;
-    padding: 15px;
+    padding: 30px;
     border-bottom: 1px solid #ddd;
     cursor: pointer;
     transition: all 0.3s;
@@ -110,7 +111,7 @@
 }
 
 .pagination button.active {
-    background-color: #ff4d4f;
+    background-color: #4d826a;
     color: white;
 }
 
