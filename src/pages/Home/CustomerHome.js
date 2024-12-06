@@ -19,6 +19,7 @@ function CustomerHome() {
     const [sortOption, setSortOption] = useState('distance');
     const [suggestions, setSuggestions] = useState([]); // 검색어 추천 상태
     const [location, setLocation] = useState({ lat: null, lon: null }); // 사용자 위치 상태
+    const [searchQuery, setSearchQuery] = useState("");
 
     const API_KEY = '5b0886d4afea2f236cbff25dabce17ab'; // 환경 변수 또는 설정 파일에서 가져오는 방식으로 변경해야 함.
 
@@ -204,6 +205,36 @@ function CustomerHome() {
 
     const handleStoreClick = (storeId) => {
         navigate(`/store/detail/${storeId}`);
+    };
+
+    const searchStoresByName = async (storeName) => {
+        if (!storeName.trim()) {
+            fetchStores(); // 검색어가 없으면 전체 가게 조회
+            return;
+        }
+        try {
+            const response = await axios.get("/ROOT/api/store/search", {
+                params: { storeName },
+            });
+            if (response.data.status === 200) {
+                setStores(response.data.result);
+            } else {
+                console.error("검색 중 오류 발생:", response.data.message);
+            }
+        } catch (error) {
+            console.error("API 호출 중 오류 발생:", error);
+            setStores([]);
+        }
+    };
+
+    const handleSearchChange = (event) => {
+        setSearchQuery(event.target.value);
+    };
+
+    const handleSearchSubmit = () => {
+        if (searchQuery.trim() !== "") {
+            searchStoresByName(searchQuery);
+        }
     };
 
     // 장소 검색 함수
@@ -679,7 +710,7 @@ function CustomerHome() {
                     <h2>STORE LIST</h2>
                     <div className='options-button'>
                         <button onClick={() => handleSortChange('distance')}>
-                            <img src="/img/location2.png" alt="가까운 순 아이콘" /> 
+                            <img src="/img/location2.png" alt="가까운 순 아이콘" />
                             가까운 순
                         </button>
                         <button onClick={() => handleSortChange('bookmark')}>
@@ -691,6 +722,20 @@ function CustomerHome() {
                             리뷰 순
                         </button>
                     </div>
+                </div>
+
+                <div className="search-container">
+                    <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={handleSearchChange}
+                        placeholder="가게 이름으로 검색"
+                        className="search-input"
+                    />
+                    <button onClick={handleSearchSubmit} className="search-button">
+                        검색
+                    </button>
+                    <button onClick={() => { setSearchQuery("");  fetchStores(); }}>초기화</button>
                 </div>
 
                 <section className="store-list">
@@ -733,7 +778,7 @@ function CustomerHome() {
                     )}
                 </section>
             </main>
-        </div>
+        </div >
     );
 }
 
