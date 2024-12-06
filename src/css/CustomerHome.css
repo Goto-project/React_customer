@@ -1,9 +1,11 @@
 body {
-    background-color: #FDF9ED;
+    background-color: #ffffff;
     margin: 0;
 }
 
 .customer-home {
+    width: 80%;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -170,18 +172,18 @@ body {
 
 @media (max-width: 768px) {
     .customer-logo {
-        font-size: 40px;
+        font-size: 30px;
     }
 
     .header-buttons button {
-        font-size: 16px;
+        font-size: 14px;
         padding: 8px 15px;
     }
 }
 
 @media (max-width: 480px) {
     .customer-logo {
-        font-size: 25px;
+        font-size: 20px;
     }
 
     .header-buttons {
@@ -189,7 +191,7 @@ body {
     }
 
     .header-buttons button {
-        font-size: 12px;
+        font-size: 10px;
         padding: 8px 15px;
     }
 }
@@ -292,7 +294,7 @@ body {
 
 .store-list {
     padding: 30px 40px;
-    background-color: #FDF9ED;
+    background-color: #f9f9f9;
     overflow-x: auto; /* 가로 스크롤 허용 */
 }
 
@@ -390,7 +392,7 @@ body {
     }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 700px) {
     .stores {
         grid-template-columns: repeat(1, 1fr); /* 모바일에서는 2개 */
     }
