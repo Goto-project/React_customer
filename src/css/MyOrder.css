@@ -46,6 +46,29 @@
     margin-right: 10px;
 }
 
+.filter-date {
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    margin-left: 10px;
+}
+
+.filter-date-button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #d2d2d2;
+    cursor: pointer;
+}
+
+.filter-option {
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    margin-left: 10px;
+}
+
 /* 주문 카드 그리드 */
 .order-grid {
     display: grid;

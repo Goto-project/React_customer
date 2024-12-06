@@ -137,6 +137,7 @@ const MyOrder = () => {
                         시작 날짜:
                         <input
                             type="date"
+                            className="filter-date"
                             value={dateRange.startDate}
                             onChange={(e) =>
                                 setDateRange((prev) => ({ ...prev, startDate: e.target.value }))
@@ -147,13 +148,14 @@ const MyOrder = () => {
                         종료 날짜:
                         <input
                             type="date"
+                            className="filter-date"
                             value={dateRange.endDate}
                             onChange={(e) =>
                                 setDateRange((prev) => ({ ...prev, endDate: e.target.value }))
                             }
                         />
                     </label>
-                    <button onClick={fetchOrdersByDate}>조회</button>
+                    <button className="filter-date-button" onClick={fetchOrdersByDate}>조회</button>
                 </div>
             )}
 
@@ -162,6 +164,7 @@ const MyOrder = () => {
                     <label>
                         주문 상태:
                         <select
+                            className="filter-option"
                             value={orderStatus}
                             onChange={(e) => setOrderStatus(e.target.value)}
                         >
@@ -170,7 +173,7 @@ const MyOrder = () => {
                             <option value="주문 취소">주문 취소</option>
                         </select>
                     </label>
-                    <button onClick={fetchOrdersByStatus}>조회</button>
+                    <button className="filter-date-button" onClick={fetchOrdersByStatus}>조회</button>
                 </div>
             )}
 
@@ -194,8 +197,8 @@ const MyOrder = () => {
                                 {order.orderstatus === '주문 취소' && '주문 취소'}
                             </div>
                             {/* <div> */}
-                                {/* "주문 취소" 버튼 표시 */}
-                                {/* {order.orderstatus === '주문 완료' && isToday(order.ordertime) && isCancelable(order.endpickup, order.pickupstatus) && (
+                            {/* "주문 취소" 버튼 표시 */}
+                            {/* {order.orderstatus === '주문 완료' && isToday(order.ordertime) && isCancelable(order.endpickup, order.pickupstatus) && (
                                     <button className="cancel-order-btn">주문 취소</button>
                                 )} */}
                             {/* </div> */}
