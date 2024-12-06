@@ -724,18 +724,18 @@ function CustomerHome() {
                     </div>
                 </div>
 
-                <div className="search-container">
+                <div className="store-search-container">
                     <input
                         type="text"
                         value={searchQuery}
                         onChange={handleSearchChange}
                         placeholder="가게 이름으로 검색"
-                        className="search-input"
+                        className="store-search-input"
                     />
                     <button onClick={handleSearchSubmit} className="search-button">
                         검색
                     </button>
-                    <button onClick={() => { setSearchQuery("");  fetchStores(); }}>초기화</button>
+                    <button onClick={() => { setSearchQuery("");  fetchStores(); }} className="search-button">초기화</button>
                 </div>
 
                 <section className="store-list">
