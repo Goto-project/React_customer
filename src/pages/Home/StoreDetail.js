@@ -11,8 +11,12 @@ const PaymentModal = ({ isOpen, onClose, handlePayment }) => {
         <div className="modal-overlay">
             <div className="modal-content">
                 <h3>결제 방법 선택</h3>
-                <button onClick={() => handlePayment(1)}>카카오페이</button>
-                <button onClick={() => handlePayment(0)}>현장결제</button>
+                <div className="payment-buttons">
+                    <button className="kakao-pay-btn" onClick={() => handlePayment(1)}>
+                        <img src="/img/kakaopay.png" alt="카카오페이" />
+                    </button>
+                    <button className="cash-pay-btn" onClick={() => handlePayment(0)}>현장결제</button>
+                </div>
                 <button className="close-button" onClick={onClose}>
                     닫기
                 </button>
@@ -118,7 +122,7 @@ function StoreDetail() {
     };
 
     // 메뉴 페이징: 한 페이지당 5개씩만 표시
-    const menuPerPage = 5;
+    const menuPerPage = 6;
     const currentMenuItems = dailyMenu.slice(
         (currentMenuPage - 1) * menuPerPage,
         currentMenuPage * menuPerPage
@@ -416,55 +420,61 @@ function StoreDetail() {
 
                     <div className="tab-content">
                         {activeTab === "menu" && (
-                            <div className="daily-menu">
-                                {dailyMenu.length === 0 ? (
-                                    <div className="no-menu-message">
-                                        <img src="/img/sorry.png" alt="아이콘" className="no-menu-icon" />
-                                        <p>아직 오늘의 메뉴가 추가되지 않았어요</p>
-                                    </div>
-                                ) : (
-                                    currentMenuItems.map((menu) => (
-                                        <div key={menu.dailymenuNo} className="menu-item">
-                                            <img
-                                                src={`http://127.0.0.1:8080${menu.menuImageUrl}`}
-                                                alt={menu.menuName}
-                                                className="menu-image"
-                                            />
-                                            <div className="menu-info">
-                                                <h3>{menu.menuName}</h3>
-                                                <p>가격: {menu.menuPrice}원</p>
-                                                <p>할인가: {menu.menuDiscountedPrice}원</p>
-                                                <p>수량: {menu.menuQty}</p>
-                                            </div>
-
-                                            <div className="quantity-container">
-                                                <input
-                                                    type="number"
-                                                    min="1"
-                                                    max={menu.menuQty}
-                                                    defaultValue="1"
-                                                    id={`quantity-${menu.dailymenuNo}`}
-                                                    className="quantity-input"
-                                                />
-                                                <button
-                                                    className="add-to-cart-btn"
-                                                    onClick={() => {
-                                                        const inputField = document.getElementById(`quantity-${menu.dailymenuNo}`);
-                                                        const selectedQty = parseInt(inputField.value, 10);
-
-                                                        if (selectedQty > 0 && selectedQty <= menu.menuQty) {
-                                                            handleAddToCart(menu.dailymenuNo, menu.menuName, menu.menuDiscountedPrice, selectedQty, menu.menuQty);
-                                                        } else {
-                                                            alert(`수량은 1에서 ${menu.menuQty} 사이의 값이어야 합니다.`);
-                                                        }
-                                                    }}
-                                                >
-                                                    장바구니에 추가
-                                                </button>
-                                            </div>
+                            <div className="daily-menu-container">
+                                <div className="daily-menu">
+                                    {dailyMenu.length === 0 ? (
+                                        <div className="no-menu-message">
+                                            <img src="/img/leaf.png" alt="아이콘" className="no-menu-icon" />
+                                            <p>아직 오늘의 메뉴가 추가되지 않았어요</p>
                                         </div>
-                                    ))
-                                )}
+                                    ) : (
+                                        currentMenuItems.map((menu) => (
+                                            <div key={menu.dailymenuNo} className="menu-item">
+                                                <img
+                                                    src={`http://127.0.0.1:8080${menu.menuImageUrl}`}
+                                                    alt={menu.menuName}
+                                                    className="menu-image"
+                                                />
+                                                <div className="menu-info">
+                                                    <h3>{menu.menuName}</h3>
+                                                    <p className="original-price">가격: {menu.menuPrice}원</p>
+                                                    <p className="discounted-price">할인가: {menu.menuDiscountedPrice}원</p>
+                                                    <p>수량: {menu.menuQty}</p>
+                                                </div>
+
+                                                <div className="quantity-container">
+                                                    <div className="quantity-input-container">
+                                                        구매수량 선택 : <input
+                                                            type="number"
+                                                            min="1"
+                                                            max={menu.menuQty}
+                                                            defaultValue="1"
+                                                            id={`quantity-${menu.dailymenuNo}`}
+                                                            className="quantity-input"
+                                                        />
+                                                    </div>
+
+                                                    <button
+                                                        className="add-to-cart-btn"
+                                                        onClick={() => {
+                                                            const inputField = document.getElementById(`quantity-${menu.dailymenuNo}`);
+                                                            const selectedQty = parseInt(inputField.value, 10);
+
+                                                            if (selectedQty > 0 && selectedQty <= menu.menuQty) {
+                                                                handleAddToCart(menu.dailymenuNo, menu.menuName, menu.menuDiscountedPrice, selectedQty, menu.menuQty);
+                                                            } else {
+                                                                alert(`수량은 1에서 ${menu.menuQty} 사이의 값이어야 합니다.`);
+                                                            }
+                                                        }}
+                                                    >
+                                                        장바구니에 추가
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))
+                                    )}
+                                </div>
+
                                 <div className="pagination">
                                     <button
                                         className="pagination-btn"
@@ -489,7 +499,7 @@ function StoreDetail() {
                             <div className="reviews">
                                 {reviews.length === 0 ? (
                                     <div className="no-reviews-message">
-                                        <img src="/img/sorry.png" alt="아이콘" className="no-reviews-icon" />
+                                        <img src="/img/leaf.png" alt="아이콘" className="no-reviews-icon" />
                                         <p>아직 작성된 리뷰가 없어요</p>
                                     </div>
                                 ) : (
@@ -522,12 +532,12 @@ function StoreDetail() {
 
                         {activeTab === "cart" && (
                             <div className="cart-summary">
-                                {/* 장바구니 내용 */}
                                 <h3>장바구니</h3>
                                 <ul>
                                     {cart.map((item) => (
                                         <li key={item.menuId} className="cart-item">
                                             <span>{item.menuName}</span>
+                                            <span>{item.price} 원</span>
                                             <div className="quantity-controls">
                                                 <button
                                                     onClick={() => handleQuantityChange(item.menuId, item.selectedQty - 1)}
