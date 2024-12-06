@@ -77,7 +77,7 @@ const MyPage = () => {
     const handleDeleteAccount = async () => {
         const token = localStorage.getItem('token');
         try {
-            const response = await axios.delete(`/ROOT/api/customer/delete.do`, {
+            const response = await axios.put(`/ROOT/api/customer/delete.do`, null, {
                 headers: { Authorization: `Bearer ${token}` },
             });
 
