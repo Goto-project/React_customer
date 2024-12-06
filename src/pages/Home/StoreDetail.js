@@ -308,72 +308,6 @@ function StoreDetail() {
         }
     };
 
-    // const handlePaymentSuccess = async (orderNo, pgToken, orderRequest) => {
-    //     try {
-    //         const response = await axios.post(
-    //             "http://localhost:8080/api/payments/kakaoPaySuccess",
-    //             orderRequest,
-    //             {
-    //                 params: {
-    //                     orderno: orderNo,
-    //                     pgToken: pgToken,
-    //                 },
-    //             }
-    //         );
-
-    //         // 응답 내용 로그 출력
-    //         console.log("카카오페이 결제 승인 응답:", response.data);
-
-    //         if (response.data.status === 200) {
-    //             alert("결제가 성공적으로 완료되었습니다.");
-    //             const paymentDetails = response.data.paymentDetails;
-
-    //             // 영수증 화면으로 이동
-    //             navigate("/show-receipt", { state: { paymentDetails, orderNo, pgToken, } });
-    //         } else {
-    //             alert("결제 승인에 실패했습니다.");
-    //         }
-    //     } catch (error) {
-    //         console.error(error);
-    //         alert("서버 오류가 발생했습니다.");
-    //     }
-    // };
-
-    // const handlePaymentCancel = async (orderNo) => {
-    //     try {
-    //         const response = await axios.post(
-    //             "http://localhost:8080/api/payments/kakaoPayCancel",
-    //             null, // URL 파라미터로 전달
-    //             { params: { orderno: orderNo } }
-    //         );
-
-    //         if (response.data.status === 400) {
-    //             // 결제 취소 처리: 사용자에게 알림
-    //             alert("결제가 취소되었습니다.");
-    //         }
-    //     } catch (error) {
-    //         console.error(error);
-    //         alert("서버 오류가 발생했습니다.");
-    //     }
-    // };
-
-    // const handlePaymentFail = async (orderNo) => {
-    //     try {
-    //         const response = await axios.post(
-    //             "http://localhost:8080/api/payments/kakaoPayFail",
-    //             null, // URL 파라미터로 전달
-    //             { params: { orderno: orderNo } }
-    //         );
-
-    //         if (response.data.status === 400) {
-    //             // 결제 실패 처리: 사용자에게 알림
-    //             alert("결제에 실패했습니다.");
-    //         }
-    //     } catch (error) {
-    //         console.error(error);
-    //         alert("서버 오류가 발생했습니다.");
-    //     }
-    // };
     if (!store) {
         return <div>가게 정보를 불러오는 중...</div>;
     }
@@ -428,39 +362,37 @@ function StoreDetail() {
 
 
     return (
-        <div>
-            <header className="store-header">
-                <h1 className="customer-logo">ECOEATS</h1>
-                <button className="back-button" onClick={() => navigate("/pages/Home/CustomerHome")}>
-                    홈으로 돌아가기
-                </button>
+        <div className="store-container">
+            <header className="store-header" style={{ backgroundImage: `url(${store.imageurl})` }}>
+                <div className="image-overlay"></div>
+                <h1 className="store-detail-logo" onClick={() => navigate("/pages/Home/CustomerHome")}>
+                    <img src="/img/house.png" alt="Home" className="home-icon" />
+                    STORE DETAIL
+                </h1>
             </header>
-                        <div>
-                            <h3>결제시 주문취소 불가합니다.</h3>
-                        </div>
+
+            <div className="store-info-container">
+                <div className="detail-store-info">
+                    <h2>{store.storeName}</h2>
+                    <p>{store.address}</p>
+                    <p>📞 {store.phone}</p>
+                    <p>⏰ {store.startPickup} ~ {store.endPickup}</p>
+                    <p>⭐ {store.rating}</p>
+                </div>
+
+                <div className="store-bookmark">
+                    <button
+                        onClick={handleAddBookmark}
+                        className={`add-bookmark-btn ${isBookmarked ? "bookmarked" : ""}`}
+                    >
+                        {isBookmarked ? "★" : "☆"}
+                    </button>
+                </div>
+            </div>
+
 
             <div className="store-detail-container">
                 <div className="store-left">
-                    <div className="store-info-container">
-                        <div className="store-image-wrapper">
-                            <img className="store-image" src={`http://127.0.0.1:8080${store.imageurl}`} alt={store.storeName} />
-                        </div>
-                        <div className="detail-store-info">
-                            <h2>{store.storeName}</h2>
-                            <p>{store.address}</p>
-                            <p>📞 {store.phone}</p>
-                            <p>⏰ {store.startPickup} ~ {store.endPickup}</p>
-                            <p>⭐ {store.rating}</p>
-
-                            <button
-                                onClick={handleAddBookmark}
-                                className={`add-bookmark-btn ${isBookmarked ? "bookmarked" : ""}`}
-                            >
-                                {isBookmarked ? "★" : "☆"}
-                            </button>
-                        </div>
-                    </div>
-
                     <div className="tabs-container">
                         <button
                             className={`tab-button ${activeTab === "menu" ? "active" : ""}`}
@@ -474,6 +406,12 @@ function StoreDetail() {
                         >
                             리뷰
                         </button>
+                        <button
+                            className={`tab-button ${activeTab === "cart" ? "active" : ""}`}
+                            onClick={() => handleTabClick("cart")}
+                        >
+                            장바구니
+                        </button>
                     </div>
 
                     <div className="tab-content">
@@ -481,11 +419,7 @@ function StoreDetail() {
                             <div className="daily-menu">
                                 {dailyMenu.length === 0 ? (
                                     <div className="no-menu-message">
-                                        <img
-                                            src="/img/sorry.png"
-                                            alt="아이콘"
-                                            className="no-menu-icon"
-                                        />
+                                        <img src="/img/sorry.png" alt="아이콘" className="no-menu-icon" />
                                         <p>아직 오늘의 메뉴가 추가되지 않았어요</p>
                                     </div>
                                 ) : (
@@ -503,7 +437,6 @@ function StoreDetail() {
                                                 <p>수량: {menu.menuQty}</p>
                                             </div>
 
-                                            {/* 수량 선택과 장바구니 추가 버튼 */}
                                             <div className="quantity-container">
                                                 <input
                                                     type="number"
@@ -516,11 +449,9 @@ function StoreDetail() {
                                                 <button
                                                     className="add-to-cart-btn"
                                                     onClick={() => {
-                                                        // 입력된 수량 값 가져오기
                                                         const inputField = document.getElementById(`quantity-${menu.dailymenuNo}`);
                                                         const selectedQty = parseInt(inputField.value, 10);
 
-                                                        // 입력값이 유효한지 확인 (0보다 커야 하고, 최대 메뉴 수량을 초과하지 않아야 함)
                                                         if (selectedQty > 0 && selectedQty <= menu.menuQty) {
                                                             handleAddToCart(menu.dailymenuNo, menu.menuName, menu.menuDiscountedPrice, selectedQty, menu.menuQty);
                                                         } else {
@@ -536,7 +467,7 @@ function StoreDetail() {
                                 )}
                                 <div className="pagination">
                                     <button
-                                        className="dailypaginationbtn"
+                                        className="pagination-btn"
                                         onClick={() => handleMenuPageChange("prev")}
                                         disabled={currentMenuPage === 1}
                                     >
@@ -544,7 +475,7 @@ function StoreDetail() {
                                     </button>
                                     <span>{currentMenuPage} 페이지</span>
                                     <button
-                                        className="dailypaginationbtn"
+                                        className="pagination-btn"
                                         onClick={() => handleMenuPageChange("next")}
                                         disabled={currentMenuPage * menuPerPage >= dailyMenu.length}
                                     >
@@ -558,11 +489,7 @@ function StoreDetail() {
                             <div className="reviews">
                                 {reviews.length === 0 ? (
                                     <div className="no-reviews-message">
-                                        <img
-                                            src="/img/sorry.png"
-                                            alt="아이콘"
-                                            className="no-reviews-icon"
-                                        />
+                                        <img src="/img/sorry.png" alt="아이콘" className="no-reviews-icon" />
                                         <p>아직 작성된 리뷰가 없어요</p>
                                     </div>
                                 ) : (
@@ -575,7 +502,7 @@ function StoreDetail() {
                                 )}
                                 <div className="pagination">
                                     <button
-                                        className="dailypaginationbtn"
+                                        className="pagination-btn"
                                         onClick={() => handleReviewPageChange("prev")}
                                         disabled={currentReviewPage === 1}
                                     >
@@ -583,7 +510,7 @@ function StoreDetail() {
                                     </button>
                                     <span>{currentReviewPage} 페이지</span>
                                     <button
-                                        className="dailypaginationbtn"
+                                        className="pagination-btn"
                                         onClick={() => handleReviewPageChange("next")}
                                         disabled={currentReviewPage * reviewPerPage >= reviews.length}
                                     >
@@ -592,17 +519,14 @@ function StoreDetail() {
                                 </div>
                             </div>
                         )}
-                    </div>
-                </div>
 
-                <div className="store-right">
-                    <div className="cart-summary">
-                        <div className="cartinfo">
-                            <h3>장바구니</h3>
-                            <ul>
-                                {cart.map((item) => (
-                                    <li key={item.menuId}>
-                                        <div className="cart-item">
+                        {activeTab === "cart" && (
+                            <div className="cart-summary">
+                                {/* 장바구니 내용 */}
+                                <h3>장바구니</h3>
+                                <ul>
+                                    {cart.map((item) => (
+                                        <li key={item.menuId} className="cart-item">
                                             <span>{item.menuName}</span>
                                             <div className="quantity-controls">
                                                 <button
@@ -619,35 +543,25 @@ function StoreDetail() {
                                                 />
                                                 <button
                                                     onClick={() => handleQuantityChange(item.menuId, item.selectedQty + 1)}
-                                                    disabled={item.selectedQty >= item.menuQty} // 최대 수량 제한
+                                                    disabled={item.selectedQty >= item.menuQty}
                                                 >
                                                     +
                                                 </button>
                                             </div>
                                             <button onClick={() => handleRemoveFromCart(item.menuId)}>삭제</button>
-                                        </div>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                        <div className="checkout-container">
-                            {/* 결제하기 버튼 */}
-                            <button
-                                className="checkout-button"
-                                onClick={handleCheckout}
-                            >
-                                결제하기
-                            </button>
-                        </div>
-
+                                        </li>
+                                    ))}
+                                </ul>
+                                <button className="checkout-button" onClick={handleCheckout}>결제하기</button>
+                            </div>
+                        )}
+                        <PaymentModal isOpen={isModalOpen} onClose={closeModal} handlePayment={handlePayment} />
                     </div>
-
-                    {/* 모달 컴포넌트 */}
-                    <PaymentModal isOpen={isModalOpen} onClose={closeModal} handlePayment={handlePayment} />
                 </div>
             </div>
         </div>
     );
+
 }
 
 export default StoreDetail;

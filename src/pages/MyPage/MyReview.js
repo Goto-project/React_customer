@@ -162,9 +162,9 @@ const MyReview = () => {
                 </ul>
             )}
             {isEditing && (
-                <div className="modal">
-                    <div className="modal-overlay" onClick={() => setIsEditing(false)}></div>
-                    <div className="modal-content">
+                <div className="review-modal">
+                    <div className="review-modal-overlay" onClick={() => setIsEditing(false)}></div>
+                    <div className="review-modal-content">
                         <h2>리뷰 수정</h2>
                         <label>평점:</label>
                         <input
