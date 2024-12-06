@@ -123,7 +123,7 @@ const MyOrder = () => {
 
     return (
         <div className="my-order-container">
-            <h1>내 주문 내역</h1>
+            <h2>MY ORDERS</h2>
 
             <div className="filter-buttons">
                 <button onClick={() => setFilter("all")}>전체 조회</button>
