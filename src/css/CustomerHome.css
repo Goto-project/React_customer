@@ -220,6 +220,8 @@ body {
 }
 
 .input-container {
+    margin-left: 20px;
+    margin-right: 20px;
     text-align: center;
 }
 
@@ -269,7 +271,7 @@ body {
 .sort-options button {
     display: flex;
     align-items: center;
-    flex-direction: column;
+    flex-direction: row;
     gap: 8px;
     cursor: pointer;
     background-color: transparent;
@@ -277,14 +279,14 @@ body {
     font-weight: bold;
     border: none;
     padding: 10px 20px;
-    font-size: 18px;
+    font-size: 15px;
     border-radius: 5px;
     transition: background-color 0.3s, transform 0.2s;
 }
 
 .sort-options button img {
-    width: 40px;
-    height: 40px;
+    width: 20px;
+    height: 20px;
 }
 
 .sort-options button:hover {
@@ -312,6 +314,8 @@ body {
     display: flex;
     justify-content: center;
     margin-top: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
     gap: 10px;
 }
 
@@ -423,6 +427,27 @@ body {
 @media (max-width: 700px) {
     .stores {
         grid-template-columns: repeat(1, 1fr); /* 모바일에서는 2개 */
+    }
+
+    .sort-options button {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        gap: 8px;
+        cursor: pointer;
+        background-color: transparent;
+        color: white;
+        font-weight: bold;
+        border: none;
+        padding: 7px 14px;
+        font-size: 8px;
+        border-radius: 5px;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .sort-options button img {
+        width: 15px;
+        height: 15px;
     }
 }
 

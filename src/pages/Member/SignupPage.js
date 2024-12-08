@@ -34,7 +34,7 @@ const SignupPage = () => {
             if (response.data.status === 200) {
                 setMessage('회원가입이 성공적으로 완료되었습니다!');
                 setTimeout(() => {
-                    navigate('/pages/Home/Customerhome'); // '/' 경로로 이동
+                    navigate('/pages/Home/LoginHome'); // '/' 경로로 이동
                 }, 1000); // 2초 후 이동
             } else {
                 setMessage(response.data.message || '회원가입에 실패했습니다.');
@@ -45,55 +45,65 @@ const SignupPage = () => {
         }
     };
 
+    const handleHomeClick = () => {
+        navigate('/pages/Home/CustomerHome');
+    };
+
     return (
         <div className="signup-page">
-            <div className="signup-logo-container">
-                <h2 className="signup-logo">ECOEATS</h2>
+            <div className="signup-left">
+                <div className="signup-left-text">
+                    <p>ECOEATS에 오신 것을 환영합니다!</p>
+                    <p>ECOEATS와 함께 음식 낭비를 줄이고</p>
+                    <p>저렴한 가격으로 음식을 구매해보세요</p>
+                </div>
             </div>
 
-            <div className="signup-container">
-                <h3 className="signup-title">CUSTOMER SIGN UP</h3>
+            <div className="signup-right">
+                <h2 onClick={handleHomeClick}>ECOEATS</h2>
+                <div className="signup-container">
+                    <h3 className="signup-title">CUSTOMER SIGN UP</h3>
+                    <div className="signup-input">
+                        <input
+                            type="text"
+                            placeholder="EMAIL"
+                            className="customerEmail"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <input
+                            type="password"
+                            placeholder="PASSWORD"
+                            className="customerPassword"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <input
+                            type="text"
+                            placeholder="NICKNAME"
+                            className="customerNickname"
+                            value={nickname}
+                            onChange={(e) => setNickname(e.target.value)}
+                        />
+                        <input
+                            type="text"
+                            placeholder="PHONE"
+                            className="customerPhone"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                        />
+                    </div>
 
-                <div className="signup-input">
-                    <input
-                        type="text"
-                        placeholder="EMAIL"
-                        className="customerEmail"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <input
-                        type="password"
-                        placeholder="PASSWORD"
-                        className="customerPassword"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <input
-                        type="text"
-                        placeholder="NICKNAME"
-                        className="customerNickname"
-                        value={nickname}
-                        onChange={(e) => setNickname(e.target.value)}
-                    />
-                    <input
-                        type="text"
-                        placeholder="PHONE"
-                        className="customerPhone"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                    />
-                </div>
+                    <button className="signup-button" onClick={handleSignup}>
+                        COMPLETE
+                    </button>
 
-                <button className="signup-button" onClick={handleSignup}>
-                    COMPLETE
-                </button>
+                    {message && <div className="signup-message">{message}</div>}
 
-                {message && <div className="signup-message">{message}</div>}
-
-                <div className="sns-login">
-                    <button className="sns-button naver">N</button>
-                    <button className="sns-button kakao">K</button>
+                    {/* <div className="sns-login">
+                        <button className="sns-button naver">N</button>
+                        <button className="sns-button kakao">K</button>
+                    </div> */}
                 </div>
             </div>
         </div>

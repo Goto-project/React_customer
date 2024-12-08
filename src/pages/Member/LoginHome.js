@@ -6,30 +6,36 @@ import '../../css/LoginHome.css';
 const LoginHome = () => {
 
 
-    const naverInit = () =>{
+    const naverInit = () => {
         var naver_id_login = new window.naver_id_login("ofyUDU2NTCyZHJ972RrY", "http://localhost:3000/naverlogin");
         var state = naver_id_login.getUniqState();
-        naver_id_login.setButton("green", 1,40);
+        // naver_id_login.setButton("green", 1,40);
         naver_id_login.setDomain("http://localhost:3000");
         naver_id_login.setState(state);
         //naver_id_login.setPopup();
-        naver_id_login.init_naver_id_login();
+        // naver_id_login.init_naver_id_login();
     }
-
-
-
 
     const navigate = useNavigate();
     console.log(window)
-    const {Kakao} = window;
+    const { Kakao } = window;
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false); // 로딩 상태 관리
 
 
-    
-    
+    const handleNaverLogin = () => {
+        const clientId = "ofyUDU2NTCyZHJ972RrY";
+        const redirectUri = "http://localhost:3000/naverlogin";
+        const state = Math.random().toString(36).substring(2);
+
+        const loginUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${state}`;
+
+        window.location.href = loginUrl; // 네이버 로그인 페이지로 이동
+    };
+
+
 
 
     //카카오 네이버 초기화
@@ -87,37 +93,41 @@ const LoginHome = () => {
 
     const loginKakao = () => {
         Kakao.Auth.authorize({
-            redirectUri : 'http://localhost:3000/kakaologin'
+            redirectUri: 'http://localhost:3000/kakaologin'
         })
     }
+
+    const handleHomeClick = () => {
+        navigate('/pages/Home/CustomerHome');
+    };
 
     return (
         <div className="login-home">
             <div className="logo-container">
-                <h2 className="logo">ECOEATS</h2>
+                <h2 className="logo" onClick={handleHomeClick}>ECOEATS</h2>
             </div>
 
             <div className="login-container">
                 <h3 className="login-title">CUSTOMER LOGIN</h3>
 
-                <input 
-                    type='text' 
-                    placeholder='ID' 
-                    className="login-id" 
-                    value={email} 
-                    onChange={(e) => setEmail(e.target.value)} 
+                <input
+                    type='text'
+                    placeholder='ID'
+                    className="login-id"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                 />
-                <input 
-                    type='password' 
-                    placeholder='PASSWORD' 
-                    className="login-pw" 
-                    value={password} 
-                    onChange={(e) => setPassword(e.target.value)} 
+                <input
+                    type='password'
+                    placeholder='PASSWORD'
+                    className="login-pw"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                 />
 
-                <button 
-                    type='button' 
-                    className="login-button" 
+                <button
+                    type='button'
+                    className="login-button"
                     onClick={handleLogin}
                     disabled={isLoading || !email || !password} // 로딩 중이거나 입력 값이 없으면 비활성화
                 >
@@ -127,8 +137,8 @@ const LoginHome = () => {
                 {errorMessage && <div className="error-message">{errorMessage}</div>}
 
                 <div className="sns-login">
-                    <div id="naver_id_login"></div>
-                    <button className="sns-button kakao"id="kakao-login-btn" onClick={loginKakao}>K</button>
+                    <button className="sns-button-naver" onClick={handleNaverLogin}>Continue with NAVER</button>
+                    <button className="sns-button-kakao" id="kakao-login-btn" onClick={loginKakao}>Continue with KAKAO</button>
                 </div>
 
                 <div className="links">
