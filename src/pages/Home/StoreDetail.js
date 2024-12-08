@@ -532,39 +532,49 @@ function StoreDetail() {
 
                         {activeTab === "cart" && (
                             <div className="cart-summary">
-                                <h3>장바구니</h3>
-                                <ul>
-                                    {cart.map((item) => (
-                                        <li key={item.menuId} className="cart-item">
-                                            <span>{item.menuName}</span>
-                                            <span>{item.price} 원</span>
-                                            <div className="quantity-controls">
-                                                <button
-                                                    onClick={() => handleQuantityChange(item.menuId, item.selectedQty - 1)}
-                                                    disabled={item.selectedQty <= 1}
-                                                >
-                                                    -
-                                                </button>
-                                                <input
-                                                    type="number"
-                                                    min="1"
-                                                    value={item.selectedQty}
-                                                    onChange={(e) => handleInputChange(item.menuId, e.target.value)}
-                                                />
-                                                <button
-                                                    onClick={() => handleQuantityChange(item.menuId, item.selectedQty + 1)}
-                                                    disabled={item.selectedQty >= item.menuQty}
-                                                >
-                                                    +
-                                                </button>
-                                            </div>
-                                            <button onClick={() => handleRemoveFromCart(item.menuId)}>삭제</button>
-                                        </li>
-                                    ))}
-                                </ul>
-                                <button className="checkout-button" onClick={handleCheckout}>결제하기</button>
+                                {cart.length === 0 ? (
+                                    <p className="empty-cart">장바구니가 비었습니다.</p>
+                                ) : (
+                                    <>
+                                        <h3>장바구니</h3>
+                                        <ul>
+                                            {cart.map((item) => (
+                                                <li key={item.menuId} className="cart-item">
+                                                    <span className="item-name">{item.menuName}</span>
+                                                    <span className="item-price">{item.price} 원</span>
+                                                    <div className="quantity-controls">
+                                                        <button
+                                                            onClick={() => handleQuantityChange(item.menuId, item.selectedQty - 1)}
+                                                            disabled={item.selectedQty <= 1}
+                                                        >
+                                                            -
+                                                        </button>
+                                                        <input
+                                                            type="number"
+                                                            min="1"
+                                                            value={item.selectedQty}
+                                                            onChange={(e) => handleInputChange(item.menuId, e.target.value)}
+                                                        />
+                                                        <button
+                                                            onClick={() => handleQuantityChange(item.menuId, item.selectedQty + 1)}
+                                                            disabled={item.selectedQty >= item.menuQty}
+                                                        >
+                                                            +
+                                                        </button>
+                                                    </div>
+                                                    <button className="remove-btn" onClick={() => handleRemoveFromCart(item.menuId)}>
+                                                        삭제
+                                                    </button>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                        <button className="checkout-button" onClick={handleCheckout}>결제하기</button>
+                                    </>
+                                )}
                             </div>
                         )}
+
+
                         <PaymentModal isOpen={isModalOpen} onClose={closeModal} handlePayment={handlePayment} />
                     </div>
                 </div>

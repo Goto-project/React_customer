@@ -370,55 +370,63 @@
 }
 
 .cart-summary {
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+    margin: 40px auto;
     padding: 20px;
-    text-align: center;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.cart-summary h3 {
-    font-size: 28px;
-    color: #4d826a;
+h3 {
+    text-align: center;
+    font-size: 24px;
     margin-bottom: 20px;
+    color: #333;
+}
+
+.empty-cart {
+    text-align: center;
+    font-size: 18px;
+    color: #888;
+    font-style: italic;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
 }
 
 .cart-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #fafafa;
+    gap: 20px;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    background-color: white;
     border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
-.cart-item-details {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+.cart-item span {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 16px;
+    color: #555;
 }
 
-.cart-item-image {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 8px;
+.item-name {
+    max-width: 30%;
 }
 
-.cart-item-info {
-    flex-grow: 1;
-    text-align: left;
-}
-
-.cart-item-name {
-    font-size: 18px;
-    color: #333;
-    margin-bottom: 5px;
+.item-price {
+    max-width: 20%;
+    text-align: center;
 }
 
 .quantity-controls {
@@ -428,75 +436,72 @@
 }
 
 .quantity-controls button {
-    background-color: #4d826a;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 50%;
+    border: 1px solid #007bff;
+    background-color: #fff;
+    color: #007bff;
     cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.quantity-controls button:hover {
-    background-color: #3d6d52;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .quantity-controls input {
-    width: 60px;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    width: 50px;
     text-align: center;
     font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
 }
 
-.cart-item-price {
-    font-size: 16px;
-    color: #e74c3c;
-    font-weight: bold;
-}
-
-.remove-item-btn {
-    background-color: #e74c3c;
-    color: white;
+.remove-btn {
     padding: 8px 15px;
+    font-size: 14px;
+    color: white;
+    background-color: #e74c3c;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.remove-item-btn:hover {
-    background-color: #c0392b;
-}
-
-.cart-total {
-    margin-top: 20px;
-    font-size: 20px;
-    font-weight: bold;
-    color: #333;
+    transition: background-color 0.3s ease;
 }
 
 .checkout-button {
-    background-color: #4d826a;
-    color: white;
-    padding: 15px 30px;
-    border: none;
+    width: 100%;
+    padding: 15px;
+    background-color: #28a745;
     border-radius: 8px;
+    color: white;
     font-size: 18px;
+    margin-top: 20px;
     cursor: pointer;
-    margin-top: 30px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease;
 }
 
-.checkout-button:hover {
-    background-color: #3d6d52;
+/* 반응형: 모바일 크기 */
+@media (max-width: 768px) {
+    .cart-item {
+        flex-direction: column; /* 가로 배치를 세로로 변경 */
+        align-items: flex-start;
+    }
+
+    .cart-item span,
+    .cart-item .quantity-controls,
+    .cart-item .remove-btn {
+        width: 100%; /* 모든 요소가 100% 너비 */
+        text-align: left; /* 텍스트 정렬 왼쪽 */
+        margin-bottom: 10px; /* 간격 추가 */
+    }
+
+    .quantity-controls {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .checkout-button {
+        font-size: 16px;
+    }
 }
 
-.checkout-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
 
 .modal-overlay {
     position: fixed;

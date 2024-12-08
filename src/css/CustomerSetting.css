@@ -38,8 +38,8 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.edit-container h1, h2,
-.password-edit-container h1, h2 {
+.edit-container h1, .edit-container h2,
+.password-edit-container h1, .password-edit-container h2 {
     text-align: center;
     color: #333;
 }
