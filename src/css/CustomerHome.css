@@ -343,7 +343,7 @@ body {
 .store-card {
     background: #ffffff;
     border: 1px solid #e0e0e0;
-    border-radius: 10px;
+    /* border-radius: 10px; */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     display: flex;
@@ -418,15 +418,104 @@ body {
     transform: scale(1.05);
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1100px) {
     .stores {
         grid-template-columns: repeat(2, 1fr); /* 화면 크기 줄어들면 3개 */
     }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 900px) {
+    .store-list {
+        padding: 20px;
+    }
+
     .stores {
-        grid-template-columns: repeat(1, 1fr); /* 모바일에서는 2개 */
+        grid-template-columns: 1fr; /* 모바일에서는 카드 1개씩 */
+        margin: 20px auto
+    }
+
+    .store-card {
+        display: flex;
+        flex-direction: row; /* 사진과 텍스트가 가로로 배치 */
+        align-items: center;
+        padding: 20px;
+        max-width: 100%; /* 모바일에서 카드 크기 조정 */
+    }
+
+    .store-card img {
+        width: 150px;
+        height: 150px;
+        margin-right: 20px;
+        object-fit: cover;
+        border: none;
+    }
+
+    .store-info {
+        text-align: left; /* 모바일에서는 왼쪽 정렬 */
+    }
+
+    .store-info h3 {
+        font-size: 16px;
+    }
+
+    .store-info p {
+        font-size: 12px;
+    }
+
+    .sort-options button {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        gap: 8px;
+        cursor: pointer;
+        background-color: transparent;
+        color: white;
+        font-weight: bold;
+        border: none;
+        padding: 7px 14px;
+        font-size: 12px;
+        border-radius: 5px;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .sort-options button img {
+        width: 15px;
+        height: 15px;
+    }
+}
+
+@media (max-width: 500px) {
+    .stores {
+        grid-template-columns: 1fr; /* 모바일에서는 카드 1개씩 */
+    }
+
+    .store-card {
+        display: flex;
+        flex-direction: row; /* 사진과 텍스트가 가로로 배치 */
+        align-items: center;
+        padding: 10px;
+        max-width: 100%; /* 모바일에서 카드 크기 조정 */
+    }
+
+    .store-card img {
+        width: 90px;
+        height: 90px;
+        margin-left: 10px;
+        margin-right: 10px;
+        object-fit: cover;
+        border: none;
+    }
+
+    .store-info {
+        text-align: left; /* 모바일에서는 왼쪽 정렬 */
+    }
+
+    .store-info h3 {
+        font-size: 12px;
+    }
+
+    .store-info p {
+        font-size: 10px;
     }
 
     .sort-options button {
@@ -448,12 +537,6 @@ body {
     .sort-options button img {
         width: 15px;
         height: 15px;
-    }
-}
-
-@media (max-width: 480px) {
-    .stores {
-        grid-template-columns: 1fr; /* 작은 화면에서는 1개 */
     }
 }
 

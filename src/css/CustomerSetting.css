@@ -1,0 +1,100 @@
+.settings-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.tabs {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.tab {
+    padding: 10px 20px;
+    background-color: #dadada;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 20px 20px 0 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.tab.active {
+    background-color: #4d826a;
+    color: #fff;
+}
+
+.tab:hover {
+    background-color: #ddd;
+}
+
+.edit-container,
+.password-edit-container {
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.edit-container h1, h2,
+.password-edit-container h1, h2 {
+    text-align: center;
+    color: #333;
+}
+
+.customer-edit-input-group,
+.password-input-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+    color: #555;
+}
+
+.input-field {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+    box-sizing: border-box;
+    transition: border 0.3s ease;
+}
+
+.input-field:focus {
+    border-color: #4d826a;
+    outline: none;
+}
+
+button.submit-btn,
+button.editpasswordbtn {
+    width: 100%;
+    padding: 15px;
+    background-color: #4d826a;
+    border: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button.submit-btn:hover,
+button.editpasswordbtn:hover {
+    background-color: #39604f;
+}
+
+.message,
+.error-message {
+    text-align: center;
+    color: #f44336;
+    margin-top: 10px;
+    font-size: 14px;
+}

@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 // import '../../css/CustomerEditInfo.css';
 // import '../../css/ChangePassword.css';
+import '../../css/CustomerSetting.css';
 
 const CustomerSetting = () => {
     const [activeTab, setActiveTab] = useState('editInfo');
@@ -154,7 +155,7 @@ const CustomerSetting = () => {
                     비밀번호 변경
                 </button>
             </div>
-
+    
             {activeTab === 'editInfo' && (
                 <div className="edit-container">
                     <h1>회원 정보 수정</h1>
@@ -196,10 +197,10 @@ const CustomerSetting = () => {
                     </form>
                 </div>
             )}
-
+    
             {activeTab === 'changePassword' && (
                 <div className="password-edit-container">
-                    <h2>비밀번호 변경</h2>
+                    <h1>비밀번호 변경</h1>
                     <div className="password-input-group">
                         <label>현재 비밀번호</label>
                         <input
@@ -207,6 +208,7 @@ const CustomerSetting = () => {
                             value={currentPwd}
                             onChange={(e) => setCurrentPwd(e.target.value)}
                             placeholder="현재 비밀번호 입력"
+                            className="input-field"
                         />
                     </div>
                     <div className="password-input-group">
@@ -216,6 +218,7 @@ const CustomerSetting = () => {
                             value={newPwd}
                             onChange={(e) => setNewPwd(e.target.value)}
                             placeholder="새 비밀번호 입력"
+                            className="input-field"
                         />
                     </div>
                     <div className="password-input-group">
@@ -225,6 +228,7 @@ const CustomerSetting = () => {
                             value={confirmNewPwd}
                             onChange={(e) => setConfirmNewPwd(e.target.value)}
                             placeholder="새 비밀번호 확인"
+                            className="input-field"
                         />
                     </div>
                     <button className="editpasswordbtn" onClick={handlePasswordChange}>
@@ -235,6 +239,7 @@ const CustomerSetting = () => {
             )}
         </div>
     );
+    
 };
 
 export default CustomerSetting;

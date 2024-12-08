@@ -1,21 +1,14 @@
-.edit-container {
+/* .edit-container {
     display: flex;
-    /* Flexbox 활성화 */
     flex-direction: column;
-    /* 자식 요소를 세로로 정렬 */
     justify-content: center;
-    /* 세로 가운데 정렬 */
     align-items: center;
-    /* 가로 가운데 정렬 */
     min-height: 100vh;
-    /* 화면 전체 높이를 기준으로 가운데 정렬 */
     padding: 20px;
-    /* 여백 추가 */
     box-sizing: border-box;
-    /* 패딩 포함 박스 크기 */
-}
+} */
 
-.edit-form-container {
+/* .edit-form-container {
     width: 100%;
     max-width: 500px;
     padding: 30px;
@@ -46,7 +39,7 @@
 }
 
 .input-field {
-    flex: 1; /* 나머지 공간 차지 */
+    flex: 1; 
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -57,7 +50,6 @@
     background-color: #f7f7f7;
 }
 
-/* 저장 버튼 */
 .submit-btn {
     width: 100%;
     padding: 10px 20px;
@@ -81,4 +73,4 @@
     font-size: 14px;
     margin-top: 10px;
     text-align: center;
-}
+} */

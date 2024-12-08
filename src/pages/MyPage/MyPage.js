@@ -133,8 +133,8 @@ const MyPage = () => {
                         <li className={activePage === 'MY_FAVORITE' ? 'active' : ''} onClick={() => handlePageChange('MY_FAVORITE')}>즐겨찾기</li>
                         <li className={activePage === 'MY_ORDER' ? 'active' : ''} onClick={() => handlePageChange('MY_ORDER')}>내 주문목록</li>
                         <li className={activePage === 'MY_REVIEW' ? 'active' : ''} onClick={() => handlePageChange('MY_REVIEW')}>내 리뷰목록</li>
-                        <li className={activePage === 'EDIT_INFORMATION' ? 'active' : ''} onClick={() => handlePageChange('EDIT_INFORMATION')}>정보 수정</li>
-                        <li className={activePage === 'CHANGE_PASSWORD' ? 'active' : ''} onClick={() => handlePageChange('CHANGE_PASSWORD')}>비밀번호 변경</li>
+                        {/* <li className={activePage === 'EDIT_INFORMATION' ? 'active' : ''} onClick={() => handlePageChange('EDIT_INFORMATION')}>정보 수정</li>
+                        <li className={activePage === 'CHANGE_PASSWORD' ? 'active' : ''} onClick={() => handlePageChange('CHANGE_PASSWORD')}>비밀번호 변경</li> */}
                         <li className={activePage === 'CUSTOMER_SETTING' ? 'active' : ''} onClick={() => handlePageChange('CUSTOMER_SETTING')}>계정 설정</li>
                         <li onClick={() => {
                             setShowModal(true);
