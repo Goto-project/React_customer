@@ -8,8 +8,14 @@ body {
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: calc(100vh - 500px); /* 500px은 header의 높이 */
     position: relative;
+}
+
+@media (max-width: 500px){
+    .customer-home {
+        width: 100%;
+    }
 }
 
 .customer-header {
@@ -17,7 +23,7 @@ body {
     background-image: url('/public/img/customerhome2.jpg');
     background-size: cover;
     background-position: center;
-    height: 500px;
+    height: 450px;
     color: white;
     padding: 20px;
     z-index: 1;
@@ -198,7 +204,6 @@ body {
 
 .content {
     position: relative;
-    top: -40px;
     z-index: 1;
     background-color: #f9f9f9;
 }

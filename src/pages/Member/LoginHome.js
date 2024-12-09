@@ -163,8 +163,12 @@ const LoginHome = () => {
                 {errorMessage && <div className="error-message">{errorMessage}</div>}
 
                 <div className="sns-login">
-                    <button className="sns-button-naver" onClick={handleNaverLogin}>Continue with NAVER</button>
-                    <button className="sns-button-kakao" id="kakao-login-btn" onClick={loginKakao}>Continue with KAKAO</button>
+                    <button className="sns-button-naver" onClick={handleNaverLogin}>
+                        <img src="/img/naver.png" />
+                        Continue with NAVER</button>
+                    <button className="sns-button-kakao" id="kakao-login-btn" onClick={loginKakao}>
+                        <img src="/img/kakao.png" />
+                        Continue with KAKAO</button>
                 </div>
 
                 <div className="links">

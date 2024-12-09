@@ -14,7 +14,7 @@ const MyOrder = () => {
     const [currentPage, setCurrentPage] = useState(1); // Current page state
     const [expandedOrders, setExpandedOrders] = useState(new Set()); // 토글 상태 관리
 
-    const ordersPerPage = 6; // Number of orders per page
+    const ordersPerPage = 5; // Number of orders per page
 
     // 리뷰 작성 가능 여부를 판단하는 함수
     const isReviewable = (orderTime) => {
@@ -205,8 +205,10 @@ const MyOrder = () => {
 
                         return (
                             <div key={orderNumber} className="order-card">
+                                <h3>주문 번호: {orderNumber}</h3>
+                                <p><strong>{order.items[0]?.orderstatus || "상태 없음"}</strong></p>
                                 <div className="order-header">
-                                    <h3>주문 번호: {orderNumber}</h3>
+
                                     <span>{new Date(order.ordertime).toLocaleString()}</span>
                                     <button onClick={() => toggleOrder(orderNumber)}>
                                         {isExpanded ? "간략히 보기" : "자세히 보기"}
@@ -216,7 +218,7 @@ const MyOrder = () => {
                                     <div className="order-details">
                                         <p><strong>상점: {order.storename}</strong></p>
                                         <p><strong>총 가격: {order.totalprice} 원</strong></p>
-                                        <p><strong>주문 상태: {order.items[0]?.orderstatus || "상태 없음"}</strong></p>
+                                        
                                         {order.items.map((item, idx) => (
                                             <div key={idx} className="order-item">
                                                 <p>

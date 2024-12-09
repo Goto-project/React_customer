@@ -12,9 +12,7 @@ const PaymentModal = ({ isOpen, onClose, handlePayment }) => {
             <div className="modal-content">
                 <h3>결제 방법 선택</h3>
                 <div className="payment-buttons">
-                    <button className="kakao-pay-btn" onClick={() => handlePayment(1)}>
-                        <img src="/img/kakaopay.png" alt="카카오페이" />
-                    </button>
+                    <button className="kakao-pay-btn" onClick={() => handlePayment(1)}><img src="/img/kakaopay.png" alt="카카오페이" />카카오페이</button>
                     <button className="cash-pay-btn" onClick={() => handlePayment(0)}>현장결제</button>
                 </div>
                 <button className="close-button" onClick={onClose}>
@@ -41,6 +39,7 @@ function StoreDetail() {
     const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태
     const [paymentMethod, setPaymentMethod] = useState(null);
     const [paymentInfo, setPaymentInfo] = useState(null); // 영수증 정보 상태
+
 
     useEffect(() => {
         fetchStoreDetail();
@@ -509,26 +508,30 @@ function StoreDetail() {
                         )}
 
                         {activeTab === "reviews" && (
-                            <div className="reviews">
-                                {reviews.length === 0 ? (
-                                    <div className="no-reviews-message">
-                                        <img src="/img/leaf.png" alt="아이콘" className="no-reviews-icon" />
-                                        <p>아직 작성된 리뷰가 없어요</p>
-                                    </div>
-                                ) : (
-                                    currentReviewItems.map((review) => (
-                                        <div key={review.reviewId} className="review-item">
-                                            <img
-                                                src={`http://127.0.0.1:8080${review.imageurl}`}
-                                                alt="리뷰 이미지"
-                                                className="review-image"
-                                            />
-                                            <p>{review.content}</p>
-                                            <p>작성자: {review.nickname}</p>
-                                            <p>작성일 : {new Date(review.regdate).toLocaleString()}</p>
+                            <div className="daily-menu-container">
+                                <div className="reviews">
+                                    {reviews.length === 0 ? (
+                                        <div className="no-reviews-message">
+                                            <img src="/img/leaf.png" alt="아이콘" className="no-menu-icon" />
+                                            <p>아직 리뷰가 남겨지지 않았어요.</p>
                                         </div>
-                                    ))
-                                )}
+                                    ) : (
+                                        currentReviewItems.map((review) => (
+                                            <div key={review.reviewId} className="review-item">
+                                                <img
+                                                    src={`http://127.0.0.1:8080${review.imageurl}`}
+                                                    alt="리뷰 이미지"
+                                                    className="review-image"
+                                                />
+                                                <p>{review.content}</p>
+                                                <p>작성자: {review.nickname}</p>
+                                                <p>작성일 : {new Date(review.regdate).toLocaleString()}</p>
+                                            </div>
+                                        ))
+                                    )}
+
+                                </div>
+
                                 <div className="pagination">
                                     <button
                                         className="pagination-btn"
