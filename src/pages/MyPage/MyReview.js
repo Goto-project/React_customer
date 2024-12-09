@@ -66,12 +66,14 @@ const MyReview = () => {
 
     const handleSaveUpdate = async () => {
         const token = localStorage.getItem("token");
+        const email = localStorage.getItem("email");
 
         const formData = new FormData();
         formData.append("review", new Blob([JSON.stringify({
             reviewNo: currentReview.reviewNo,
             content: updatedContent,
             rating: updatedRating,
+            customerEmail: { customerEmail: email },
         })], { type: "application/json" }));
 
         if (updatedImage) {
@@ -143,7 +145,7 @@ const MyReview = () => {
                     {reviews.map((review) => (
                         <li key={review.reviewNo} className="review-item">
                             <img
-                                src={review.imageurl || "/static/img/default.png"}
+                                src={`http://127.0.0.1:8080${review.imageurl}`}
                                 alt="리뷰 이미지"
                                 className="review-image"
                             />

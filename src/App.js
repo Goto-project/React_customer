@@ -15,6 +15,8 @@ import CompletedReceipt from './pages/payment/CompletedReceipt';
 import PaymentFail from './pages/payment/PaymentFail';
 import PaymentCancel from './pages/payment/PaymentCancel';
 import NaverLogin from './pages/Member/NaverLogin';
+import WriteReview from './pages/MyPage/WriteReview';
+import MyOrder from './pages/MyPage/MyOrder';
 
 function HomeScreen() {
   const navigate = useNavigate();
@@ -128,6 +130,8 @@ function App() {
           <Route path="/store/detail/:storeid" element={<StoreDetail />} />
           <Route path="/payment/success" element={<PaymentSuccess />} />
           <Route path="/payment/completed-receipt" element={<CompletedReceipt />} />
+          <Route path="/pages/Mypage/WriteReview/:orderNumber/:storeid" element={<WriteReview />} />
+          <Route path="/pages/Mypage/MyOrder" element={<MyOrder />} />
           <Route path="/payment/fail" element={<PaymentFail />} />
           <Route path="/payment/cancel" element={<PaymentCancel />} />
           <Route path="/kakaologin" element={<KakaoLogin />} />
