@@ -9,12 +9,53 @@ const SignupPage = () => {
     const [nickname, setNickname] = useState('');
     const [phone, setPhone] = useState('');
     const [message, setMessage] = useState('');
+    const [emailMessage, setEmailMessage] = useState(''); // 이메일 확인 메시지
+    const [isEmailValid, setIsEmailValid] = useState(false); // 이메일 유효성 상태
     const navigate = useNavigate(); // useNavigate 훅 사용
+
+    // 이메일 중복 확인
+    const handleCheckEmail = async () => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // 이메일 형식 정규식
+
+        if (!email) {
+            setEmailMessage('이메일을 입력해주세요.');
+            return;
+        }
+
+        if (!emailRegex.test(email)) {
+            setEmailMessage('올바른 이메일 형식을 입력해주세요.');
+            setIsEmailValid(false);
+            return;
+        }
+
+        try {
+            const response = await axios.get(`/ROOT/api/customer/checkemail`, {
+                params: { customerEmail: email },
+            });
+
+            if (response.data.status === 200) {
+                setEmailMessage('사용 가능한 이메일입니다.');
+                setIsEmailValid(true);
+            } else {
+                setEmailMessage('이미 사용 중인 이메일입니다.');
+                setIsEmailValid(false);
+            }
+        } catch (error) {
+            console.error('이메일 중복 확인 오류:', error);
+            setEmailMessage('서버 오류가 발생했습니다.');
+            setIsEmailValid(false);
+        }
+    };
 
     // 회원가입 버튼 클릭 핸들러
     const handleSignup = async () => {
         if (!email || !password || !nickname || !phone) {
             setMessage('모든 필드를 입력해주세요.');
+            return;
+        }
+
+        if (!isEmailValid) {
+            setMessage('사용 가능한 이메일을 입력해주세요.');
             return;
         }
 
@@ -64,13 +105,20 @@ const SignupPage = () => {
                 <div className="signup-container">
                     <h3 className="signup-title">CUSTOMER SIGN UP</h3>
                     <div className="signup-input">
-                        <input
-                            type="text"
-                            placeholder="EMAIL"
-                            className="customerEmail"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
+                        <div className="email-check-container">
+                            <input
+                                type="text"
+                                placeholder="EMAIL"
+                                className="customerEmail"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                            <button className="check-email-button" onClick={handleCheckEmail}>
+                                이메일 확인
+                            </button>
+                        </div>
+                        {emailMessage && <div className="email-message">{emailMessage}</div>}
+
                         <input
                             type="password"
                             placeholder="PASSWORD"

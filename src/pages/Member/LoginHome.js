@@ -18,7 +18,6 @@ const LoginHome = () => {
     }
 
     const navigate = useNavigate();
-    console.log(window)
     const { Kakao } = window;
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
