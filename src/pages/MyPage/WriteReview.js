@@ -52,7 +52,7 @@ const WriteReview = () => {
 
             if (response.data.status === 200) {
                 setSuccess("리뷰가 성공적으로 작성되었습니다.");
-                navigate("/pages/Mypage/MyOrder"); 
+                navigate(`/pages/Member/MyPage/${email}`); 
             } else {
                 setError(response.data.result || "리뷰 작성 중 오류가 발생했습니다.");
             }
