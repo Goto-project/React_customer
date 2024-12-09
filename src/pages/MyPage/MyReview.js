@@ -13,6 +13,9 @@ const MyReview = () => {
     const [updatedRating, setUpdatedRating] = useState(0);
     const [updatedImage, setUpdatedImage] = useState(null);
 
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [reviewToDelete, setReviewToDelete] = useState(null);
+
     useEffect(() => {
         const fetchReviews = async () => {
             const token = localStorage.getItem("token");
@@ -109,18 +112,19 @@ const MyReview = () => {
         }
     };
 
-    const handleDelete = async (reviewNo) => {
+    const handleDelete = async () => {
         try {
             const token = localStorage.getItem("token");
             const response = await axios.delete(`/ROOT/api/review/delete.json`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
-                data: { reviewNo },
+                data: { reviewNo: reviewToDelete.reviewNo },
             });
 
             if (response.data.status === 200) {
-                setReviews(reviews.filter((review) => review.reviewNo !== reviewNo));
+                setReviews(reviews.filter((review) => review.reviewNo !== reviewToDelete.reviewNo));
+                setIsDeleting(false);
             } else {
                 setErrorMessage("리뷰 삭제 실패");
             }
@@ -128,6 +132,16 @@ const MyReview = () => {
             console.error("Error deleting review:", error);
             setErrorMessage("리뷰 삭제 중 오류가 발생했습니다.");
         }
+    };
+
+    const openDeleteModal = (review) => {
+        setReviewToDelete(review);
+        setIsDeleting(true);
+    };
+
+    const closeDeleteModal = () => {
+        setIsDeleting(false);
+        setReviewToDelete(null);
     };
 
     if (isLoading) {
@@ -143,7 +157,7 @@ const MyReview = () => {
             ) : (
                 <ul className="review-list">
                     {reviews.map((review) => (
-                        <li key={review.reviewNo} className="review-item">
+                        <li key={review.reviewNo} className="my-review-item">
                             <img
                                 src={`http://127.0.0.1:8080${review.imageurl}`}
                                 alt="리뷰 이미지"
@@ -155,8 +169,8 @@ const MyReview = () => {
                                 <p className="review-rating">평점: {review.rating}</p>
                                 <p className="review-content">{review.content}</p>
                                 <div className="review-actions">
-                                    <button className="edit-button" onClick={() => handleUpdate(review)}>수정</button>
-                                    <button className="delete-button" onClick={() => handleDelete(review.reviewNo)}>삭제</button>
+                                    <button className="edit-button" onClick={() => handleUpdate(review)}></button>
+                                    <button className="delete-button" onClick={() => openDeleteModal(review)}></button>
                                 </div>
                             </div>
                         </li>
@@ -189,6 +203,19 @@ const MyReview = () => {
                         <div>
                             <button className="save-button" onClick={handleSaveUpdate}>저장</button>
                             <button className="cancel-button" onClick={() => setIsEditing(false)}>취소</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {isDeleting && (
+                <div className="review-modal">
+                    <div className="review-modal-overlay" onClick={closeDeleteModal}></div>
+                    <div className="review-modal-content">
+                        <h2>정말 삭제하시겠습니까?</h2>
+                        <p>{reviewToDelete.storeName}에 대한 리뷰가 삭제됩니다.</p>
+                        <div>
+                            <button className="save-button" onClick={handleDelete}>삭제</button>
+                            <button className="cancel-button" onClick={closeDeleteModal}>취소</button>
                         </div>
                     </div>
                 </div>

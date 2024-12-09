@@ -324,7 +324,7 @@ body {
     border-radius: 10px;
     cursor: pointer;
     width: 100%;
-    max-width: 100px;
+    max-width: 70px;
 }
 
 .search-button:hover {
@@ -425,8 +425,29 @@ body {
 }
 
 @media (max-width: 900px) {
+    .sort-options h2 {
+        font-size: 25px;
+        text-align: center;
+        color: white;
+    }
+
+    .store-search-input {
+        width: 90%;
+        max-width: 500px;
+        padding: 10px;
+        font-size: 13px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+    }
+
+    .search-button {
+        width: 100%;
+        max-width: 50px;
+        font-size: 12px;
+    }
+
     .store-list {
-        padding: 20px;
+        padding: 15px;
     }
 
     .stores {
@@ -486,6 +507,29 @@ body {
 }
 
 @media (max-width: 500px) {
+    .slide h2 {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .slide p {
+        font-size: 13px;
+    }
+
+    .address-input {
+        width: 80%;
+        padding: 12px;
+        font-size: 13px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        margin-top: 1px;
+        transition: 0.3s;
+    }
+
+    .map-content h2 {
+        font-size: 30px;
+    }
+
     .stores {
         grid-template-columns: 1fr; /* 모바일에서는 카드 1개씩 */
     }
