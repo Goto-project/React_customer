@@ -1,128 +1,108 @@
+/* 전체 컨테이너 유지 */
 .my-order-container {
     padding: 20px;
     max-width: 800px;
     margin: auto;
     color: #333;
-    background-color: white;
+    background-color: #fdfdfd; /* 약간의 배경색 조정 */
+    border-radius: 15px; /* 둥근 테두리 추가 */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 추가 */
 }
 
+/* 헤더 색상 조정 및 폰트 정리 */
 .my-order-container h2 {
     text-align: center;
-    font-size: 40px;
+    font-size: 36px;
     margin-bottom: 20px;
-    color: #4d826a;
+    color: #356857; /* 조금 더 차분한 녹색 톤 */
+    font-family: 'Roboto', sans-serif; /* 모던한 느낌의 폰트 */
 }
 
+/* 버튼 스타일 개선 */
 .filter-buttons {
     text-align: center;
     margin-bottom: 20px;
 }
 
 .filter-buttons button {
-    margin: 0 10px;
-    padding: 10px 20px;
+    margin: 0 8px;
+    padding: 10px 15px;
     border: none;
-    background-color: #4d826a;
+    background-color: #356857; /* 메인 컬러 유지 */
     color: white;
-    border-radius: 5px;
+    border-radius: 25px; /* 더 둥근 버튼으로 변경 */
     cursor: pointer;
-    transition: background-color 0.3s;
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+    transition: all 0.3s ease-in-out; /* 부드러운 효과 */
 }
 
 .filter-buttons button:hover {
-    background-color: #45745f;
+    background-color: #2c5646; /* 어두운 녹색 톤 */
+    transform: scale(1.05); /* 약간 커지는 효과 */
 }
 
+/* 필터 폼 조정 */
 .filter-form {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 20px;
+    gap: 15px;
     margin-bottom: 20px;
 }
 
-.filter-form label {
-    font-size: 14px;
-    margin-right: 10px;
-}
-
-.filter-date {
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    margin-left: 10px;
-}
-
-.filter-date-button {
-    margin: 0 10px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #d2d2d2;
-    cursor: pointer;
-}
-
+.filter-date,
 .filter-option {
-    padding: 10px 20px;
-    border-radius: 10px;
+    padding: 10px;
+    border-radius: 15px;
     border: 1px solid #ddd;
-    margin-left: 10px;
+    background-color: #f9f9f9; /* 살짝 배경색 추가 */
+    font-size: 14px;
 }
 
-.order-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
-}
-
+/* 카드 디자인 개선 */
 .order-card {
-    background-color: #fff;
+    background-color: white;
     border: 1px solid #e0e0e0;
-    border-radius: 10px;
+    border-radius: 15px;
     padding: 20px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* 그림자 강화 */
     position: relative;
+    transition: transform 0.3s, box-shadow 0.3s; /* 애니메이션 추가 */
 }
 
-.order-header {
-    display: flex;
-    border-bottom: 1px dashed #ccc;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-    font-size: 14px;
-    flex-direction: column;
+.order-card:hover {
+    transform: translateY(-5px); /* 살짝 떠오르는 효과 */
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2); /* 그림자 확대 */
 }
 
-.order-details p {
-    margin: 5px 0;
-    font-size: 14px;
-}
-
-.order-details p strong {
-    color: #000;
-}
-
+/* 상태별 배경색 개선 */
 .order-status {
     margin-top: 10px;
-    padding: 5px 10px;
-    font-size: 12px;
+    padding: 8px 15px;
+    font-size: 14px;
     font-weight: bold;
     text-align: center;
-    border-radius: 5px;
-    background-color: #f0f0f0;
+    border-radius: 10px;
+    background-color: #f5f5f5;
     color: #555;
+    transition: all 0.3s ease-in-out;
 }
 
 .order-status:contains('주문 완료') {
     background-color: #4caf50;
     color: white;
+    border: 1px solid #3e8e41; /* 테두리 추가 */
 }
 
 .order-status:contains('주문 취소') {
     background-color: #f44336;
     color: white;
+    border: 1px solid #d32f2f; /* 테두리 추가 */
 }
 
+/* 페이지네이션 버튼 개선 */
 .pagination {
     display: flex;
     justify-content: center;
@@ -133,36 +113,34 @@
     margin: 0 5px;
     padding: 8px 12px;
     border: none;
-    background-color: #ddd;
+    background-color: #f0f0f0;
     cursor: pointer;
-    border-radius: 3px;
-    transition: background-color 0.3s;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
 }
 
 .pagination button:hover {
-    background-color: #bbb;
+    background-color: #d6d6d6;
+    transform: scale(1.1); /* 약간 커지는 효과 */
 }
 
 .pagination .active {
-    background-color: #4CAF50;
+    background-color: #356857;
     color: white;
 }
 
+/* 모바일 반응형 */
 @media (max-width: 480px) {
     .my-order-container h2 {
-        font-size: 30px;
+        font-size: 28px;
     }
-    
+
     .filter-buttons button {
-        margin: 0 10px;
-        padding: 10px 12px;
-        border: none;
-        background-color: #4d826a;
-        color: white;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-        font-size: 10px;
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+
+    .order-card {
+        padding: 15px;
     }
 }
-

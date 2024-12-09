@@ -150,7 +150,7 @@ const MyReview = () => {
 
     return (
         <div className="review-container">
-            <h1 className="review-title">내 리뷰</h1>
+            <h1 className="review-title">MY REVIEW</h1>
             {errorMessage && <p className="review-error-message">{errorMessage}</p>}
             {reviews.length === 0 ? (
                 <p className="no-reviews">작성한 리뷰가 없습니다.</p>
@@ -182,7 +182,7 @@ const MyReview = () => {
                     <div className="review-modal-overlay" onClick={() => setIsEditing(false)}></div>
                     <div className="review-modal-content">
                         <h2>리뷰 수정</h2>
-                        <label>평점:</label>
+                        <label>평점</label>
                         <input
                             type="number"
                             min="1"
@@ -190,12 +190,12 @@ const MyReview = () => {
                             value={updatedRating}
                             onChange={(e) => setUpdatedRating(Number(e.target.value))}
                         />
-                        <label>내용:</label>
+                        <label>내용</label>
                         <textarea
                             value={updatedContent}
                             onChange={(e) => setUpdatedContent(e.target.value)}
                         ></textarea>
-                        <label>이미지:</label>
+                        <label>이미지</label>
                         <input
                             type="file"
                             onChange={(e) => setUpdatedImage(e.target.files[0])}
