@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import '../../css/LoginHome.css';
 
 const LoginHome = () => {
@@ -17,12 +18,21 @@ const LoginHome = () => {
     }
 
     const navigate = useNavigate();
-    console.log(window)
     const { Kakao } = window;
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false); // 로딩 상태 관리
+    const [rememberMe, setRememberMe] = useState(false);
+
+    useEffect(() => {
+        // 쿠키에서 이메일 가져오기
+        const savedEmail = Cookies.get('rememberedEmail');
+        if (savedEmail) {
+            setEmail(savedEmail);
+            setRememberMe(true);
+        }
+    }, []);
 
 
     const handleNaverLogin = () => {
@@ -65,6 +75,14 @@ const LoginHome = () => {
                 // 로그인 성공 시 로컬 스토리지에 토큰 저장
                 localStorage.setItem('token', data.token); //sessionstroage
                 localStorage.setItem('email', email);
+
+
+                // 아이디 기억하기 기능 처리
+                if (rememberMe) {
+                    Cookies.set('rememberedEmail', email, { expires: 7 }); // 쿠키 저장 (7일)
+                } else {
+                    Cookies.remove('rememberedEmail'); // 쿠키 제거
+                }
 
                 // 로그인 후 홈 페이지로 이동
                 navigate('/pages/Home/Customerhome');
@@ -122,6 +140,16 @@ const LoginHome = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
+
+                <div className="remember-me">
+                    <input
+                        type="checkbox"
+                        id="rememberMe"
+                        checked={rememberMe}
+                        onChange={(e) => setRememberMe(e.target.checked)}
+                    />
+                    <label htmlFor="rememberMe">아이디 기억하기</label>
+                </div>
 
                 <button
                     type='button'
