@@ -1,7 +1,7 @@
 .settings-container {
-    max-width: 800px;
+    max-width: 700px;
     margin: 50px auto;
-    padding: 20px;
+    padding: 30px;
     border-radius: 10px;
 }
 
@@ -34,7 +34,7 @@
 .password-edit-container {
     padding: 20px;
     background-color: white;
-    border-radius: 10px;
+    border-radius: 0 10px 10px 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -76,6 +76,7 @@ button.submit-btn,
 button.editpasswordbtn {
     width: 100%;
     padding: 15px;
+    margin-top: 20px;
     background-color: #4d826a;
     border: none;
     color: white;

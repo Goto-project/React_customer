@@ -79,7 +79,7 @@ const KakaoLogin = () => {
                 localStorage.setItem('token', response.data.token); // 토큰 저장
                 localStorage.setItem('email', userInfo.customerEmail); // 카카오 ID를 email로 저장
                 
-                navigate(`/pages/Home/Customerhome`); // 로그인 성공 시 메인 페이지로 이동
+                navigate(`/`); // 로그인 성공 시 메인 페이지로 이동
             } else {
                 alert("로그인 실패");
             }
