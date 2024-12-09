@@ -48,7 +48,6 @@ const PaymentSuccess = () => {
         <div>
             <h1>결제 진행 중...</h1>
             <p>주문 번호: {orderNo}</p>
-
         </div>
     );
 };

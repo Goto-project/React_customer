@@ -381,7 +381,7 @@ function StoreDetail() {
                     <p>{store.address}</p>
                     <p>📞 {store.phone}</p>
                     <p>⏰ {store.startPickup} ~ {store.endPickup}</p>
-                    <p>⭐ {store.rating}</p>
+                    <p>⭐ {store.avgrating}</p>
                 </div>
 
                 <div className="store-bookmark">
@@ -573,8 +573,6 @@ function StoreDetail() {
                                 )}
                             </div>
                         )}
-
-
                         <PaymentModal isOpen={isModalOpen} onClose={closeModal} handlePayment={handlePayment} />
                     </div>
                 </div>
