@@ -228,6 +228,15 @@ function StoreDetail() {
         sessionStorage.setItem(`cart_${storeid}`, JSON.stringify(updatedCart));
     };
 
+    // // 장바구니 총 개수 계산
+    // const cartItemCount = cart.reduce((total, item) => total + item.selectedQty, 0);
+
+    // 장바구니에 추가된 메뉴 수 (고유 메뉴 수)
+    const menuCount = cart.length;
+
+    // 장바구니 총 금액 계산
+    const cartTotalPrice = cart.reduce((total, item) => total + item.price * item.selectedQty, 0);
+
     // 장바구니 항목 삭제
     const handleRemoveFromCart = (menuId) => {
         const updatedCart = cart.filter(item => item.menuId !== menuId);
@@ -414,7 +423,7 @@ function StoreDetail() {
                             className={`tab-button ${activeTab === "cart" ? "active" : ""}`}
                             onClick={() => handleTabClick("cart")}
                         >
-                            장바구니
+                            장바구니 {menuCount > 0 && <span className="cart-count">({menuCount})</span>}
                         </button>
                     </div>
 
@@ -568,6 +577,9 @@ function StoreDetail() {
                                                 </li>
                                             ))}
                                         </ul>
+                                        <div className="cart-total">
+                                            <h4>총 금액: {cartTotalPrice.toLocaleString()} 원</h4>
+                                        </div>
                                         <button className="checkout-button" onClick={handleCheckout}>결제하기</button>
                                     </>
                                 )}
