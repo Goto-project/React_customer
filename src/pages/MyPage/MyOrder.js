@@ -216,6 +216,7 @@ const MyOrder = () => {
                                     <div className="order-details">
                                         <p><strong>상점: {order.storename}</strong></p>
                                         <p><strong>총 가격: {order.totalprice} 원</strong></p>
+                                        <p><strong>주문 상태: {order.items[0]?.orderstatus || "상태 없음"}</strong></p>
                                         {order.items.map((item, idx) => (
                                             <div key={idx} className="order-item">
                                                 <p>

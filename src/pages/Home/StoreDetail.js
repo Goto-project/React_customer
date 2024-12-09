@@ -46,7 +46,10 @@ function StoreDetail() {
         fetchStoreDetail();
         fetchDailyMenu(); // 첫 렌더링 시 데일리 메뉴도 불러옴
         checkBookmarkStatus(); // 즐겨찾기 여부 확인
-    }, [storeid]);
+        if (activeTab === "reviews") {
+            fetchReviews();  // activeTab이 'reviews'일 때 리뷰를 불러옵니다.
+        }
+    }, [activeTab, storeid]);
 
     useEffect(() => {
         // 세션 스토리지에서 장바구니를 불러오기
@@ -101,10 +104,11 @@ function StoreDetail() {
 
     const fetchReviews = async () => {
         try {
-            const response = await axios.get(`/ROOT/api/selectall.json`, {
+            const response = await axios.get(`/ROOT/api/review/selectall.json`, {
                 params: { storeId: storeid },
             });
             if (response.status === 200) {
+                console.log(response.data);
                 setReviews(response.data.list); // 리뷰 목록 설정
             } else {
                 setErrorMessage("리뷰를 불러오지 못했습니다.");
@@ -514,8 +518,14 @@ function StoreDetail() {
                                 ) : (
                                     currentReviewItems.map((review) => (
                                         <div key={review.reviewId} className="review-item">
+                                            <img
+                                                src={`http://127.0.0.1:8080${review.imageurl}`}
+                                                alt="리뷰 이미지"
+                                                className="review-image"
+                                            />
                                             <p>{review.content}</p>
-                                            <p>작성자: {review.userName}</p>
+                                            <p>작성자: {review.nickname}</p>
+                                            <p>작성일 : {new Date(review.regdate).toLocaleString()}</p>
                                         </div>
                                     ))
                                 )}
