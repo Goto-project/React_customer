@@ -36,8 +36,6 @@ const LoginHome = () => {
     };
 
 
-
-
     //카카오 네이버 초기화
     useEffect(() => {
         if (window.Kakao && !Kakao.isInitialized()) {

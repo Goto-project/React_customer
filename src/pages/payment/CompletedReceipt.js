@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import '../../css/CompletedReceipt.css'
 
 const CompletedReceipt = () => {
     const location = useLocation();
@@ -70,32 +71,36 @@ const CompletedReceipt = () => {
 
 
     return (
-        <div>
-            <h2>결제 영수증</h2>
-            <p>주문 번호: {receiptData.order_number}</p>
-            <p>주문 날짜: {receiptData.order_date}</p>
-            <p>매장 이름: {receiptData.store_name}</p>
-            <p>총 가격: {receiptData.total_price}</p>
-            <p>결제 수단: {payMethod}</p>
-            <h3>주문 메뉴</h3>
-            <ul>
+        <div className="receipt-container">
+            <h2 className="receipt-title">결제 영수증</h2>
+            <div className="receipt-details">
+                <p><strong>주문 번호:</strong> {receiptData.order_number}</p>
+                <p><strong>주문 날짜:</strong> {receiptData.order_date}</p>
+                <p><strong>매장 이름:</strong> {receiptData.store_name}</p>
+                <p><strong>총 가격:</strong> {receiptData.total_price}원</p>
+                <p><strong>결제 수단:</strong> {payMethod}</p>
+            </div>
+    
+            <h3 className="menu-title">주문 메뉴</h3>
+            <ul className="menu-list">
                 {receiptData.menu_details.map((menu, index) => (
-                    <li key={index}>
+                    <li key={index} className="menu-item">
                         {menu.menu_name} - {menu.quantity}개 - {menu.menu_total_price}원
                     </li>
                 ))}
             </ul>
-
-            <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'space-between' }}>
-                <button onClick={handleContinueShopping} style={{ padding: '10px 20px', cursor: 'pointer' }}>
+    
+            <div className="receipt-button-container">
+                <button onClick={handleContinueShopping} className="button continue-btn">
                     쇼핑 계속하기
                 </button>
-                <button onClick={handleViewOrderHistory} style={{ padding: '10px 20px', cursor: 'pointer' }}>
+                <button onClick={handleViewOrderHistory} className="button history-btn">
                     주문 내역 보기
                 </button>
             </div>
         </div>
     );
+    
 };
 
 export default CompletedReceipt;

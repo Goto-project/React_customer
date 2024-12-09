@@ -137,7 +137,7 @@ function CustomerHome() {
             }
         } catch (err) {
             console.error('토큰 파싱 에러:', err);
-            handleLogout();
+            // handleLogout();
         }
     };
 
@@ -149,11 +149,11 @@ function CustomerHome() {
         navigate('/pages/Home/Customerhome');
     };
 
-    useEffect(() => {
-        checkTokenValidity();
-        const interval = setInterval(checkTokenValidity, 60000); // 1분마다 토큰 유효성 확인
-        return () => clearInterval(interval); // 컴포넌트 언마운트 시 정리
-    }, []);
+    // useEffect(() => {
+    //     checkTokenValidity();
+    //     const interval = setInterval(checkTokenValidity, 60000); // 1분마다 토큰 유효성 확인
+    //     return () => clearInterval(interval); // 컴포넌트 언마운트 시 정리
+    // }, []);
 
     const handleMyPage = () => {
         if (email) {

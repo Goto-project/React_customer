@@ -34,7 +34,7 @@ const SignupPage = () => {
             if (response.data.status === 200) {
                 setMessage('회원가입이 성공적으로 완료되었습니다!');
                 setTimeout(() => {
-                    navigate('/pages/Home/LoginHome'); // '/' 경로로 이동
+                    navigate('/pages/Member/LoginHome'); // '/' 경로로 이동
                 }, 1000); // 2초 후 이동
             } else {
                 setMessage(response.data.message || '회원가입에 실패했습니다.');
