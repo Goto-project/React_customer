@@ -205,14 +205,17 @@ const MyOrder = () => {
 
                         return (
                             <div key={orderNumber} className="order-card">
-                                <h3>주문 번호: {orderNumber}</h3>
-                                <p><strong>{order.items[0]?.orderstatus || "상태 없음"}</strong></p>
                                 <div className="order-header">
-
-                                    <span>{new Date(order.ordertime).toLocaleString()}</span>
-                                    <button onClick={() => toggleOrder(orderNumber)}>
+                                <h3>주문 번호: {orderNumber}</h3>
+                                <button onClick={() => toggleOrder(orderNumber)} className="order-state-button">
                                         {isExpanded ? "간략히 보기" : "자세히 보기"}
                                     </button>
+                                </div>
+
+                                <p><strong>{order.items[0]?.orderstatus || "상태 없음"}</strong></p>
+                                <div className="order-header">
+                                    <span>{new Date(order.ordertime).toLocaleString()}</span>
+
                                 </div>
                                 {isExpanded && (
                                     <div className="order-details">
@@ -229,6 +232,7 @@ const MyOrder = () => {
                                         ))}
                                         {order.orderstatus === "주문 완료" && isReviewable(order.ordertime) && (
                                             <button
+                                                className="order-review-button"
                                                 onClick={() =>
                                                     handleWriteReview(orderNumber, order.storeid)
                                                 }

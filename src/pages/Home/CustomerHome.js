@@ -747,7 +747,7 @@ function CustomerHome() {
                                 onClick={() => handleStoreClick(store.storeid)}
                             >
                                 <img
-                                    src={`http://127.0.0.1:8080${store.imageurl}`}
+                                    src={`http://10.100.103.41:8080${store.imageurl}`}
                                     alt={store.storeName}
                                 />
                                 <div className="store-info">
