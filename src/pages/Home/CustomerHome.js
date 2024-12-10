@@ -665,6 +665,9 @@ function CustomerHome() {
                                 className="address-input"
                                 onChange={handleAddressInputChange}
                             />
+                            <button className="find-address-button" onClick={handleAddressSearch}>
+                                주소 찾기
+                            </button>
                         </div>
                     </div>
 
@@ -735,7 +738,7 @@ function CustomerHome() {
                     <button onClick={handleSearchSubmit} className="search-button">
                         검색
                     </button>
-                    <button onClick={() => { setSearchQuery("");  fetchStores(); }} className="search-button">초기화</button>
+                    <button onClick={() => { setSearchQuery(""); fetchStores(); }} className="search-button">초기화</button>
                 </div>
 
                 <section className="store-list">
