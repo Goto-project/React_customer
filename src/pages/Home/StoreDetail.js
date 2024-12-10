@@ -26,7 +26,8 @@ const PaymentModal = ({ isOpen, onClose, handlePayment }) => {
 function StoreDetail() {
     const { storeid } = useParams();
     const navigate = useNavigate();
-    const [activeTab, setActiveTab] = useState("menu");
+    const savedTab = localStorage.getItem("activeTab");
+    const [activeTab, setActiveTab] = useState(savedTab || "menu");
     const [store, setStore] = useState(null);
     const [dailyMenu, setDailyMenu] = useState([]);
     const [reviews, setReviews] = useState([]);
@@ -42,9 +43,12 @@ function StoreDetail() {
 
 
     useEffect(() => {
+        localStorage.setItem("activeTab", activeTab);
+
         fetchStoreDetail();
         fetchDailyMenu(); // 첫 렌더링 시 데일리 메뉴도 불러옴
         checkBookmarkStatus(); // 즐겨찾기 여부 확인
+        
         if (activeTab === "reviews") {
             fetchReviews();  // activeTab이 'reviews'일 때 리뷰를 불러옵니다.
         }
