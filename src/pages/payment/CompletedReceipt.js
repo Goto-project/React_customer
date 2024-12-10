@@ -20,10 +20,12 @@ const CompletedReceipt = () => {
     }, [orderNo]);
 
     const fetchData = async () => {
+        const token = localStorage.getItem("token");
+        const userEmail = localStorage.getItem("email");
         await fetchReceiptData();
         
         // 결제 완료 후 장바구니 데이터 삭제
-        sessionStorage.removeItem(`cart_${storeid}`);
+        sessionStorage.removeItem(`cart_${userEmail}_${storeid}`);
     };
 
     const fetchReceiptData = async () => {
