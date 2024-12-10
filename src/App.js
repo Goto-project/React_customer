@@ -126,7 +126,7 @@ function App() {
           <Route path="/pages/Member/LoginHome" element={<LoginHome />} />
           <Route path="/pages/Member/SignupPage" element={<SignupPage />} />
           <Route path="/pages/Member/ForgotPassword" element={<ForgotPassword />} />
-          <Route path="/pages/Member/MyPage/:email" element={<MyPage />} />
+          <Route path="/pages/Member/MyPage" element={<MyPage />} />
           <Route path="/store/detail/:storeid" element={<StoreDetail />} />
           <Route path="/payment/success" element={<PaymentSuccess />} />
           <Route path="/payment/completed-receipt" element={<CompletedReceipt />} />

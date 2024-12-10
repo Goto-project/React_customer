@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import '../../css/MyPage.css';
 import MyFavorite from "./MyFavorite";
 import MyOrder from "./MyOrder";
@@ -14,7 +14,8 @@ const MyPage = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
-    const { email } = useParams();
+    const location = useLocation();
+    const { email } = location.state?.email;
     const [nickname, setNickname] = useState('');
     const [phone, setPhone] = useState('');
 
@@ -23,10 +24,20 @@ const MyPage = () => {
             const token = localStorage.getItem('token');
             const storedEmail = localStorage.getItem('email');
 
-            if (!token || storedEmail !== email) {
+            // 비교 전에 공백 제거
+            const trimmedEmail = (location.state?.email || '').trim();
+            const trimmedStoredEmail = (storedEmail || '').trim();
+
+            // 이메일 비교
+            if (!token || trimmedStoredEmail !== trimmedEmail) {
                 navigate('/pages/Member/LoginHome');
                 return;
             }
+
+            // if (!token || storedEmail !== email) {
+            //     navigate('/pages/Member/LoginHome');
+            //     return;
+            // }
 
             try {
                 const response = await axios.get(`/ROOT/api/customer/mypage.do`, {

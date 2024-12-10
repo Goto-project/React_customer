@@ -20,10 +20,12 @@ const CompletedReceipt = () => {
     }, [orderNo]);
 
     const fetchData = async () => {
+        const token = localStorage.getItem("token");
+        const userEmail = localStorage.getItem("email");
         await fetchReceiptData();
         
         // 결제 완료 후 장바구니 데이터 삭제
-        sessionStorage.removeItem(`cart_${storeid}`);
+        sessionStorage.removeItem(`cart_${userEmail}_${storeid}`);
     };
 
     const fetchReceiptData = async () => {
@@ -59,7 +61,7 @@ const CompletedReceipt = () => {
         const decodedPayload = JSON.parse(atob(base64Url));
         const customerEmail = decodedPayload.customerEmail; // 토큰 payload에서 userId 추출
 
-        navigate(`/pages/Member/MyPage/${customerEmail}`);
+        navigate('/pages/Member/MyPage', { state: { email: customerEmail }});
     };
 
     if (!receiptData) {

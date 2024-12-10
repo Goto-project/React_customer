@@ -157,7 +157,7 @@ function CustomerHome() {
 
     const handleMyPage = () => {
         if (email) {
-            navigate(`/pages/Member/MyPage/${email}`);
+            navigate('/pages/Member/MyPage', { state: { email: email } });
         } else {
             navigate('/pages/Member/LoginHome');
         }
@@ -665,6 +665,9 @@ function CustomerHome() {
                                 className="address-input"
                                 onChange={handleAddressInputChange}
                             />
+                            <button className="find-address-button" onClick={handleAddressSearch}>
+                                주소 찾기
+                            </button>
                         </div>
                     </div>
 
@@ -735,7 +738,7 @@ function CustomerHome() {
                     <button onClick={handleSearchSubmit} className="search-button">
                         검색
                     </button>
-                    <button onClick={() => { setSearchQuery("");  fetchStores(); }} className="search-button">초기화</button>
+                    <button onClick={() => { setSearchQuery(""); fetchStores(); }} className="search-button">초기화</button>
                 </div>
 
                 <section className="store-list">
@@ -753,7 +756,7 @@ function CustomerHome() {
                                 <div className="store-info">
                                     <h3>{store.storeName} [{store.category}]</h3>
                                     <p>주소: {store.address}</p>
-                                    <p>⭐ {store.avgrating}</p>
+                                    <p>⭐ {store.avgrating !== null && store.avgrating !== undefined ? store.avgrating.toFixed(1) : "평점 없음"}</p>
                                     <p>북마크: {store.bookmarkcount}</p>
                                 </div>
                             </div>

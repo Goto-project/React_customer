@@ -26,7 +26,8 @@ const PaymentModal = ({ isOpen, onClose, handlePayment }) => {
 function StoreDetail() {
     const { storeid } = useParams();
     const navigate = useNavigate();
-    const [activeTab, setActiveTab] = useState("menu");
+    const savedTab = localStorage.getItem("activeTab");
+    const [activeTab, setActiveTab] = useState(savedTab || "menu");
     const [store, setStore] = useState(null);
     const [dailyMenu, setDailyMenu] = useState([]);
     const [reviews, setReviews] = useState([]);
@@ -42,9 +43,12 @@ function StoreDetail() {
 
 
     useEffect(() => {
+        localStorage.setItem("activeTab", activeTab);
+
         fetchStoreDetail();
         fetchDailyMenu(); // 첫 렌더링 시 데일리 메뉴도 불러옴
         checkBookmarkStatus(); // 즐겨찾기 여부 확인
+        
         if (activeTab === "reviews") {
             fetchReviews();  // activeTab이 'reviews'일 때 리뷰를 불러옵니다.
         }
@@ -52,8 +56,13 @@ function StoreDetail() {
 
     useEffect(() => {
         // 세션 스토리지에서 장바구니를 불러오기
-        const storedCart = JSON.parse(sessionStorage.getItem(`cart_${storeid}`)) || [];
-        setCart(storedCart);
+        const token = localStorage.getItem("token");  // 로그인된 사용자 확인
+        if (token) {
+            const userEmail = localStorage.getItem("email");  // 사용자 이메일 (또는 고유한 식별자)
+            // 사용자별 장바구니 정보 불러오기
+            const storedCart = JSON.parse(localStorage.getItem(`cart_${userEmail}_${storeid}`)) || [];
+            setCart(storedCart);
+        }
     }, [storeid]);
 
     const checkBookmarkStatus = async () => {
@@ -158,77 +167,87 @@ function StoreDetail() {
     const handleAddToCart = (menuId, menuName, price, selectedQty, menuQty) => {
         // 새로운 아이템
         const newItem = { menuId, menuName, price, selectedQty, menuQty };
+        const token = localStorage.getItem("token");
+        const userEmail = localStorage.getItem("email");
+        if (token && userEmail) {
+            // 기존 장바구니에서 같은 메뉴가 있는지 확인
+            const existingItem = cart.find(item => item.menuId === menuId);
 
-        // 기존 장바구니에서 같은 메뉴가 있는지 확인
-        const existingItem = cart.find(item => item.menuId === menuId);
+            if (existingItem) {
+                // 같은 메뉴가 있으면 수량만 업데이트
+                const updatedCart = cart.map(item =>
+                    item.menuId === menuId
+                        ? { ...item, selectedQty: selectedQty }  // 수량만 변경
+                        : item
+                );
 
-        if (existingItem) {
-            // 같은 메뉴가 있으면 수량만 업데이트
-            const updatedCart = cart.map(item =>
-                item.menuId === menuId
-                    ? { ...item, selectedQty: selectedQty }  // 수량만 변경
-                    : item
-            );
+                // 업데이트된 장바구니 배열을 세션에 저장
+                localStorage.setItem(`cart_${userEmail}_${storeid}`, JSON.stringify(updatedCart));
+                setCart(updatedCart);
+            } else {
+                // 같은 메뉴가 없으면 새로운 항목을 추가
+                const updatedCart = [...cart, newItem];
 
-            // 업데이트된 장바구니 배열을 세션에 저장
-            sessionStorage.setItem(`cart_${storeid}`, JSON.stringify(updatedCart));
-            setCart(updatedCart);
-        } else {
-            // 같은 메뉴가 없으면 새로운 항목을 추가
-            const updatedCart = [...cart, newItem];
-
-            // 업데이트된 장바구니 배열을 세션에 저장
-            sessionStorage.setItem(`cart_${storeid}`, JSON.stringify(updatedCart));
-            setCart(updatedCart);
+                // 업데이트된 장바구니 배열을 세션에 저장
+                localStorage.setItem(`cart_${userEmail}_${storeid}`, JSON.stringify(updatedCart));
+                setCart(updatedCart);
+            }
         }
     };
 
     // 장바구니 수량 변경
     const handleQuantityChange = (menuId, newQty) => {
-        // 최대 수량 제한
-        const item = cart.find(item => item.menuId === menuId);
-        if (!item) return;
+        const token = localStorage.getItem("token");
+        const userEmail = localStorage.getItem("email");
+        if (token && userEmail) {
+            // 최대 수량 제한
+            const item = cart.find(item => item.menuId === menuId);
+            if (!item) return;
 
-        if (newQty < 1) return; // 수량이 1 미만이면 변경하지 않음
-        if (newQty > item.menuQty) {
-            alert(`최대 주문 가능 수량은 ${item.menuQty}개입니다.`);
-            return;
-        }
-
-        const updatedCart = cart.map((item) => {
-            if (item.menuId === menuId) {
-                return { ...item, selectedQty: newQty };
+            if (newQty < 1) return; // 수량이 1 미만이면 변경하지 않음
+            if (newQty > item.menuQty) {
+                alert(`최대 주문 가능 수량은 ${item.menuQty}개입니다.`);
+                return;
             }
-            return item;
-        });
 
-        setCart(updatedCart);
-        // 세션에 저장
-        sessionStorage.setItem(`cart_${storeid}`, JSON.stringify(updatedCart));
+            const updatedCart = cart.map((item) => {
+                if (item.menuId === menuId) {
+                    return { ...item, selectedQty: newQty };
+                }
+                return item;
+            });
+
+            setCart(updatedCart);
+            // 세션에 저장
+            localStorage.setItem(`cart_${userEmail}_${storeid}`, JSON.stringify(updatedCart));
+        }
     };
 
     const handleInputChange = (menuId, value) => {
+        const token = localStorage.getItem("token");
+        const userEmail = localStorage.getItem("email");
         const newQty = parseInt(value, 10);
-
-        if (isNaN(newQty) || newQty < 1) {
-            alert("수량은 1 이상이어야 합니다.");
-            return;
-        }
-
-        const updatedCart = cart.map((item) => {
-            if (item.menuId === menuId) {
-                if (newQty > item.menuQty) {
-                    alert(`최대 주문 가능 수량은 ${item.menuQty}개입니다.`);
-                    return item; // 변경 없이 그대로 반환
-                }
-                return { ...item, selectedQty: newQty };
+        if (token && userEmail) {
+            if (isNaN(newQty) || newQty < 1) {
+                alert("수량은 1 이상이어야 합니다.");
+                return;
             }
-            return item;
-        });
 
-        setCart(updatedCart);
-        // 세션에 저장
-        sessionStorage.setItem(`cart_${storeid}`, JSON.stringify(updatedCart));
+            const updatedCart = cart.map((item) => {
+                if (item.menuId === menuId) {
+                    if (newQty > item.menuQty) {
+                        alert(`최대 주문 가능 수량은 ${item.menuQty}개입니다.`);
+                        return item; // 변경 없이 그대로 반환
+                    }
+                    return { ...item, selectedQty: newQty };
+                }
+                return item;
+            });
+
+            setCart(updatedCart);
+            // 세션에 저장
+            localStorage.setItem(`cart_${userEmail}_${storeid}`, JSON.stringify(updatedCart));
+        }
     };
 
     // // 장바구니 총 개수 계산
@@ -242,11 +261,16 @@ function StoreDetail() {
 
     // 장바구니 항목 삭제
     const handleRemoveFromCart = (menuId) => {
-        const updatedCart = cart.filter(item => item.menuId !== menuId);
+        const token = localStorage.getItem("token");
+        const userEmail = localStorage.getItem("email");
 
-        // 세션에 저장할 때 동일한 키 사용
-        sessionStorage.setItem(`cart_${storeid}`, JSON.stringify(updatedCart));
-        setCart(updatedCart);  // 상태 업데이트
+        if (token && userEmail) {
+            const updatedCart = cart.filter(item => item.menuId !== menuId);
+
+            // 세션에 저장할 때 동일한 키 사용
+            localStorage.setItem(`cart_${userEmail}_${storeid}`, JSON.stringify(updatedCart));
+            setCart(updatedCart);  // 상태 업데이트
+        }
     };
 
     const handleCheckout = () => {
@@ -265,7 +289,7 @@ function StoreDetail() {
     const handlePayment = async (method) => {
         setPaymentMethod(method); // 결제 방법을 상태에 저장
         const token = localStorage.getItem("token"); // 토큰 가져오기
-
+        const userEmail = localStorage.getItem("email");
         // 로그인되지 않았으면 로그인 페이지로 이동
         if (!token) {
             alert("로그인 후 결제 가능합니다. 로그인 페이지로 이동합니다.");
@@ -312,7 +336,7 @@ function StoreDetail() {
                         navigate(`/payment/completed-receipt?orderNo=${orderNo}`);
 
                         // 결제 완료 후 장바구니 데이터 삭제
-                        sessionStorage.removeItem(`cart_${storeid}`);
+                        localStorage.removeItem(`cart_${userEmail}_${storeid}`);
                     }
                 }
             } else {
@@ -393,7 +417,7 @@ function StoreDetail() {
                     <p>{store.address}</p>
                     <p>📞 {store.phone}</p>
                     <p>⏰ {store.startPickup} ~ {store.endPickup}</p>
-                    <p>⭐ {store.avgrating}</p>
+                    <p>⭐ {store.avgrating !== null && store.avgrating !== undefined ? store.avgrating.toFixed(1) : "평점 없음"}</p>
                 </div>
 
                 <div className="store-bookmark">
