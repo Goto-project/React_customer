@@ -59,7 +59,7 @@ const CompletedReceipt = () => {
         const decodedPayload = JSON.parse(atob(base64Url));
         const customerEmail = decodedPayload.customerEmail; // 토큰 payload에서 userId 추출
 
-        navigate(`/pages/Member/MyPage/${customerEmail}`);
+        navigate('/pages/Member/MyPage', { state: { email: customerEmail }});
     };
 
     if (!receiptData) {
