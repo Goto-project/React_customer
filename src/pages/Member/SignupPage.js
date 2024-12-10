@@ -114,7 +114,7 @@ const SignupPage = () => {
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                             <button className="check-email-button" onClick={handleCheckEmail}>
-                                이메일 확인
+                                중복확인
                             </button>
                         </div>
                         {emailMessage && <div className="email-message">{emailMessage}</div>}

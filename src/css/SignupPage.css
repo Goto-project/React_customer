@@ -66,6 +66,16 @@
     text-align: center;
 }
 
+.email-check-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.check-email-button {
+    font-size: 14px;
+}
+
 .signup-title {
     color: #6BAF92;
     font-size: 30px;
