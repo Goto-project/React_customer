@@ -157,7 +157,7 @@ function CustomerHome() {
 
     const handleMyPage = () => {
         if (email) {
-            navigate(`/pages/Member/MyPage/${email}`);
+            navigate('/pages/Member/MyPage', { state: { email: email } });
         } else {
             navigate('/pages/Member/LoginHome');
         }
