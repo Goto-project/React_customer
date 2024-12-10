@@ -397,7 +397,7 @@ function StoreDetail() {
                     <p>{store.address}</p>
                     <p>📞 {store.phone}</p>
                     <p>⏰ {store.startPickup} ~ {store.endPickup}</p>
-                    <p>⭐ {store.avgrating}</p>
+                    <p>⭐ {store.avgrating !== null && store.avgrating !== undefined ? store.avgrating.toFixed(1) : "평점 없음"}</p>
                 </div>
 
                 <div className="store-bookmark">

@@ -753,7 +753,7 @@ function CustomerHome() {
                                 <div className="store-info">
                                     <h3>{store.storeName} [{store.category}]</h3>
                                     <p>주소: {store.address}</p>
-                                    <p>⭐ {store.avgrating}</p>
+                                    <p>⭐ {store.avgrating !== null && store.avgrating !== undefined ? store.avgrating.toFixed(1) : "평점 없음"}</p>
                                     <p>북마크: {store.bookmarkcount}</p>
                                 </div>
                             </div>
