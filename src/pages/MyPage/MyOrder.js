@@ -31,6 +31,14 @@ const MyOrder = () => {
     const handleWriteReview = (orderNumber, storeid) => {
         console.log("Navigating to WriteReview with:", orderNumber, storeid);
         navigate(`/pages/Mypage/WriteReview/${orderNumber}/${storeid}`); // 리뷰 작성 페이지로 이동
+
+        // 리뷰 작성 후 localStorage에 주문 번호 추가
+        const updatedReviewedOrders = new Set(reviewedOrders);
+        updatedReviewedOrders.add(orderNumber);
+        setReviewedOrders(updatedReviewedOrders);
+
+        // localStorage에 업데이트된 reviewedOrders 저장
+        localStorage.setItem("reviewedOrders", JSON.stringify(Array.from(updatedReviewedOrders)));
     };
 
     const toggleOrder = (orderNumber) => {
@@ -108,6 +116,9 @@ const MyOrder = () => {
         } else if (filter === "status") {
             fetchOrdersByStatus();
         }
+        // 페이지가 로드될 때 localStorage에서 reviewedOrders를 불러와서 설정
+        const storedReviewedOrders = JSON.parse(localStorage.getItem("reviewedOrders")) || [];
+        setReviewedOrders(new Set(storedReviewedOrders));
     }, [filter, location.state]);
 
     // Pagination logic
@@ -237,12 +248,12 @@ const MyOrder = () => {
                                         ))}
                                         {order.orderstatus === "주문 완료" && isReviewable(order.ordertime) && (
                                             <button
-                                            className="order-review-button"
-                                            onClick={() => handleWriteReview(orderNumber, order.storeid)}
-                                            disabled={reviewedOrders.has(orderNumber)} // 리뷰작성 후 비활성화
-                                        >
-                                            {reviewedOrders.has(orderNumber) ? "리뷰작성완료" : "리뷰작성"}
-                                        </button>
+                                                className="order-review-button"
+                                                onClick={() => handleWriteReview(orderNumber, order.storeid)}
+                                                disabled={reviewedOrders.has(orderNumber)} // 리뷰작성 후 비활성화
+                                            >
+                                                {reviewedOrders.has(orderNumber) ? "리뷰작성완료" : "리뷰작성"}
+                                            </button>
                                         )}
                                     </div>
                                 )}

@@ -168,6 +168,7 @@ const MyReview = () => {
                                 <p className="review-date">{formatDate(review.regdate)}</p>
                                 <p className="review-rating">평점: {review.rating}</p>
                                 <p className="review-content">{review.content}</p>
+                                {review.menu && <p className="review-menu">메뉴: {review.menu}</p>}
                                 <div className="review-actions">
                                     <button className="edit-button" onClick={() => handleUpdate(review)}></button>
                                     <button className="delete-button" onClick={() => openDeleteModal(review)}></button>
