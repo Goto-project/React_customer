@@ -69,12 +69,30 @@
 .email-check-container {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 10px; 
 }
 
 .check-email-button {
+    padding: 15px 15px;
     font-size: 14px;
+    color: #6BAF92;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    flex-shrink: 0;
 }
+
+.check-email-button:hover {
+    background-color: #f1f1f1; 
+    transform: translateY(-2px); 
+}
+
+/* .check-email-button:active {
+    background-color: #3E7B5A; 
+    transform: translateY(0); 
+} */
 
 .signup-title {
     color: #6BAF92;

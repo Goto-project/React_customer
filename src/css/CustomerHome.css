@@ -228,6 +228,11 @@ body {
     margin-left: 20px;
     margin-right: 20px;
     text-align: center;
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    align-content: center;
+    justify-content: center;
 }
 
 .address-input {
@@ -244,6 +249,24 @@ body {
     outline: none;
     border-color: #000000;
 }
+
+.find-address-button {
+    padding: 15px;
+    margin-top: 20px;
+    font-size: 15px;
+    font-weight: bold;
+    background-color: #6BAF92;
+    border: none;
+    border-radius: 15px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.find-address-button:hover {
+    background-color: #519972;
+}
+
 
 .map-container {
     width: 80%;
@@ -430,6 +453,16 @@ body {
 }
 
 @media (max-width: 900px) {
+    .address-input {
+        width: 62%;
+        padding: 15px;
+        font-size: 15px;
+        border: 1px solid #ccc;
+        border-radius: 15px;
+        margin-top: 20px;
+        transition: 0.3s;
+    }
+
     .sort-options h2 {
         font-size: 25px;
         text-align: center;
@@ -522,12 +555,11 @@ body {
     }
 
     .address-input {
-        width: 80%;
+        width: 60%;
         padding: 12px;
         font-size: 13px;
         border: 1px solid #ccc;
         border-radius: 10px;
-        margin-top: 1px;
         transition: 0.3s;
     }
 
@@ -614,7 +646,7 @@ body {
 }
 
 .modal-buttons button {
-    background-color: #ff6f61;
+    background-color: #6BAF92;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -629,5 +661,9 @@ body {
 }
 
 .modal-buttons button:hover {
-    background-color: #ff4b3a;
+    background-color: #519972;
+}
+
+.modal-buttons button.cancel-button:hover {
+    background-color: #939393;
 }

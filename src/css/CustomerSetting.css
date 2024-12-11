@@ -49,7 +49,8 @@
     margin-bottom: 15px;
 }
 
-label {
+.label {
+    font-size: 13px;
     font-weight: bold;
     display: block;
     color: #555;
@@ -97,4 +98,14 @@ button.editpasswordbtn:hover {
     color: #f44336;
     margin-top: 10px;
     font-size: 14px;
+}
+
+@media (max-width: 500px) {
+    .filter-form {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        margin-bottom: 20px;
+        justify-content: center;
+    }
 }

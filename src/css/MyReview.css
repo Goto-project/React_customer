@@ -49,10 +49,16 @@
 }
 
 .review-details {
-    flex: 1;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.5;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .review-store {
+    margin-bottom: -10px;
     font-size: 18px;
     font-weight: bold;
     color: #333;
@@ -66,14 +72,16 @@
 
 .review-rating {
     font-size: 16px;
-    color: #555;
+    color: #6BAF92;
     margin-bottom: 5px;
+    margin-top: 7px;
 }
 
 .review-content {
     font-size: 14px;
     color: #444;
     margin-bottom: 10px;
+    margin-top: 3px;
 }
 
 .review-actions {
@@ -168,7 +176,7 @@
 
 .review-modal-content input, 
 .review-modal-content textarea {
-    width: 100%;
+    width: 96%;
     padding: 8px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
@@ -211,7 +219,7 @@
 @media (max-width: 500px) {
     .edit-button,
     .delete-button {
-        width: 22px; /* 버튼을 아이콘 크기로 조정 */
+        width: 22px;
         height: 22px;
         border: none;
         background-size: cover;
