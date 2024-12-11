@@ -468,7 +468,7 @@ function StoreDetail() {
                                         currentMenuItems.map((menu) => (
                                             <div key={menu.dailymenuNo} className="menu-item">
                                                 <img
-                                                    src={`http://127.0.0.1:8080${menu.menuImageUrl}`}
+                                                    src={`http://10.100.103.41:8080${menu.menuImageUrl}`}
                                                     alt={menu.menuName}
                                                     className="menu-image"
                                                 />
@@ -544,7 +544,7 @@ function StoreDetail() {
                                         currentReviewItems.map((review) => (
                                             <div key={review.reviewId} className="review-item">
                                                 <img
-                                                    src={`http://127.0.0.1:8080${review.imageurl}`}
+                                                    src={`http://10.100.103.41:8080${review.imageurl}`}
                                                     alt="리뷰 이미지"
                                                     className="detail-review-image"
                                                 />
