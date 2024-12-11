@@ -150,6 +150,7 @@
     justify-content: center;
     margin-top: 10px;
     margin-bottom: 10px;
+    gap: 5px;
 }
 
 .sns-login img {

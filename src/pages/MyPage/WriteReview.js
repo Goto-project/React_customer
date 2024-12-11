@@ -69,7 +69,7 @@ const WriteReview = () => {
                 <p>주문 번호: {orderNumber}</p>
                 {error && <p className="error-message">{error}</p>}
                 {success && <p className="success-message">{success}</p>}
-                <form onSubmit={handleSubmit}>
+                <form className="review-label" onSubmit={handleSubmit}>
                     <label>
                         평점
                         <input
