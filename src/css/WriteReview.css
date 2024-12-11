@@ -22,7 +22,7 @@
 .review-home h1 {
     font-size: 25px;
     margin-bottom: 10px;
-    color: #66B2A3;
+    color: #6BAF92;
 }
 
 .write-review-container p {
@@ -70,7 +70,7 @@
     display: inline-block;
     width: 100%;
     padding: 10px 20px;
-    background-color: #66B2A3;
+    background-color: #6BAF92;
     color: #fff;
     font-size: 16px;
     border: none;
@@ -80,7 +80,7 @@
 }
 
 .submit-button:hover {
-    background-color: #60ad96;
+    background-color: #519972;
 }
 
 @media (max-width: 768px) {

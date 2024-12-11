@@ -6,6 +6,9 @@ const MyReview = () => {
     const [reviews, setReviews] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [reviewsPerPage] = useState(5); // 한 페이지에 표시될 리뷰 수
+    const [totalPages, setTotalPages] = useState(0); // 전체 페이지 수
 
     const [isEditing, setIsEditing] = useState(false);
     const [currentReview, setCurrentReview] = useState(null);
@@ -41,6 +44,7 @@ const MyReview = () => {
                         return dateB - dateA;
                     });
                     setReviews(sortedReviews);
+                    setTotalPages(Math.ceil(sortedReviews.length / reviewsPerPage)); // 전체 페이지 수 계산
                 } else {
                     setErrorMessage("리뷰를 불러오는 데 실패했습니다.");
                 }
@@ -53,7 +57,7 @@ const MyReview = () => {
         };
 
         fetchReviews();
-    }, []);
+    }, [reviewsPerPage]);
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -144,9 +148,33 @@ const MyReview = () => {
         setReviewToDelete(null);
     };
 
+    const paginateReviews = () => {
+        const startIndex = (currentPage - 1) * reviewsPerPage;
+        const currentReviews = reviews.slice(startIndex, startIndex + reviewsPerPage);
+        return currentReviews;
+    };
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const handlePrevPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const handleNextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
     if (isLoading) {
         return <p className="loading">로딩 중...</p>;
     }
+
+    const currentReviews = paginateReviews();
 
     return (
         <div className="review-container">
@@ -156,7 +184,7 @@ const MyReview = () => {
                 <p className="no-reviews">작성한 리뷰가 없습니다.</p>
             ) : (
                 <ul className="review-list">
-                    {reviews.map((review) => (
+                    {currentReviews.map((review) => (
                         <li key={review.reviewNo} className="my-review-item">
                             <img
                                 src={`http://127.0.0.1:8080${review.imageurl}`}
@@ -169,14 +197,35 @@ const MyReview = () => {
                                 <p className="review-rating">평점: {review.rating}</p>
                                 <p className="review-content">{review.content}</p>
                                 <div className="review-actions">
-                                    <button className="edit-button" onClick={() => handleUpdate(review)}></button>
-                                    <button className="delete-button" onClick={() => openDeleteModal(review)}></button>
+                                    <button className="edit-button" onClick={() => handleUpdate(review)}>수정</button>
+                                    <button className="delete-button" onClick={() => openDeleteModal(review)}>삭제</button>
                                 </div>
                             </div>
                         </li>
                     ))}
                 </ul>
             )}
+
+            {/* 페이징 버튼 */}
+            <div className="pagination">
+                <button className="pagination-button" onClick={handlePrevPage} disabled={currentPage === 1}>
+                    {"<<"}
+                </button>
+                {[...Array(totalPages).keys()].slice(currentPage - 1, currentPage + 4).map((pageNumber) => (
+                    <button
+                        key={pageNumber + 1}
+                        className={`pagination-button ${pageNumber + 1 === currentPage ? "active" : ""}`}
+                        onClick={() => handlePageChange(pageNumber + 1)}
+                    >
+                        {pageNumber + 1}
+                    </button>
+                ))}
+                <button className="pagination-button" onClick={handleNextPage} disabled={currentPage === totalPages}>
+                    {">>"}
+                </button>
+            </div>
+
+            {/* 리뷰 수정 모달 */}
             {isEditing && (
                 <div className="review-modal">
                     <div className="review-modal-overlay" onClick={() => setIsEditing(false)}></div>
@@ -207,6 +256,8 @@ const MyReview = () => {
                     </div>
                 </div>
             )}
+
+            {/* 리뷰 삭제 모달 */}
             {isDeleting && (
                 <div className="review-modal">
                     <div className="review-modal-overlay" onClick={closeDeleteModal}></div>

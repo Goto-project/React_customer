@@ -91,7 +91,7 @@
     color: #ddda00;
 }
 
-.pagination {
+/* .pagination {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -115,7 +115,7 @@
 .pagination button:disabled {
     background-color: #f1f1f1;
     cursor: not-allowed;
-}
+} */
 
 @media (max-width: 600px) {
     .my-favorite-container h2 {
