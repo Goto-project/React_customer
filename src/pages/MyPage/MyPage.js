@@ -10,7 +10,7 @@ import ChangePassword from './ChangePassword';
 import CustomerSetting from './CustomerSetting';
 
 const MyPage = () => {
-    const [activePage, setActivePage] = useState(localStorage.getItem('activePage') || 'MY_FAVORITE');
+    const [activePage, setActivePage] = useState('MY_FAVORITE');
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
