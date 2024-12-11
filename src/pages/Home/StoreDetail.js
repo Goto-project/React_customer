@@ -49,7 +49,7 @@ function StoreDetail() {
         fetchStoreDetail();
         fetchDailyMenu(); // 첫 렌더링 시 데일리 메뉴도 불러옴
         checkBookmarkStatus(); // 즐겨찾기 여부 확인
-        
+
         if (activeTab === "reviews") {
             fetchReviews();  // activeTab이 'reviews'일 때 리뷰를 불러옵니다.
         }
@@ -546,15 +546,16 @@ function StoreDetail() {
                                                 <img
                                                     src={`http://127.0.0.1:8080${review.imageurl}`}
                                                     alt="리뷰 이미지"
-                                                    className="review-image"
+                                                    className="detail-review-image"
                                                 />
-                                                <p>{review.content}</p>
-                                                <p>작성자: {review.nickname}</p>
-                                                <p>작성일 : {new Date(review.regdate).toLocaleString()}</p>
+                                                <div className="review-content">
+                                                    <p>{review.nickname}</p>
+                                                    <p>{new Date(review.regdate).toLocaleString()}</p>
+                                                    <p>{review.content}</p>
+                                                </div>
                                             </div>
                                         ))
                                     )}
-
                                 </div>
 
                                 <div className="pagination">
@@ -576,6 +577,7 @@ function StoreDetail() {
                                 </div>
                             </div>
                         )}
+
 
                         {activeTab === "cart" && (
                             <div className="cart-summary">
