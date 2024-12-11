@@ -257,13 +257,13 @@
     margin-bottom: 10px;
 }
 
-.pagination {
+/* .pagination {
     display: flex;
-    justify-content: center; /* 가운데 정렬 */
-    align-items: center; /* 세로 가운데 정렬 */
+    justify-content: center; 
+    align-items: center; 
     gap: 10px;
     margin-top: 20px;
-    width: 100%; /* 부모 요소의 너비를 100% 차지하게 */
+    width: 100%; 
 }
 
 .pagination-btn {
@@ -288,7 +288,7 @@
 .pagination span {
     font-size: 16px;
     color: #555;
-}
+} */
 
 
 /* 반응형: 화면 크기 줄어들 때 2개 또는 1개씩 */

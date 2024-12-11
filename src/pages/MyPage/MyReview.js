@@ -197,8 +197,8 @@ const MyReview = () => {
                                 <p className="review-rating">평점: {review.rating}</p>
                                 <p className="review-content">{review.content}</p>
                                 <div className="review-actions">
-                                    <button className="edit-button" onClick={() => handleUpdate(review)}>수정</button>
-                                    <button className="delete-button" onClick={() => openDeleteModal(review)}>삭제</button>
+                                    <button className="edit-button" onClick={() => handleUpdate(review)}></button>
+                                    <button className="delete-button" onClick={() => openDeleteModal(review)}></button>
                                 </div>
                             </div>
                         </li>

@@ -255,7 +255,7 @@ body {
     margin-top: 20px;
     font-size: 15px;
     font-weight: bold;
-    background-color: #6BAF92;
+    background-color: #4d826a;
     border: none;
     border-radius: 15px;
     color: white;
@@ -264,7 +264,7 @@ body {
 }
 
 .find-address-button:hover {
-    background-color: #519972;
+    background-color: rgb(61, 117, 87);
 }
 
 
@@ -304,7 +304,6 @@ body {
     cursor: pointer;
     background-color: transparent;
     color: white;
-    font-weight: bold;
     border: none;
     padding: 10px 20px;
     font-size: 15px;

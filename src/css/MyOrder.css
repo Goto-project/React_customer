@@ -153,7 +153,7 @@
     background-color: #519972;
 }
 
-.pagination {
+/* .pagination {
     display: flex;
     justify-content: center;
     margin-top: 20px;
@@ -172,13 +172,13 @@
 
 .pagination button:hover {
     background-color: #d6d6d6;
-    transform: scale(1.1); /* 약간 커지는 효과 */
+    transform: scale(1.1);
 }
 
 .pagination .active {
     background-color: #356857;
     color: white;
-}
+} */
 
 @media (max-width: 480px) {
     .my-order-container h2 {
