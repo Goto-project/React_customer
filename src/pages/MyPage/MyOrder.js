@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../../css/MyOrder.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const MyOrder = () => {
     const navigate = useNavigate(); // useNavigate 훅 사용
+    const location = useLocation();
 
     const [orders, setOrders] = useState({});
     const [error, setError] = useState(null);
@@ -13,6 +14,7 @@ const MyOrder = () => {
     const [orderStatus, setOrderStatus] = useState("");
     const [currentPage, setCurrentPage] = useState(1); // Current page state
     const [expandedOrders, setExpandedOrders] = useState(new Set()); // 토글 상태 관리
+    const [reviewedOrders, setReviewedOrders] = useState(new Set()); // 리뷰 상태 관리
 
     const ordersPerPage = 5; // Number of orders per page
 
@@ -98,12 +100,15 @@ const MyOrder = () => {
     useEffect(() => {
         if (filter === "all") {
             fetchAllOrders();
+            if (location.state?.reviewedOrder) {
+                setReviewedOrders((prev) => new Set(prev).add(location.state.reviewedOrder));
+            }
         } else if (filter === "date") {
             fetchOrdersByDate();
         } else if (filter === "status") {
             fetchOrdersByStatus();
         }
-    }, [filter]);
+    }, [filter, location.state]);
 
     // Pagination logic
     const indexOfLastOrder = currentPage * ordersPerPage;
@@ -206,8 +211,8 @@ const MyOrder = () => {
                         return (
                             <div key={orderNumber} className="order-card">
                                 <div className="order-header">
-                                <h3>주문 번호: {orderNumber}</h3>
-                                <button onClick={() => toggleOrder(orderNumber)} className="order-state-button">
+                                    <h3>주문 번호: {orderNumber}</h3>
+                                    <button onClick={() => toggleOrder(orderNumber)} className="order-state-button">
                                         {isExpanded ? "간략히 보기" : "자세히 보기"}
                                     </button>
                                 </div>
@@ -221,7 +226,7 @@ const MyOrder = () => {
                                     <div className="order-details">
                                         <p><strong>상점: {order.storename}</strong></p>
                                         <p><strong>총 가격: {order.totalprice} 원</strong></p>
-                                        
+
                                         {order.items.map((item, idx) => (
                                             <div key={idx} className="order-item">
                                                 <p>
@@ -232,13 +237,12 @@ const MyOrder = () => {
                                         ))}
                                         {order.orderstatus === "주문 완료" && isReviewable(order.ordertime) && (
                                             <button
-                                                className="order-review-button"
-                                                onClick={() =>
-                                                    handleWriteReview(orderNumber, order.storeid)
-                                                }
-                                            >
-                                                리뷰작성
-                                            </button>
+                                            className="order-review-button"
+                                            onClick={() => handleWriteReview(orderNumber, order.storeid)}
+                                            disabled={reviewedOrders.has(orderNumber)} // 리뷰작성 후 비활성화
+                                        >
+                                            {reviewedOrders.has(orderNumber) ? "리뷰작성완료" : "리뷰작성"}
+                                        </button>
                                         )}
                                     </div>
                                 )}
